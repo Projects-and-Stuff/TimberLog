@@ -1,0 +1,23 @@
+object dmConnectTransaction: TdmConnectTransaction
+  OldCreateOrder = False
+  Height = 65
+  HorizontalOffset = 346
+  VerticalOffset = 150
+  Width = 227
+  object SQLite3Connection1: TSQLite3Connection
+    Connected = False
+    LoginPrompt = False
+    KeepConnection = False
+    Transaction = SQLTransaction1
+    LogEvents = []
+    Options = []
+    left = 48
+    top = 8
+  end
+  object SQLTransaction1: TSQLTransaction
+    Active = False
+    Database = SQLite3Connection1
+    left = 160
+    top = 8
+  end
+end

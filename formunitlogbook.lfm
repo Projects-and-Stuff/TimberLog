@@ -1,0 +1,1046 @@
+object formLogbook: TformLogbook
+  Left = 413
+  Height = 705
+  Top = 147
+  Width = 1097
+  Caption = 'Logbook Title'
+  ClientHeight = 685
+  ClientWidth = 1097
+  Color = clWhite
+  Menu = MainMenu1
+  OnClose = FormClose
+  OnCreate = FormCreate
+  Position = poDesktopCenter
+  SessionProperties = 'WindowState;Width;Position;Height'
+  LCLVersion = '1.2.4.0'
+  object Panel1: TPanel
+    AnchorSideLeft.Control = Splitter1
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Splitter2
+    Left = 216
+    Height = 328
+    Top = 0
+    Width = 881
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    ClientHeight = 328
+    ClientWidth = 881
+    TabOrder = 1
+    object richmemoLogView: TRichMemo
+      AnchorSideLeft.Control = Panel1
+      AnchorSideTop.Control = Panel1
+      AnchorSideRight.Control = Panel1
+      AnchorSideRight.Side = asrBottom
+      AnchorSideBottom.Control = Panel1
+      AnchorSideBottom.Side = asrBottom
+      Left = 1
+      Height = 326
+      Top = 1
+      Width = 874
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      BorderSpacing.Right = 5
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Pitch = fpFixed
+      Font.Quality = fqCleartypeNatural
+      HideSelection = False
+      ParentFont = False
+      ScrollBars = ssAutoBoth
+      TabOrder = 0
+      WordWrap = False
+    end
+  end
+  object Panel2: TPanel
+    AnchorSideLeft.Control = Splitter1
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Splitter2
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = StatusBar1
+    Left = 216
+    Height = 329
+    Top = 333
+    Width = 881
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    ClientHeight = 329
+    ClientWidth = 881
+    TabOrder = 2
+    inline syneditLogEdit: TSynEdit
+      AnchorSideLeft.Control = Panel2
+      AnchorSideTop.Control = Panel2
+      AnchorSideRight.Control = Panel2
+      AnchorSideRight.Side = asrBottom
+      Left = 1
+      Height = 259
+      Top = 1
+      Width = 873
+      BorderSpacing.Right = 6
+      BorderSpacing.Bottom = 20
+      Anchors = [akTop, akLeft, akRight, akBottom]
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Pitch = fpFixed
+      Font.Quality = fqCleartypeNatural
+      ParentColor = False
+      ParentFont = False
+      TabOrder = 0
+      Gutter.Visible = False
+      Gutter.Width = 57
+      Gutter.MouseActions = <>
+      RightGutter.Width = 0
+      RightGutter.MouseActions = <>
+      Highlighter = SynAnySyn1
+      Keystrokes = <      
+        item
+          Command = ecUp
+          ShortCut = 38
+        end      
+        item
+          Command = ecSelUp
+          ShortCut = 8230
+        end      
+        item
+          Command = ecScrollUp
+          ShortCut = 16422
+        end      
+        item
+          Command = ecDown
+          ShortCut = 40
+        end      
+        item
+          Command = ecSelDown
+          ShortCut = 8232
+        end      
+        item
+          Command = ecScrollDown
+          ShortCut = 16424
+        end      
+        item
+          Command = ecLeft
+          ShortCut = 37
+        end      
+        item
+          Command = ecSelLeft
+          ShortCut = 8229
+        end      
+        item
+          Command = ecWordLeft
+          ShortCut = 16421
+        end      
+        item
+          Command = ecSelWordLeft
+          ShortCut = 24613
+        end      
+        item
+          Command = ecRight
+          ShortCut = 39
+        end      
+        item
+          Command = ecSelRight
+          ShortCut = 8231
+        end      
+        item
+          Command = ecWordRight
+          ShortCut = 16423
+        end      
+        item
+          Command = ecSelWordRight
+          ShortCut = 24615
+        end      
+        item
+          Command = ecPageDown
+          ShortCut = 34
+        end      
+        item
+          Command = ecSelPageDown
+          ShortCut = 8226
+        end      
+        item
+          Command = ecPageBottom
+          ShortCut = 16418
+        end      
+        item
+          Command = ecSelPageBottom
+          ShortCut = 24610
+        end      
+        item
+          Command = ecPageUp
+          ShortCut = 33
+        end      
+        item
+          Command = ecSelPageUp
+          ShortCut = 8225
+        end      
+        item
+          Command = ecPageTop
+          ShortCut = 16417
+        end      
+        item
+          Command = ecSelPageTop
+          ShortCut = 24609
+        end      
+        item
+          Command = ecLineStart
+          ShortCut = 36
+        end      
+        item
+          Command = ecSelLineStart
+          ShortCut = 8228
+        end      
+        item
+          Command = ecEditorTop
+          ShortCut = 16420
+        end      
+        item
+          Command = ecSelEditorTop
+          ShortCut = 24612
+        end      
+        item
+          Command = ecLineEnd
+          ShortCut = 35
+        end      
+        item
+          Command = ecSelLineEnd
+          ShortCut = 8227
+        end      
+        item
+          Command = ecEditorBottom
+          ShortCut = 16419
+        end      
+        item
+          Command = ecSelEditorBottom
+          ShortCut = 24611
+        end      
+        item
+          Command = ecToggleMode
+          ShortCut = 45
+        end      
+        item
+          Command = ecCopy
+          ShortCut = 16429
+        end      
+        item
+          Command = ecPaste
+          ShortCut = 8237
+        end      
+        item
+          Command = ecDeleteChar
+          ShortCut = 46
+        end      
+        item
+          Command = ecCut
+          ShortCut = 8238
+        end      
+        item
+          Command = ecDeleteLastChar
+          ShortCut = 8
+        end      
+        item
+          Command = ecDeleteLastChar
+          ShortCut = 8200
+        end      
+        item
+          Command = ecDeleteLastWord
+          ShortCut = 16392
+        end      
+        item
+          Command = ecUndo
+          ShortCut = 32776
+        end      
+        item
+          Command = ecRedo
+          ShortCut = 40968
+        end      
+        item
+          Command = ecLineBreak
+          ShortCut = 13
+        end      
+        item
+          Command = ecSelectAll
+          ShortCut = 16449
+        end      
+        item
+          Command = ecCopy
+          ShortCut = 16451
+        end      
+        item
+          Command = ecBlockIndent
+          ShortCut = 24649
+        end      
+        item
+          Command = ecLineBreak
+          ShortCut = 16461
+        end      
+        item
+          Command = ecInsertLine
+          ShortCut = 16462
+        end      
+        item
+          Command = ecDeleteWord
+          ShortCut = 16468
+        end      
+        item
+          Command = ecBlockUnindent
+          ShortCut = 24661
+        end      
+        item
+          Command = ecPaste
+          ShortCut = 16470
+        end      
+        item
+          Command = ecCut
+          ShortCut = 16472
+        end      
+        item
+          Command = ecDeleteLine
+          ShortCut = 16473
+        end      
+        item
+          Command = ecDeleteEOL
+          ShortCut = 24665
+        end      
+        item
+          Command = ecUndo
+          ShortCut = 16474
+        end      
+        item
+          Command = ecRedo
+          ShortCut = 24666
+        end      
+        item
+          Command = ecGotoMarker0
+          ShortCut = 16432
+        end      
+        item
+          Command = ecGotoMarker1
+          ShortCut = 16433
+        end      
+        item
+          Command = ecGotoMarker2
+          ShortCut = 16434
+        end      
+        item
+          Command = ecGotoMarker3
+          ShortCut = 16435
+        end      
+        item
+          Command = ecGotoMarker4
+          ShortCut = 16436
+        end      
+        item
+          Command = ecGotoMarker5
+          ShortCut = 16437
+        end      
+        item
+          Command = ecGotoMarker6
+          ShortCut = 16438
+        end      
+        item
+          Command = ecGotoMarker7
+          ShortCut = 16439
+        end      
+        item
+          Command = ecGotoMarker8
+          ShortCut = 16440
+        end      
+        item
+          Command = ecGotoMarker9
+          ShortCut = 16441
+        end      
+        item
+          Command = ecSetMarker0
+          ShortCut = 24624
+        end      
+        item
+          Command = ecSetMarker1
+          ShortCut = 24625
+        end      
+        item
+          Command = ecSetMarker2
+          ShortCut = 24626
+        end      
+        item
+          Command = ecSetMarker3
+          ShortCut = 24627
+        end      
+        item
+          Command = ecSetMarker4
+          ShortCut = 24628
+        end      
+        item
+          Command = ecSetMarker5
+          ShortCut = 24629
+        end      
+        item
+          Command = ecSetMarker6
+          ShortCut = 24630
+        end      
+        item
+          Command = ecSetMarker7
+          ShortCut = 24631
+        end      
+        item
+          Command = ecSetMarker8
+          ShortCut = 24632
+        end      
+        item
+          Command = ecSetMarker9
+          ShortCut = 24633
+        end      
+        item
+          Command = EcFoldLevel1
+          ShortCut = 41009
+        end      
+        item
+          Command = EcFoldLevel2
+          ShortCut = 41010
+        end      
+        item
+          Command = EcFoldLevel1
+          ShortCut = 41011
+        end      
+        item
+          Command = EcFoldLevel1
+          ShortCut = 41012
+        end      
+        item
+          Command = EcFoldLevel1
+          ShortCut = 41013
+        end      
+        item
+          Command = EcFoldLevel6
+          ShortCut = 41014
+        end      
+        item
+          Command = EcFoldLevel7
+          ShortCut = 41015
+        end      
+        item
+          Command = EcFoldLevel8
+          ShortCut = 41016
+        end      
+        item
+          Command = EcFoldLevel9
+          ShortCut = 41017
+        end      
+        item
+          Command = EcFoldLevel0
+          ShortCut = 41008
+        end      
+        item
+          Command = EcFoldCurrent
+          ShortCut = 41005
+        end      
+        item
+          Command = EcUnFoldCurrent
+          ShortCut = 41003
+        end      
+        item
+          Command = EcToggleMarkupWord
+          ShortCut = 32845
+        end      
+        item
+          Command = ecNormalSelect
+          ShortCut = 24654
+        end      
+        item
+          Command = ecColumnSelect
+          ShortCut = 24643
+        end      
+        item
+          Command = ecLineSelect
+          ShortCut = 24652
+        end      
+        item
+          Command = ecTab
+          ShortCut = 9
+        end      
+        item
+          Command = ecShiftTab
+          ShortCut = 8201
+        end      
+        item
+          Command = ecMatchBracket
+          ShortCut = 24642
+        end      
+        item
+          Command = ecColSelUp
+          ShortCut = 40998
+        end      
+        item
+          Command = ecColSelDown
+          ShortCut = 41000
+        end      
+        item
+          Command = ecColSelLeft
+          ShortCut = 40997
+        end      
+        item
+          Command = ecColSelRight
+          ShortCut = 40999
+        end      
+        item
+          Command = ecColSelPageDown
+          ShortCut = 40994
+        end      
+        item
+          Command = ecColSelPageBottom
+          ShortCut = 57378
+        end      
+        item
+          Command = ecColSelPageUp
+          ShortCut = 40993
+        end      
+        item
+          Command = ecColSelPageTop
+          ShortCut = 57377
+        end      
+        item
+          Command = ecColSelLineStart
+          ShortCut = 40996
+        end      
+        item
+          Command = ecColSelLineEnd
+          ShortCut = 40995
+        end      
+        item
+          Command = ecColSelEditorTop
+          ShortCut = 57380
+        end      
+        item
+          Command = ecColSelEditorBottom
+          ShortCut = 57379
+        end>
+      MouseActions = <>
+      MouseTextActions = <>
+      MouseSelActions = <>
+      VisibleSpecialChars = [vscSpace, vscTabAtLast]
+      ScrollBars = ssAutoBoth
+      SelectedColor.FrameEdges = sfeAround
+      SelectedColor.BackPriority = 50
+      SelectedColor.ForePriority = 50
+      SelectedColor.FramePriority = 50
+      SelectedColor.BoldPriority = 50
+      SelectedColor.ItalicPriority = 50
+      SelectedColor.UnderlinePriority = 50
+      SelectedColor.StrikeOutPriority = 50
+      IncrementColor.FrameEdges = sfeAround
+      HighlightAllColor.FrameEdges = sfeAround
+      BracketHighlightStyle = sbhsBoth
+      BracketMatchColor.Background = clNone
+      BracketMatchColor.Foreground = clNone
+      BracketMatchColor.FrameEdges = sfeAround
+      BracketMatchColor.Style = [fsBold]
+      FoldedCodeColor.Background = clNone
+      FoldedCodeColor.Foreground = clGray
+      FoldedCodeColor.FrameColor = clGray
+      FoldedCodeColor.FrameEdges = sfeAround
+      MouseLinkColor.Background = clNone
+      MouseLinkColor.Foreground = clBlue
+      MouseLinkColor.FrameEdges = sfeAround
+      LineHighlightColor.Background = clNone
+      LineHighlightColor.Foreground = clNone
+      LineHighlightColor.FrameEdges = sfeAround
+      inline SynLeftGutterPartList1: TSynGutterPartList
+        object SynGutterMarks1: TSynGutterMarks
+          Width = 24
+          MouseActions = <>
+        end
+        object SynGutterLineNumber1: TSynGutterLineNumber
+          Width = 17
+          MouseActions = <>
+          MarkupInfo.Background = clBtnFace
+          MarkupInfo.Foreground = clNone
+          MarkupInfo.FrameEdges = sfeAround
+          DigitCount = 2
+          ShowOnlyLineNumbersMultiplesOf = 1
+          ZeroStart = False
+          LeadingZeros = False
+        end
+        object SynGutterChanges1: TSynGutterChanges
+          Width = 4
+          MouseActions = <>
+          ModifiedColor = 59900
+          SavedColor = clGreen
+        end
+        object SynGutterSeparator1: TSynGutterSeparator
+          Width = 2
+          MouseActions = <>
+          MarkupInfo.Background = clWhite
+          MarkupInfo.Foreground = clGray
+          MarkupInfo.FrameEdges = sfeAround
+        end
+        object SynGutterCodeFolding1: TSynGutterCodeFolding
+          MouseActions = <>
+          MarkupInfo.Background = clNone
+          MarkupInfo.Foreground = clGray
+          MarkupInfo.FrameEdges = sfeAround
+          MouseActionsExpanded = <>
+          MouseActionsCollapsed = <>
+        end
+      end
+    end
+    object LabeledEdit1: TLabeledEdit
+      AnchorSideBottom.Control = Panel2
+      AnchorSideBottom.Side = asrBottom
+      Left = 25
+      Height = 23
+      Top = 289
+      Width = 119
+      Anchors = [akLeft, akBottom]
+      BorderSpacing.Bottom = 16
+      EditLabel.AnchorSideLeft.Control = LabeledEdit1
+      EditLabel.AnchorSideRight.Control = LabeledEdit1
+      EditLabel.AnchorSideRight.Side = asrBottom
+      EditLabel.AnchorSideBottom.Control = LabeledEdit1
+      EditLabel.Left = 25
+      EditLabel.Height = 15
+      EditLabel.Top = 271
+      EditLabel.Width = 119
+      EditLabel.Caption = 'Name:'
+      EditLabel.ParentColor = False
+      TabOrder = 1
+    end
+    object CheckBox1: TCheckBox
+      AnchorSideBottom.Control = Panel2
+      AnchorSideBottom.Side = asrBottom
+      Left = 160
+      Height = 19
+      Top = 293
+      Width = 72
+      Anchors = [akLeft, akBottom]
+      BorderSpacing.Bottom = 16
+      Caption = 'Late Entry'
+      TabOrder = 2
+    end
+    object ZVDateTimePicker1: TZVDateTimePicker
+      AnchorSideBottom.Control = Panel2
+      AnchorSideBottom.Side = asrBottom
+      Left = 245
+      Height = 23
+      Top = 289
+      Width = 137
+      CenturyFrom = 1941
+      MaxDate = 2958465
+      MinDate = -53780
+      TabOrder = 3
+      BorderSpacing.Bottom = 16
+      TrailingSeparator = False
+      TextForNullDate = 'NULL'
+      LeadingZeros = True
+      Anchors = [akLeft, akBottom]
+      Kind = dtkDateTime
+      TimeFormat = tf24
+      TimeDisplay = tdHMS
+      DateMode = dmComboBox
+      Date = 41807
+      Time = 0.941173622682982
+      UseDefaultSeparators = True
+      HideDateTimeParts = []
+      MonthNames = 'Long'
+    end
+    object Label1: TLabel
+      AnchorSideBottom.Control = ZVDateTimePicker1
+      Left = 245
+      Height = 15
+      Top = 274
+      Width = 89
+      Anchors = [akLeft, akBottom]
+      Caption = 'Entry Date/Time:'
+      ParentColor = False
+    end
+    object btnAddToLog: TButton
+      AnchorSideBottom.Control = Panel3
+      AnchorSideBottom.Side = asrBottom
+      Left = 408
+      Height = 25
+      Top = 287
+      Width = 184
+      Anchors = [akLeft, akBottom]
+      BorderSpacing.Bottom = 16
+      Caption = 'Add Entry to Logbook'
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Pitch = fpFixed
+      Font.Quality = fqDraft
+      ParentFont = False
+      TabOrder = 4
+    end
+  end
+  object Panel3: TPanel
+    AnchorSideRight.Control = Splitter1
+    Left = 0
+    Height = 662
+    Top = 0
+    Width = 211
+    Align = alLeft
+    Anchors = [akRight]
+    ClientHeight = 662
+    ClientWidth = 211
+    TabOrder = 3
+    object txtSearch: TLabeledEdit
+      AnchorSideLeft.Control = Panel1
+      AnchorSideRight.Control = Panel1
+      AnchorSideRight.Side = asrBottom
+      Left = 7
+      Height = 24
+      Top = 32
+      Width = 185
+      BorderSpacing.Left = 6
+      BorderSpacing.Right = 6
+      EditLabel.AnchorSideLeft.Control = txtSearch
+      EditLabel.AnchorSideRight.Control = txtSearch
+      EditLabel.AnchorSideRight.Side = asrBottom
+      EditLabel.AnchorSideBottom.Control = txtSearch
+      EditLabel.Left = 7
+      EditLabel.Height = 16
+      EditLabel.Top = 13
+      EditLabel.Width = 165
+      EditLabel.Caption = 'Search'
+      EditLabel.ParentColor = False
+      EditLabel.ParentFont = False
+      EditLabel.Font.CharSet = ANSI_CHARSET
+      EditLabel.Font.Height = -13
+      EditLabel.Font.Name = 'Courier New'
+      EditLabel.Font.Pitch = fpFixed
+      EditLabel.Font.Quality = fqDraft
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Pitch = fpFixed
+      Font.Quality = fqDraft
+      ParentFont = False
+      TabOrder = 0
+    end
+    object chkFilterByDate: TCheckBox
+      Left = 10
+      Height = 19
+      Top = 64
+      Width = 91
+      Caption = 'Filter by date:'
+      TabOrder = 1
+    end
+    object dtStart: TZVDateTimePicker
+      Left = 107
+      Height = 23
+      Top = 88
+      Width = 83
+      CenturyFrom = 1941
+      MaxDate = 2958465
+      MinDate = -53780
+      TabOrder = 2
+      Enabled = False
+      TrailingSeparator = False
+      TextForNullDate = 'NULL'
+      LeadingZeros = True
+      Kind = dtkDate
+      TimeFormat = tf24
+      TimeDisplay = tdHMS
+      DateMode = dmComboBox
+      Date = 41640
+      Time = 0.873141215277428
+      UseDefaultSeparators = True
+      HideDateTimeParts = []
+      MonthNames = 'Long'
+    end
+    object dtEnd: TZVDateTimePicker
+      Left = 107
+      Height = 23
+      Top = 120
+      Width = 83
+      CenturyFrom = 1941
+      MaxDate = 2958465
+      MinDate = -53780
+      TabOrder = 3
+      Enabled = False
+      TrailingSeparator = False
+      TextForNullDate = 'NULL'
+      LeadingZeros = True
+      Kind = dtkDate
+      TimeFormat = tf24
+      TimeDisplay = tdHMS
+      DateMode = dmComboBox
+      Date = 41767
+      Time = 0.873258530089515
+      UseDefaultSeparators = True
+      HideDateTimeParts = []
+      MonthNames = 'Long'
+    end
+    object btnResetSearch: TButton
+      Left = 10
+      Height = 25
+      Top = 168
+      Width = 86
+      Caption = 'Reset'
+      Enabled = False
+      OnClick = btnResetSearchClick
+      TabOrder = 4
+    end
+    object btnSearch: TButton
+      Left = 107
+      Height = 25
+      Top = 168
+      Width = 86
+      Caption = 'Search'
+      Enabled = False
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -13
+      Font.Name = 'Courier New'
+      Font.Pitch = fpFixed
+      Font.Quality = fqDraft
+      OnClick = btnSearchClick
+      ParentFont = False
+      TabOrder = 5
+    end
+    object Label2: TLabel
+      Left = 10
+      Height = 15
+      Top = 95
+      Width = 27
+      Caption = 'Start:'
+      ParentColor = False
+    end
+    object Label3: TLabel
+      Left = 10
+      Height = 15
+      Top = 126
+      Width = 23
+      Caption = 'End:'
+      ParentColor = False
+    end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Height = 23
+    Top = 662
+    Width = 1097
+    Panels = <    
+      item
+        Text = 'Checksum: Status Unknown'
+        Width = 250
+      end    
+      item
+        Text = 'Sequential Dates: Status Unknown'
+        Width = 250
+      end    
+      item
+        Width = 50
+      end    
+      item
+        Alignment = taRightJustify
+        Bevel = pbRaised
+        Text = 'Total Logbook Entries: 245'
+        Width = 400
+      end    
+      item
+        Alignment = taRightJustify
+        Width = 100
+      end>
+    SimplePanel = False
+  end
+  object Button1: TButton
+    Left = 1008
+    Height = 25
+    Top = 8
+    Width = 75
+    Caption = 'Button1'
+    OnClick = Button1Click
+    TabOrder = 0
+  end
+  object Splitter1: TSplitter
+    AnchorSideLeft.Control = Panel3
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    AnchorSideBottom.Control = StatusBar1
+    Left = 211
+    Height = 662
+    Top = 0
+    Width = 5
+    Align = alNone
+    Anchors = [akTop, akBottom]
+  end
+  object Splitter2: TSplitter
+    AnchorSideLeft.Control = Splitter1
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Cursor = crVSplit
+    Left = 216
+    Height = 5
+    Top = 328
+    Width = 881
+    Align = alNone
+    Anchors = [akTop, akLeft, akRight]
+    ResizeAnchor = akBottom
+  end
+  object IniPropStorage1: TIniPropStorage
+    StoredValues = <>
+    IniFileName = 'Test.ini'
+    left = 296
+    top = 232
+  end
+  object MainMenu1: TMainMenu
+    left = 400
+    top = 152
+    object MenuItem1: TMenuItem
+      Caption = 'File'
+      object mnuNewLogbook: TMenuItem
+        Caption = 'New Logbook'
+        OnClick = mnuNewLogbookClick
+      end
+      object mnuOpen: TMenuItem
+        Caption = 'Open Different Logbook'
+        OnClick = mnuOpenClick
+      end
+      object mnuClose: TMenuItem
+        Caption = 'Close This Logbook'
+        OnClick = mnuCloseClick
+      end
+      object MenuItem5: TMenuItem
+        Caption = '-'
+      end
+      object mnuExit: TMenuItem
+        Caption = 'Exit TimberLog'
+        OnClick = mnuExitClick
+      end
+    end
+    object MenuItem7: TMenuItem
+      Caption = 'This Logbook'
+      Enabled = False
+      object MenuItem8: TMenuItem
+        Caption = 'Print'
+        object mnuPrintCurrView: TMenuItem
+          Caption = 'Current View'
+        end
+        object mnuPrintEntireLog: TMenuItem
+          Caption = 'Entire Logbook'
+        end
+      end
+      object MenuItem14: TMenuItem
+        Caption = 'Export as Text'
+        object mnuExportCurrViewText: TMenuItem
+          Caption = 'Current View'
+        end
+        object mnuExportEntireLogText: TMenuItem
+          Caption = 'Entire Logbook'
+        end
+      end
+      object MenuItem17: TMenuItem
+        Caption = 'Export as PDF'
+        object mnuExportCurrViewPDF: TMenuItem
+          Caption = 'Current View'
+        end
+        object mnuExportEntireLogPDF: TMenuItem
+          Caption = 'Entire Logbook'
+        end
+      end
+      object MenuItem16: TMenuItem
+        Caption = '-'
+      end
+      object mnuViewDetails: TMenuItem
+        Caption = 'View Logbook Details'
+      end
+      object mnuAudit: TMenuItem
+        Caption = 'Perform Security and Data Integrity Audit'
+      end
+    end
+    object MenuItem18: TMenuItem
+      Caption = 'View'
+      object mnuChangeFont: TMenuItem
+        Caption = 'Change Display Font'
+        OnClick = mnuChangeFontClick
+      end
+      object mnuFontPlus: TMenuItem
+        Caption = 'Increase Font Size (Alt+)'
+        OnClick = mnuFontPlusClick
+      end
+      object mnuFontMinus: TMenuItem
+        Caption = 'Decrease Font Size (Alt-)'
+        OnClick = mnuFontMinusClick
+      end
+    end
+    object MenuItem9: TMenuItem
+      Caption = 'Help'
+      object mnuViewManual: TMenuItem
+        Caption = 'View Manual'
+        OnClick = mnuViewManualClick
+      end
+      object mnuVisitWebsite: TMenuItem
+        Caption = 'Visit TimberLog Website'
+        OnClick = mnuVisitWebsiteClick
+      end
+      object mnuAbout: TMenuItem
+        Caption = 'About TimberLog'
+      end
+    end
+  end
+  object SynCompletion1: TSynCompletion
+    Position = 0
+    LinesInWindow = 6
+    SelectedColor = clHighlight
+    CaseSensitive = False
+    Width = 262
+    ShortCut = 16416
+    EndOfTokenChr = '()[].'
+    ExecCommandID = ecSynCompletionExecute
+    Editor = syneditLogEdit
+    left = 774
+    top = 432
+  end
+  object SynAnySyn1: TSynAnySyn
+    Enabled = False
+    CommentAttri.FrameEdges = sfeAround
+    Comments = []
+    DetectPreprocessor = False
+    IdentifierAttri.FrameEdges = sfeAround
+    IdentifierChars = '!"#$%&''()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ÄÅÇÉÑÖÜãçèêíìôöúùû†°¢£§•¶ß®©™´¨≠ÆØ∞±≤≥¥µ∂∑∏π∫ªºΩæø¬√≈∆‚'
+    KeyAttri.FrameEdges = sfeAround
+    ConstantAttri.FrameEdges = sfeAround
+    ObjectAttri.FrameEdges = sfeAround
+    EntityAttri.FrameEdges = sfeAround
+    VariableAttri.FrameEdges = sfeAround
+    DotAttri.FrameEdges = sfeAround
+    NumberAttri.FrameEdges = sfeAround
+    PreprocessorAttri.FrameEdges = sfeAround
+    SpaceAttri.FrameEdges = sfeAround
+    StringAttri.FrameEdges = sfeAround
+    SymbolAttri.FrameEdges = sfeAround
+    Markup = False
+    Entity = False
+    DollarVariables = False
+    ActiveDot = False
+    left = 848
+    top = 432
+  end
+  object SynExporterHTML1: TSynExporterHTML
+    Color = clWindow
+    DefaultFilter = 'HTML Document (*.htm,*.html)|*.htm;*.html'
+    Font.Color = clBlack
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    HTMLFontSize = fs03
+    Title = 'Untitled'
+    UseBackground = False
+    left = 920
+    top = 432
+  end
+  object FontDialog1: TFontDialog
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    Font.Pitch = fpFixed
+    Font.Quality = fqDraft
+    MinFontSize = 6
+    MaxFontSize = 72
+    Options = [fdFixedPitchOnly, fdForceFontExist, fdNoOEMFonts]
+    PreviewText = 'TimberLog'
+    left = 296
+    top = 152
+  end
+end

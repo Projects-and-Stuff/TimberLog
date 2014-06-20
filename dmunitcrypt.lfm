@@ -1,0 +1,22 @@
+object dmCrypt: TdmCrypt
+  OldCreateOrder = False
+  Height = 150
+  HorizontalOffset = 389
+  VerticalOffset = 156
+  Width = 150
+  object DCP_twofish: TDCP_twofish
+    Id = 6
+    Algorithm = 'Twofish'
+    MaxKeySize = 256
+    BlockSize = 128
+    left = 23
+    top = 28
+  end
+  object DCP_sha512: TDCP_sha512
+    Id = 30
+    Algorithm = 'SHA512'
+    HashSize = 512
+    left = 96
+    top = 28
+  end
+end
