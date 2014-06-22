@@ -17,15 +17,32 @@ var
   clbDark : TColor;
   clbDarkest : TColor;
 
+  clbBGDefault : TColor;
+  clbBGMouseOver : TColor;
+  clbBGClicked : TColor;
+  clbVividTextDefault : TColor;
+  clbVividTextMouseOver : TColor;
+  clbVividTextClicked : TColor;
 
 
 implementation
 
 begin
-  clbLightest := RGBToColor(205,235,235); //$CDEBEB;
-  clbLight := RGBToColor(167,222,222); //$A7DEDE;
-  clbMedium := RGBToColor(130,208,208); //$82D0D0;
-  clbDark := RGBToColor(99,195,195); //$63C3C3;
-  clbDarkest := RGBToColor(73,184,184); //$49B8B8;
+
+
+  clbLightest := RGBToColor(255,231,244);
+  clbLight := RGBToColor(238,123,188);
+  clbMedium := RGBToColor(225,  0,127);
+  clbDark := RGBToColor(165,  0, 93);
+  clbDarkest := RGBToColor(120,  0, 68);
+
+
+  clbBGDefault := clbLightest;
+  clbBGMouseOver := clbLight;
+  clbBGClicked := clbMedium;
+  clbVividTextDefault := clbMedium;
+  clbVividTextMouseOver := clbDark;
+  clbVividTextClicked := clbDarkest;
+
 end.
 

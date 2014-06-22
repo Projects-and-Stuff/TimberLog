@@ -1,0 +1,112 @@
+object frameTypeTile: TframeTypeTile
+  Left = 0
+  Height = 86
+  Top = 0
+  Width = 686
+  ClientHeight = 86
+  ClientWidth = 686
+  Color = clWhite
+  ParentColor = False
+  TabOrder = 0
+  DesignLeft = 389
+  DesignTop = 156
+  object shapeBG: TShape
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 4
+    Height = 82
+    Top = 2
+    Width = 678
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 4
+    BorderSpacing.Top = 2
+    BorderSpacing.Right = 4
+    BorderSpacing.Bottom = 2
+    Brush.Color = clSkyBlue
+    Shape = stRoundRect
+  end
+  object lblTitle: TLabel
+    AnchorSideRight.Control = shapeBG
+    AnchorSideRight.Side = asrBottom
+    Left = 12
+    Height = 31
+    Top = 8
+    Width = 656
+    AutoSize = False
+    BorderSpacing.Right = 12
+    Caption = 'Type Name'
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -27
+    Font.Name = 'Courier New'
+    Font.Pitch = fpFixed
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object lblDescription: TLabel
+    AnchorSideRight.Control = shapeBG
+    AnchorSideRight.Side = asrBottom
+    Left = 30
+    Height = 15
+    Top = 43
+    Width = 640
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    BorderSpacing.Right = 12
+    Caption = 'Text blurb of information. Uses the first ## chars from the description block and appends three periods to the end...'
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    Font.Pitch = fpFixed
+    Font.Quality = fqDraft
+    ParentColor = False
+    ParentFont = False
+  end
+  object lblPath: TLabel
+    AnchorSideRight.Control = shapeBG
+    AnchorSideRight.Side = asrBottom
+    Left = 32
+    Height = 15
+    Top = 60
+    Width = 638
+    Anchors = [akTop, akLeft, akRight]
+    AutoSize = False
+    BorderSpacing.Right = 12
+    Caption = 'C:/Location/Of/The/File.logb'
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -13
+    Font.Name = 'Courier New'
+    Font.Pitch = fpFixed
+    Font.Quality = fqDraft
+    ParentColor = False
+    ParentFont = False
+  end
+  object imgOverlay: TImage
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 0
+    Height = 86
+    Top = 0
+    Width = 686
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    OnClick = imgOverlayClick
+    OnMouseDown = imgOverlayMouseDown
+    OnMouseEnter = imgOverlayMouseEnter
+    OnMouseLeave = imgOverlayMouseLeave
+    OnMouseUp = imgOverlayMouseUp
+  end
+  object DescriptionStrings: TStrHolder
+    Macros = <>
+    left = 442
+    top = 8
+  end
+end

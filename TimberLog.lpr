@@ -7,10 +7,10 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, richmemopackage, zvdatetimectrls,
+  Forms, richmemopackage, rx, zvdatetimectrls, gradcontrols,
   formUnitStartDialog, unitStartFunctions, dmUnitConnectTransaction,
   dmUnitSourceQuery, unitClassLogbook, unitRecordLogMetadata, unitDefinitions,
-  formUnitLogbook, unitRecordLogMetadataExt, dmUnitCrypt
+  formUnitLogbook, unitRecordLogMetadataExt, dmUnitCrypt, unitTypeTile
   { you can add units after this };
 
 {$R *.res}

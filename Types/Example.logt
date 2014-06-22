@@ -1,0 +1,119 @@
+>>>*Logbook_Type*<<<
+Example
+>>>*Logbook_Type*<<<
+
+
+
+You can add any sort of comments or notes that you want
+- as long as it's not within a section! -
+
+Just keep in mind that these comments will not be saved with the logbooks you create. Only the content within the sections will be saved along with each logbook. Therefore, any important details that are sepcific to the usage of the logbook type should be included within the Description section.
+
+Notes or comments outside of the sections should serve mainly to help document the logbook type in order to explain why various decisions were made or how another person can extend the logboo type for their needs.
+
+>>>*Description*<<<
+This logbook type provides some example default text, categories, and template text. It demonstrates creation of logbook types. This type is not intended to be used in an actual logbook, but should help you in developing new logbook types.
+>>>*Description*<<<
+
+
+
+>>>*Default_Text*<<<
+Every entry for this particular logbook type will have this text entered by default.
+
+It can be deleted by the user while making the entry, of course,
+but it's always available when making a new entry.
+------------------------------------------------------------------------------------
+
+>>>*Default_Text*<<<
+
+
+Here are a few categories for the logbook.
+When you make the logbook, if you do not select the option to allow categories, then these will not be used.
+Additionally, since this section is optional, you can either leave the line(s) within the section blank or delete it altogether.
+
+>>>*Default_Categories*<<<
+Notes
+Events
+Inventories
+Journal Entries
+>>>*Default_Categories*<<<
+
+
+
+These one line entries are available to the user when they type ctrl+space
+
+>>>*One_Line*<<<
+Journal Entry: 
+New Entry: 
+This is important: 
+Date to remember: 
+The quick brown fox jumps over the lazy dog!
+>>>*One_Line*<<<
+
+
+
+
+>>>*Multi_Line*<<<
+>>>*Title*<<<
+Dream Log
+>>>*Title*<<<
+Dream Title: 
+Emotions: 
+Colors: 
+Sounds: 
+People I Recognized: 
+Symbols: 
+Shapes: 
+Interpretation: 
+>>>*Multi_Line*<<<
+
+
+
+
+
+>>>*Multi_Line*<<<
+>>>*Title*<<<
+Invention  
+>>>*Title*<<<
+Invention Title: 
+Progress: 
+
+
+
+
+
+Other Persons Involved: 
+Temperature: 
+>>>*Multi_Line*<<<
+
+
+
+You can do some formatting as well. Ascii text blocks, tabs, etc are acceptable.
+
+>>>*Multi_Line*<<<
+>>>*Title*<<<
+Troubleshooting Entry
+>>>*Title*<<<
+#########################
+# Troubleshooting Entry #
+#########################
+
+Value1: 	Value2: 	Value3: 	Value4: 	Value5: 	
+
+Symptoms
+--------
+	1. 
+	2. 
+	3. 
+	4. 
+	5. 
+--------
+
+Suspected Faulty Component: 
+
+Supplier: 
+
+>>>*Multi_Line*<<<<
+
+
+Again, any additional notes or comments that you want to are absolutely acceptable as long as they are outside of the sections.

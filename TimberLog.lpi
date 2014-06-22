@@ -18,7 +18,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="1"/>
-      <BuildNr Value="356"/>
+      <BuildNr Value="386"/>
       <StringTable ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -32,42 +32,48 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="11">
+    <RequiredPackages Count="13">
       <Item1>
-        <PackageName Value="dcpcrypt"/>
+        <PackageName Value="rx"/>
       </Item1>
       <Item2>
-        <PackageName Value="SearchBarPackage"/>
+        <PackageName Value="gradcontrols"/>
       </Item2>
       <Item3>
-        <PackageName Value="ZVDateTimeCtrls"/>
+        <PackageName Value="dcpcrypt"/>
       </Item3>
       <Item4>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="SearchBarPackage"/>
       </Item4>
       <Item5>
-        <PackageName Value="richmemopackage"/>
+        <PackageName Value="ZVDateTimeCtrls"/>
       </Item5>
       <Item6>
-        <PackageName Value="FCL"/>
+        <PackageName Value="SynEdit"/>
       </Item6>
       <Item7>
-        <PackageName Value="SQLDBLaz"/>
+        <PackageName Value="richmemopackage"/>
       </Item7>
       <Item8>
-        <PackageName Value="RunTimeTypeInfoControls"/>
+        <PackageName Value="FCL"/>
       </Item8>
       <Item9>
-        <PackageName Value="KControlsLaz"/>
+        <PackageName Value="SQLDBLaz"/>
       </Item9>
       <Item10>
-        <PackageName Value="lazmxstorage"/>
+        <PackageName Value="RunTimeTypeInfoControls"/>
       </Item10>
       <Item11>
-        <PackageName Value="LCL"/>
+        <PackageName Value="KControlsLaz"/>
       </Item11>
+      <Item12>
+        <PackageName Value="lazmxstorage"/>
+      </Item12>
+      <Item13>
+        <PackageName Value="LCL"/>
+      </Item13>
     </RequiredPackages>
-    <Units Count="12">
+    <Units Count="13">
       <Unit0>
         <Filename Value="TimberLog.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -142,9 +148,18 @@
         <Filename Value="dmunitcrypt.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dmCrypt"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="dmUnitCrypt"/>
       </Unit11>
+      <Unit12>
+        <Filename Value="unittypetile.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frameTypeTile"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="unitTypeTile"/>
+      </Unit12>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

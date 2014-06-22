@@ -1,7 +1,7 @@
 object formStartDialog: TformStartDialog
-  Left = 390
+  Left = 462
   Height = 731
-  Top = 121
+  Top = 131
   Width = 1210
   BorderStyle = bsNone
   Caption = 'formStartDialog'
@@ -40,16 +40,17 @@ object formStartDialog: TformStartDialog
     AnchorSideRight.Side = asrBottom
     AnchorSideBottom.Control = Splitter2
     Left = 381
-    Height = 466
+    Height = 415
     Top = 73
     Width = 824
-    PageIndex = 1
+    PageIndex = 2
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Right = 5
     Color = clWhite
     TabOrder = 1
     TabStop = True
     object pgNewTypes: TPage
+      OnBeforeShow = pgNewTypesBeforeShow
       object Label2: TLabel
         Left = 8
         Height = 31
@@ -65,8 +66,27 @@ object formStartDialog: TformStartDialog
         ParentColor = False
         ParentFont = False
       end
+      object ScrollBox1: TScrollBox
+        AnchorSideLeft.Control = pgNewTypes
+        AnchorSideTop.Control = pgNewTypes
+        AnchorSideRight.Control = pgNewTypes
+        AnchorSideRight.Side = asrBottom
+        AnchorSideBottom.Control = pgNewTypes
+        AnchorSideBottom.Side = asrBottom
+        Left = 0
+        Height = 369
+        Top = 46
+        Width = 824
+        HorzScrollBar.Page = 1
+        VertScrollBar.Page = 1
+        Anchors = [akTop, akLeft, akRight, akBottom]
+        BorderSpacing.Top = 46
+        BorderStyle = bsNone
+        TabOrder = 0
+      end
     end
     object pgNewLogbook: TPage
+      OnBeforeShow = pgNewLogbookBeforeShow
       Color = clWhite
       object Label7: TLabel
         Left = 8
@@ -83,181 +103,24 @@ object formStartDialog: TformStartDialog
         ParentColor = False
         ParentFont = False
       end
-      object Label6: TLabel
-        Left = 24
-        Height = 33
-        Top = 304
-        Width = 99
-        AutoSize = False
-        Caption = 'Name of Person Opening Logbook:'
-        ParentColor = False
-        WordWrap = True
-      end
-      object txtOpenedBy: TEdit
-        Left = 168
-        Height = 23
-        Top = 314
-        Width = 238
-        MaxLength = 64
+      object TabControl1: TTabControl
+        Left = 16
+        Height = 22
+        Top = 352
+        Width = 200
+        OnChange = TabControl1Change
+        TabPosition = tpBottom
+        TabIndex = 0
+        Tabs.Strings = (
+          'Basic Settings'
+          'Optional Settings'
+        )
         TabOrder = 0
-      end
-      object Label8: TLabel
-        Left = 24
-        Height = 15
-        Top = 80
-        Width = 79
-        Caption = 'Logbook Type:'
-        ParentColor = False
-      end
-      object cmbType: TComboBox
-        Left = 168
-        Height = 23
-        Top = 80
-        Width = 238
-        ItemHeight = 15
-        MaxLength = 64
-        Style = csDropDownList
-        TabOrder = 1
-      end
-      object Label9: TLabel
-        Left = 24
-        Height = 15
-        Top = 50
-        Width = 85
-        Caption = 'Logbook Name:'
-        ParentColor = False
-        WordWrap = True
-      end
-      object txtLogName: TEdit
-        Left = 168
-        Height = 23
-        Top = 50
-        Width = 238
-        MaxLength = 64
-        TabOrder = 2
-      end
-      object Label10: TLabel
-        Left = 424
-        Height = 15
-        Hint = 'This option is only available if it is allowed in the Logbook Type you have selected.'
-        Top = 176
-        Width = 97
-        Caption = 'Enable Categories:'
-        ParentColor = False
-        ParentShowHint = False
-        ShowHint = True
-      end
-      object chkAllowCategories: TCheckBox
-        Left = 576
-        Height = 19
-        Hint = 'This option is only available if it is allowed in the Logbook Type you have selected.'
-        Top = 172
-        Width = 20
-        OnChange = chkAllowCategoriesChange
-        ParentShowHint = False
-        ParentBidiMode = False
-        ShowHint = True
-        TabOrder = 3
-      end
-      object memoLogDescription: TMemo
-        Left = 168
-        Height = 192
-        Hint = 'Please provide a short description of your new logbook here.'#13#10#13#10'Keep in mind that any information posted here will be publicly viewable.'#13#10#13#10'Do not post sensitive information here.'
-        Top = 113
-        Width = 238
-        MaxLength = 1024
-        ParentShowHint = False
-        ScrollBars = ssAutoVertical
-        ShowHint = True
-        TabOrder = 4
-      end
-      object Label11: TLabel
-        Left = 24
-        Height = 15
-        Top = 113
-        Width = 113
-        Caption = 'Logbook Description:'
-        ParentColor = False
-      end
-      object GroupBox1: TGroupBox
-        Left = 424
-        Height = 160
-        Top = 8
-        Width = 382
-        Caption = 'Password Options:'
-        ClientHeight = 142
-        ClientWidth = 378
-        TabOrder = 5
-        object chkPassToExport: TCheckBox
-          Left = 9
-          Height = 19
-          Top = 64
-          Width = 211
-          Caption = 'Password Required to Export Entries:'
-          TabOrder = 0
-        end
-        object chkPassMaster: TCheckBox
-          Left = 9
-          Height = 19
-          Top = 8
-          Width = 355
-          Caption = 'Master Password Required to View or Add New Logbook Entries'
-          TabOrder = 1
-        end
-        object txtMasterPass: TEdit
-          Left = 129
-          Height = 23
-          Top = 32
-          Width = 240
-          Enabled = False
-          MaxLength = 256
-          TabOrder = 2
-        end
-        object Label12: TLabel
-          Left = 9
-          Height = 15
-          Top = 40
-          Width = 92
-          Caption = 'Master Password:'
-          ParentColor = False
-        end
-        object chkPassPerUser: TCheckBox
-          Left = 9
-          Height = 19
-          Top = 120
-          Width = 282
-          Caption = 'Individual User Passwords Required for Each Entry'
-          TabOrder = 3
-        end
-        object chkPassToPrint: TCheckBox
-          Left = 9
-          Height = 19
-          Top = 88
-          Width = 203
-          Caption = 'Password Required to Print Entries:'
-          TabOrder = 4
-        end
-        object txtPassToExport: TEdit
-          Left = 224
-          Height = 23
-          Top = 60
-          Width = 145
-          Enabled = False
-          TabOrder = 5
-        end
-        object txtPassToPrint: TEdit
-          Left = 224
-          Height = 23
-          Top = 88
-          Width = 145
-          Enabled = False
-          TabOrder = 6
-        end
       end
       object Label13: TLabel
         Left = 368
         Height = 31
-        Top = 432
+        Top = 368
         Width = 96
         Caption = 'Create'
         Font.CharSet = ANSI_CHARSET
@@ -275,171 +138,418 @@ object formStartDialog: TformStartDialog
         OnMouseUp = LabelAsButtonMouseUp
         OnMouseLeave = LabelAsButtonMouseLeave
       end
-      object cmbDFormat: TComboBox
-        Left = 168
-        Height = 23
-        Top = 383
-        Width = 112
-        ItemHeight = 15
-        Items.Strings = (
-          'mmm dd, yyyy'
-          'dd mmm yyyy'
-          'm/d/yyyy'
-          'd/m/yyy'
-          'yyyymmdd'
-        )
-        OnChange = cmbDFormatChange
-        Style = csDropDownList
-        TabOrder = 6
+      object Notebook2: TNotebook
+        Left = 16
+        Height = 288
+        Top = 40
+        Width = 800
+        PageIndex = 0
+        TabOrder = 1
+        TabStop = True
+        object pgBasicSettings: TPage
+          object Label9: TLabel
+            Left = 8
+            Height = 15
+            Top = 16
+            Width = 85
+            Caption = 'Logbook Name:'
+            ParentColor = False
+            WordWrap = True
+          end
+          object txtLogName: TEdit
+            Left = 152
+            Height = 23
+            Top = 16
+            Width = 238
+            MaxLength = 64
+            TabOrder = 0
+          end
+          object Label8: TLabel
+            Left = 8
+            Height = 15
+            Top = 56
+            Width = 79
+            Caption = 'Logbook Type:'
+            ParentColor = False
+          end
+          object cmbType: TComboBox
+            Left = 152
+            Height = 23
+            Top = 56
+            Width = 238
+            ItemHeight = 15
+            MaxLength = 64
+            Style = csDropDownList
+            TabOrder = 1
+          end
+          object Label11: TLabel
+            Left = 8
+            Height = 15
+            Top = 96
+            Width = 113
+            Caption = 'Logbook Description:'
+            ParentColor = False
+          end
+          object memoLogDescription: TMemo
+            Left = 152
+            Height = 144
+            Hint = 'Please provide a short description of your new logbook here.'#13#10#13#10'Keep in mind that any information posted here will be publicly viewable.'#13#10#13#10'Do not post sensitive information here.'
+            Top = 96
+            Width = 238
+            MaxLength = 1024
+            ParentShowHint = False
+            ScrollBars = ssAutoVertical
+            ShowHint = True
+            TabOrder = 2
+          end
+          object GroupBox1: TGroupBox
+            Left = 408
+            Height = 265
+            Top = 16
+            Width = 382
+            Caption = 'Password Options:'
+            ClientHeight = 247
+            ClientWidth = 378
+            TabOrder = 3
+            object chkPassToExport: TCheckBox
+              Left = 9
+              Height = 19
+              Top = 96
+              Width = 211
+              Caption = 'Password Required to Export Entries:'
+              OnChange = chkPassToExportChange
+              TabOrder = 0
+            end
+            object chkPassMaster: TCheckBox
+              Left = 9
+              Height = 19
+              Top = 8
+              Width = 355
+              Caption = 'Master Password Required to View or Add New Logbook Entries'
+              OnChange = chkPassMasterChange
+              TabOrder = 1
+            end
+            object txtMasterPass: TEdit
+              Left = 129
+              Height = 23
+              Top = 32
+              Width = 240
+              EchoMode = emPassword
+              Enabled = False
+              MaxLength = 256
+              PasswordChar = '*'
+              TabOrder = 2
+            end
+            object Label12: TLabel
+              Left = 24
+              Height = 15
+              Top = 32
+              Width = 92
+              Caption = 'Master Password:'
+              ParentColor = False
+            end
+            object chkPassPerUser: TCheckBox
+              Left = 8
+              Height = 19
+              Top = 224
+              Width = 282
+              Caption = 'Individual User Passwords Required for Each Entry'
+              TabOrder = 3
+            end
+            object chkPassToPrint: TCheckBox
+              Left = 9
+              Height = 19
+              Top = 160
+              Width = 203
+              Caption = 'Password Required to Print Entries:'
+              OnChange = chkPassToPrintChange
+              TabOrder = 4
+            end
+            object txtPassToExport: TEdit
+              Left = 224
+              Height = 23
+              Top = 96
+              Width = 145
+              EchoMode = emPassword
+              Enabled = False
+              PasswordChar = '*'
+              TabOrder = 5
+            end
+            object txtPassToPrint: TEdit
+              Left = 224
+              Height = 23
+              Top = 160
+              Width = 145
+              EchoMode = emPassword
+              Enabled = False
+              PasswordChar = '*'
+              TabOrder = 6
+            end
+            object txtPassToPrint1: TEdit
+              Left = 224
+              Height = 23
+              Top = 184
+              Width = 145
+              EchoMode = emPassword
+              Enabled = False
+              PasswordChar = '*'
+              TabOrder = 7
+            end
+            object txtPassToExport1: TEdit
+              Left = 224
+              Height = 23
+              Top = 120
+              Width = 145
+              EchoMode = emPassword
+              Enabled = False
+              PasswordChar = '*'
+              TabOrder = 8
+            end
+            object txtMasterPass1: TEdit
+              Left = 129
+              Height = 23
+              Top = 56
+              Width = 240
+              EchoMode = emPassword
+              Enabled = False
+              MaxLength = 256
+              PasswordChar = '*'
+              TabOrder = 9
+            end
+          end
+          object Label6: TLabel
+            Left = 14
+            Height = 33
+            Top = 256
+            Width = 99
+            AutoSize = False
+            Caption = 'Name of Person Opening Logbook:'
+            ParentColor = False
+            WordWrap = True
+          end
+          object txtOpenedBy: TEdit
+            Left = 152
+            Height = 23
+            Top = 258
+            Width = 238
+            MaxLength = 64
+            TabOrder = 4
+          end
+        end
+        object pgOptionalSettings: TPage
+          object lblNow: TLabel
+            Left = 608
+            Height = 15
+            Top = 136
+            Width = 174
+            AutoSize = False
+            ParentColor = False
+          end
+          object Label16: TLabel
+            Left = 544
+            Height = 15
+            Top = 136
+            Width = 42
+            Caption = 'Sample:'
+            ParentColor = False
+          end
+          object cmbDFormat: TComboBox
+            Left = 544
+            Height = 23
+            Top = 104
+            Width = 112
+            ItemHeight = 15
+            ItemIndex = 0
+            Items.Strings = (
+              'mmm dd, yyyy'
+              'dd mmm yyyy'
+              'm/d/yyyy'
+              'd/m/yyy'
+              'yyyymmdd'
+            )
+            OnChange = cmbDFormatChange
+            Style = csDropDownList
+            TabOrder = 0
+            Text = 'mmm dd, yyyy'
+          end
+          object cmbTFormat: TComboBox
+            Left = 672
+            Height = 23
+            Top = 104
+            Width = 110
+            ItemHeight = 15
+            ItemIndex = 0
+            Items.Strings = (
+              'h:n:ss am/pm'
+              'h:n:ss.z am/pm'
+              'hhnn'
+              'hh:nn:ss'
+              'hh:nn:ss.z'
+            )
+            OnChange = cmbTFormatChange
+            Style = csDropDownList
+            TabOrder = 1
+            Text = 'h:n:ss am/pm'
+          end
+          object Label15: TLabel
+            Left = 672
+            Height = 15
+            Top = 80
+            Width = 71
+            Caption = 'Time Format:'
+            ParentColor = False
+          end
+          object Label14: TLabel
+            Left = 544
+            Height = 15
+            Top = 80
+            Width = 68
+            Caption = 'Date Format:'
+            ParentColor = False
+          end
+          object chkAllowLateEntries: TCheckBox
+            Left = 544
+            Height = 19
+            Hint = 'Are users allowed to specify that an entry is a late entry and that it should have been made at a previous time?'#13#10#13#10'This option stores the actual date and time the entry is made while also storing the intended entry date and time.'
+            Top = 16
+            Width = 20
+            ParentShowHint = False
+            ParentBidiMode = False
+            ShowHint = True
+            TabOrder = 2
+          end
+          object Label17: TLabel
+            Left = 400
+            Height = 15
+            Hint = 'Are users allowed to specify that an entry is a late entry and that it should have been made at a previous time?'#13#10#13#10'This option stores the actual date and time the entry is made while also storing the intended entry date and time.'
+            Top = 16
+            Width = 96
+            Caption = 'Allow Late Entries:'
+            ParentColor = False
+            ParentShowHint = False
+            ShowHint = True
+          end
+          object Label21: TLabel
+            Left = 400
+            Height = 15
+            Top = 80
+            Width = 121
+            Caption = 'Time and Date Display:'
+            ParentColor = False
+          end
+          object Label10: TLabel
+            Left = 8
+            Height = 15
+            Hint = 'Are users allowed to select a category for their entry?'
+            Top = 16
+            Width = 97
+            Caption = 'Enable Categories:'
+            ParentColor = False
+            ParentShowHint = False
+            ShowHint = True
+          end
+          object chkAllowCategories: TCheckBox
+            Left = 152
+            Height = 19
+            Hint = 'Are users allowed to select a category for their entry?'
+            Top = 16
+            Width = 20
+            OnChange = chkAllowCategoriesChange
+            ParentShowHint = False
+            ParentBidiMode = False
+            ShowHint = True
+            TabOrder = 3
+          end
+          object chkAllowAddCategories: TCheckBox
+            Left = 152
+            Height = 19
+            Hint = 'Are users allowed to add a category that is not listed in the default logbook categories below?'
+            Top = 44
+            Width = 20
+            Enabled = False
+            OnChange = chkAllowCategoriesChange
+            ParentShowHint = False
+            ParentBidiMode = False
+            ShowHint = True
+            TabOrder = 4
+          end
+          object Label20: TLabel
+            Left = 8
+            Height = 15
+            Hint = 'Are users allowed to add a category that is not listed in the default logbook categories below?'
+            Top = 48
+            Width = 137
+            Caption = 'Users can Add Categories:'
+            ParentColor = False
+            ParentShowHint = False
+            ShowHint = True
+          end
+          object Label18: TLabel
+            Left = 8
+            Height = 15
+            Top = 80
+            Width = 84
+            Caption = 'Add Categories:'
+            ParentColor = False
+          end
+          object txtCategory: TEdit
+            Left = 152
+            Height = 23
+            Top = 80
+            Width = 230
+            Enabled = False
+            MaxLength = 64
+            TabOrder = 5
+          end
+          object btnAddCategory: TButton
+            Left = 152
+            Height = 25
+            Top = 112
+            Width = 230
+            Caption = 'Add Category'
+            Enabled = False
+            OnClick = btnAddCategoryClick
+            TabOrder = 6
+          end
+          object listboxCategories: TListBox
+            Left = 152
+            Height = 104
+            Top = 144
+            Width = 230
+            Enabled = False
+            ItemHeight = 0
+            TabOrder = 7
+          end
+          object btnDeleteCategory: TButton
+            Left = 152
+            Height = 25
+            Top = 256
+            Width = 230
+            Caption = 'Delete Category'
+            Enabled = False
+            OnClick = btnDeleteCategoryClick
+            TabOrder = 8
+          end
+          object Label19: TLabel
+            Left = 8
+            Height = 15
+            Top = 144
+            Width = 72
+            Caption = 'Category List:'
+            ParentColor = False
+          end
+        end
       end
-      object cmbTFormat: TComboBox
-        Left = 296
-        Height = 23
-        Top = 383
-        Width = 110
-        ItemHeight = 15
-        Items.Strings = (
-          'h:n:ss am/pm'
-          'h:n:ss.z am/pm'
-          'hhnn'
-          'hh:nn:ss'
-          'hh:nn:ss.z'
-        )
-        OnChange = cmbTFormatChange
-        Style = csDropDownList
-        TabOrder = 7
-      end
-      object Label14: TLabel
-        Left = 168
-        Height = 15
-        Top = 368
-        Width = 68
-        Caption = 'Date Format:'
-        ParentColor = False
-      end
-      object Label15: TLabel
-        Left = 296
-        Height = 15
-        Top = 368
-        Width = 71
-        Caption = 'Time Format:'
-        ParentColor = False
-      end
-      object Label16: TLabel
-        Left = 168
-        Height = 15
-        Top = 416
-        Width = 42
-        Caption = 'Sample:'
-        ParentColor = False
-      end
-      object lblNow: TLabel
-        Left = 232
-        Height = 15
-        Top = 416
-        Width = 174
-        AutoSize = False
-        ParentColor = False
-      end
-      object chkAllowLateEntries: TCheckBox
-        Left = 168
-        Height = 19
-        Hint = 'This option is only available if it is allowed in the Logbook Type you have selected.'
-        Top = 344
-        Width = 20
-        ParentShowHint = False
-        ParentBidiMode = False
-        ShowHint = True
-        TabOrder = 8
-      end
-      object Label17: TLabel
-        Left = 24
-        Height = 15
-        Hint = 'This option is only available if it is allowed in the Logbook Type you have selected.'
-        Top = 344
-        Width = 96
-        Caption = 'Allow Late Entries:'
-        ParentColor = False
-        ParentShowHint = False
-        ShowHint = True
-      end
-      object listboxCategories: TListBox
-        Left = 576
-        Height = 88
-        Top = 287
-        Width = 230
-        Enabled = False
-        ItemHeight = 0
-        TabOrder = 9
-      end
-      object Label18: TLabel
-        Left = 424
-        Height = 15
-        Top = 223
-        Width = 84
-        Caption = 'Add Categories:'
-        ParentColor = False
-      end
-      object txtCategory: TEdit
-        Left = 576
-        Height = 23
-        Top = 223
-        Width = 230
-        Enabled = False
-        MaxLength = 64
-        TabOrder = 10
-      end
-      object btnAddCategory: TButton
-        Left = 576
-        Height = 25
-        Top = 255
-        Width = 230
-        Caption = 'Add Category'
-        Enabled = False
-        OnClick = btnAddCategoryClick
-        TabOrder = 11
-      end
-      object Label19: TLabel
-        Left = 424
-        Height = 15
-        Top = 287
-        Width = 72
-        Caption = 'Category List:'
-        ParentColor = False
-      end
-      object btnDeleteCategory: TButton
-        Left = 576
-        Height = 25
-        Top = 381
-        Width = 230
-        Caption = 'Delete Category'
-        Enabled = False
-        OnClick = btnDeleteCategoryClick
-        TabOrder = 12
-      end
-      object Label20: TLabel
-        Left = 424
-        Height = 15
-        Top = 200
-        Width = 137
-        Caption = 'Users can Add Categories:'
-        ParentColor = False
-      end
-      object chkAllowAddCategories: TCheckBox
-        Left = 576
-        Height = 19
-        Hint = 'This option is only available if it is allowed in the Logbook Type you have selected.'
-        Top = 196
-        Width = 20
-        Enabled = False
-        OnChange = chkAllowCategoriesChange
-        ParentShowHint = False
-        ParentBidiMode = False
-        ShowHint = True
-        TabOrder = 13
+      object Shape6: TShape
+        Left = 8
+        Height = 1
+        Top = 352
+        Width = 808
+        Pen.Color = clActiveBorder
       end
     end
     object pgOpenLogbook: TPage
+      OnBeforeShow = pgOpenLogbookBeforeShow
       object Label4: TLabel
         Left = 8
         Height = 31
@@ -462,7 +572,7 @@ object formStartDialog: TformStartDialog
         AnchorSideBottom.Control = pgOpenLogbook
         AnchorSideBottom.Side = asrBottom
         Left = 2
-        Height = 398
+        Height = 365
         Top = 48
         Width = 254
         Anchors = [akTop, akLeft, akRight, akBottom]
@@ -485,9 +595,9 @@ object formStartDialog: TformStartDialog
         AnchorSideBottom.Control = pgOpenLogbook
         AnchorSideBottom.Side = asrBottom
         Left = 261
-        Height = 398
+        Height = 365
         Top = 48
-        Width = 560
+        Width = 563
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Bottom = 2
         Color = clDefault
@@ -512,7 +622,7 @@ object formStartDialog: TformStartDialog
         AnchorSideBottom.Control = pgOpenLogbook
         AnchorSideBottom.Side = asrBottom
         Left = 256
-        Height = 400
+        Height = 367
         Top = 48
         Width = 5
         Align = alNone
@@ -607,8 +717,8 @@ object formStartDialog: TformStartDialog
     AnchorSideBottom.Control = Shape1
     AnchorSideBottom.Side = asrBottom
     Left = 381
-    Height = 181
-    Top = 544
+    Height = 232
+    Top = 493
     Width = 821
     Anchors = [akTop, akLeft, akBottom]
     BorderSpacing.Right = 6
@@ -625,11 +735,12 @@ object formStartDialog: TformStartDialog
     AnchorSideBottom.Control = Shape1
     AnchorSideBottom.Side = asrBottom
     Left = 405
-    Height = 144
-    Top = 581
+    Height = 189
+    Top = 536
     Width = 799
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 24
+    BorderSpacing.Top = 6
     BorderSpacing.Right = 6
     BorderSpacing.Bottom = 6
     BorderStyle = bsNone
@@ -669,7 +780,7 @@ object formStartDialog: TformStartDialog
     Cursor = crVSplit
     Left = 381
     Height = 5
-    Top = 539
+    Top = 488
     Width = 829
     Align = alNone
     Anchors = [akTop, akLeft, akRight]
@@ -690,7 +801,7 @@ object formStartDialog: TformStartDialog
     AnchorSideTop.Side = asrBottom
     Left = 389
     Height = 31
-    Top = 550
+    Top = 499
     Width = 112
     BorderSpacing.Left = 8
     BorderSpacing.Top = 6
@@ -907,6 +1018,15 @@ object formStartDialog: TformStartDialog
     Caption = 'TestPageNew'
     OnClick = Button2Click
     TabOrder = 6
+  end
+  object Button3: TButton
+    Left = 960
+    Height = 25
+    Top = 28
+    Width = 75
+    Caption = 'Crypt Test'
+    OnClick = Button3Click
+    TabOrder = 7
   end
   object IniPropStorage1: TIniPropStorage
     StoredValues = <>

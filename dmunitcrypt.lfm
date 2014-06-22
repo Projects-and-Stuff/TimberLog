@@ -12,10 +12,10 @@ object dmCrypt: TdmCrypt
     left = 23
     top = 28
   end
-  object DCP_sha512: TDCP_sha512
-    Id = 30
-    Algorithm = 'SHA512'
-    HashSize = 512
+  object DCP_sha256: TDCP_sha256
+    Id = 28
+    Algorithm = 'SHA256'
+    HashSize = 256
     left = 96
     top = 28
   end
