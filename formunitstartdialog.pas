@@ -215,6 +215,24 @@ var
   Description : TStringList;
 begin
 
+  if Assigned(recentTileList) then
+  begin
+    recentTileList.Clear;
+  end
+  else
+  begin
+    //ShowMessage('Not Assigned');
+  end;
+
+  if Assigned(typeTileList) then
+  begin
+    typeTileList.Clear;
+  end
+  else
+  begin
+    //ShowMessage('Not Assigned');
+  end;
+
   typeTileList := TObjectList.create();
   recentTileList := TObjectList.create();
 
@@ -224,42 +242,22 @@ begin
   mruMgr.ShowRecentFiles;
 
 
-  if ScrollBox1.ControlCount > 0 then
-  begin
-    for i := ScrollBox1.ControlCount-1 downto 0 do
-    begin
-      ScrollBox1.Controls[i].Destroy;
-    end;
-  end;
-
-  if ScrollBox2.ControlCount > 0 then
-  begin
-    for i := ScrollBox2.ControlCount-1 downto 0 do
-    begin
-      ScrollBox2.Controls[i].Destroy;
-    end;
-  end;
-
-
-
-
-  //SetLength(FrameRecentTile, 0);
-  SetLength(FrameRecentTile, 1); // Required, or we'll get Seg faults
-
   if mruMgr.Recent.Count > 0 then
   begin
+    for i := 0 to mruMgr.Recent.Count-1 do
+    begin
+      recentTileList.Add(TframeRecentTile.Create(formStartDialog));
+    end;
     for i := mruMgr.Recent.Count-1 downto 0 do
     begin
-      SetLength(FrameRecentTile, Length(FrameRecentTile)+1);
-      FrameRecentTile[i] := TframeRecentTile.Create(formStartDialog);
-      FrameRecentTile[i].Parent := ScrollBox2;
-      FrameRecentTile[i].Align := alTop;
-      FrameRecentTile[i].setColorInitial(clWhite);
-      FrameRecentTile[i].setColorLeave(clWhite);
-      FrameRecentTile[i].setColorEnter(clbBGMouseOver);
-      FrameRecentTile[i].setColorDown(clbBGClicked);
-      FrameRecentTile[i].setColorUp(clbBGMouseOver);
-      FrameRecentTile[i].setFilename(ExtractFileNameOnly(mruMgr.Recent.Strings[i]));
+      TframeRecentTile(recentTileList.Items[i]).Parent := ScrollBox2;
+      TframeRecentTile(recentTileList.Items[i]).Align := alTop;
+      TframeRecentTile(recentTileList.Items[i]).setColorInitial(clWhite);
+      TframeRecentTile(recentTileList.Items[i]).setColorLeave(clWhite);
+      TframeRecentTile(recentTileList.Items[i]).setColorEnter(clbBGMouseOver);
+      TframeRecentTile(recentTileList.Items[i]).setColorDown(clbBGClicked);
+      TframeRecentTile(recentTileList.Items[i]).setColorUp(clbBGMouseOver);
+      TframeRecentTile(recentTileList.Items[i]).setFilename(ExtractFileNameOnly(mruMgr.Recent.Strings[i]));
     end;
   end
   else
@@ -317,7 +315,7 @@ begin
     end;
   end;
 
-  ShowMessage(IntToStr(Length(FrameTypeTile)));
+  //ShowMessage(IntToStr(Length(FrameTypeTile)));
 
   fileList.Free;
   Splitter1.Color := clbMedium;
@@ -327,7 +325,6 @@ begin
   lblBack.Font.Color := clbVividTextDefault;
   ShellListView1.Font.Color := clbVividTextDefault;
   pgNewLogbook.Color := clbBGDefault;
-
 
   ShellListView1.Mask := '*.logb'; // Only display *.logb files
   Notebook1.PageIndex := 0;
