@@ -99,6 +99,7 @@ type
 
     { private declarations }
   public
+    constructor Create(AOwner: TComponent; const inputLogbook : TLogbook);
     constructor Create(AOwner: TComponent; const filepath: String; const typepath : String;
       const InputMetadataExt: RLogMetadataExt);
     constructor Create(AOwner: TComponent; const filepath: String);
@@ -123,7 +124,7 @@ constructor TformLogbook.Create(AOwner: TComponent; const filepath : String);
 begin
   inherited Create(AOwner);
 
-  ATLogbook.OpenLogbook(filepath);
+  //ATLogbook.OpenLogbook(filepath);
 end;
 
 // Used to create a new logbook
@@ -136,6 +137,16 @@ begin
   //ATLogbook.NewLogbook(filepath, InputMetadataExt);
 end;
 
+// Used to create a new logbook
+constructor TformLogbook.Create(AOwner: TComponent; const inputLogbook : TLogbook);
+begin
+  inherited Create(AOwner);
+  ATLogbook.Create;
+  ATLogbook := inputLogbook;
+
+
+  //ATLogbook.NewLogbook(filepath, InputMetadataExt);
+end;
 
 procedure TformLogbook.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
@@ -150,6 +161,7 @@ procedure TformLogbook.FormCreate(Sender: TObject);
 begin
   Splitter1.Color := clbMedium;
   Splitter2.Color := clbMedium;
+  IniPropStorage1.IniFileName := GetAppConfigDir(True) + '\TimberLog.ini';
 end;
 
 procedure TformLogbook.FormShow(Sender: TObject);
@@ -261,20 +273,19 @@ var
   testLogMetadata : RLogMetadata;
 begin
 
-  testLogMetadata.headerMark := '>TimberLog<';
-  testLogMetadata.footerMark := '>TimberLog<';
-  testLogMetadata.DTAccessed := DateTimeToFileDate(Now);
-  testLogMetadata.DTOpened := DateTimeToFileDate(Now);
-  testLogMetadata.checksum := '4444444444444444444444444444444444444444444444444444';
-  testLogMetadata.OpenedBy := 'Johnny';
-  testLogMetadata.logName := 'Serial Number';
-  testLogMetadata.logDescription := 'Yo';
+  ATLogbook.headerMark := '>TimberLog<';
+  ATLogbook.footerMark := '>TimberLog<';
+  ATLogbook.DTAccessed := DateTimeToFileDate(Now);
+  ATLogbook.DTOpened := DateTimeToFileDate(Now);
+  ATLogbook.checksum := '4444444444444444444444444444444444444444444444444444';
+  ATLogbook.OpenedBy := 'Johnny';
+  ATLogbook.logName := 'Serial Number';
+  ATLogbook.logDescription := 'Yo';
 
 
 
-  ATLogbook.LogMetadata := testLogMetadata;
 
-  ShowMessage(ATLogbook.LogMetadata.footerMark + ATLogbook.LogMetadata.checksum);
+  ShowMessage(ATLogbook.footerMark + ATLogbook.checksum);
 
 
   //ATLogbook.NewLogbook();

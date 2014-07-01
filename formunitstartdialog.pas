@@ -11,7 +11,7 @@ uses
   StdCtrls, types, LCLType, ExtCtrls, Buttons, ShellCtrls, LCLIntf,
   IniPropStorage, formUnitLogbook, unitDefinitions, unitStartFunctions,
   unitRecordLogMetadata, ComCtrls, Grids, unitRecordLogMetadataExt, dmUnitCrypt,
-  unitTypeTile, unitRecentTile, mrumanager, strutils, Contnrs;
+  unitTypeTile, unitRecentTile, mrumanager, strutils, Contnrs, unitClassLogbook;
 
 type
 
@@ -21,8 +21,6 @@ type
     btnAddCategory: TButton;
     btnDeleteCategory: TButton;
     Button1: TButton;
-    Button2: TButton;
-    Button3: TButton;
     chkAllowAddCategories: TCheckBox;
     chkAllowCategories: TCheckBox;
     chkAllowLateEntries: TCheckBox;
@@ -63,7 +61,7 @@ type
     SaveDialog1: TSaveDialog;
     IniPropStorage1: TIniPropStorage;
     Label1: TLabel;
-    Label13: TLabel;
+    lblCreate: TLabel;
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
@@ -95,7 +93,6 @@ type
     txtPassToExport1: TEdit;
     txtPassToPrint: TEdit;
     txtPassToPrint1: TEdit;
-    procedure FormDestroy(Sender: TObject);
     procedure LabelAsButtonMouseDown(Sender: TObject;
       Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure LabelAsButtonMouseLeave(Sender: TObject);
@@ -106,8 +103,6 @@ type
     procedure btnAddCategoryClick(Sender: TObject);
     procedure btnDeleteCategoryClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
-    procedure Button3Click(Sender: TObject);
     procedure chkAllowCategoriesChange(Sender: TObject);
     procedure chkPassMasterChange(Sender: TObject);
     procedure chkPassToExportChange(Sender: TObject);
@@ -117,7 +112,7 @@ type
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
-    procedure Label13Click(Sender: TObject);
+    procedure lblCreateClick(Sender: TObject);
     procedure lblBackClick(Sender: TObject);
     procedure lblOpenOtherLogbooksClick(Sender: TObject);
     procedure pgNewLogbookBeforeShow(ASender: TObject; ANewPage: TPage;
@@ -165,11 +160,6 @@ begin
   with (Sender as TLabel) do begin
     (Sender as TLabel).Font.Color := clbVividTextClicked;
   end;
-end;
-
-procedure TformStartDialog.FormDestroy(Sender: TObject);
-begin
-
 end;
 
 procedure TformStartDialog.LabelAsButtonMouseMove(Sender: TObject;
@@ -227,7 +217,7 @@ begin
   recentTileList := TObjectList.create(); // Make the object lists for our frames
   typeTileList := TObjectList.create();
 
-  mruMgr.IniFileName := GetAppConfigDir(True) + '\Test.ini'; // Get our recent files
+  mruMgr.IniFileName := GetAppConfigDir(True) + '\TimberLog.ini'; // Get our recent files
   mruMgr.IniSection := 'RecentLogbooks';
   mruMgr.MaxRecent := 9;
   mruMgr.ShowRecentFiles;
@@ -308,15 +298,16 @@ begin
 
 end;
 
-procedure TformStartDialog.Label13Click(Sender: TObject);
+procedure TformStartDialog.lblCreateClick(Sender: TObject);
 var
-  LogMetadataExt : RLogMetadataExt;
+  sendLogbook : TLogbook;
   newFormLogbook : TformLogbook;
   filepath : String;
   i : Integer;
   hasError : Boolean;
+  tempStr : String;
 begin
-
+  sendLogbook := TLogbook.Create;
 
 
   // Verify required fields are filled in !!!!!!!!!!!!!!!
@@ -362,22 +353,26 @@ begin
   if hasError = False then
   begin
     // Set LogMetadataExt to the values in the form
-    LogMetadataExt.logName := txtLogName.Text;
-    LogMetadataExt.logDescription := memoLogDescription.Text;
-    LogMetadataExt.OpenedBy := txtOpenedBy.Text;
-    LogMetadataExt.DTOpened := DateTimeToFileDate(Now);
-    LogMetadataExt.DTAccessed := DateTimeToFileDate(Now);
-    LogMetadataExt.PassMaster := chkPassMaster.Checked;
-    LogMetadataExt.PassPerUser := chkPassPerUser.Checked;
-    LogMetadataExt.PassToExport := chkPassToExport.Checked;
-    LogMetadataExt.PassToPrint := chkPassToPrint.Checked;
-    dmCrypt.stringhash(txtMasterPass.Text, LogMetadataExt.PassMasterHash);   // Hashed password
-    dmCrypt.stringhash(txtPassToExport.Text, LogMetadataExt.PassExportHash); // Hashed password
-    dmCrypt.stringhash(txtPassToPrint.Text, LogMetadataExt.PassPrintHash);   // Hashed password
-    LogMetadataExt.AllowCategories := chkAllowLateEntries.Checked;
-    LogMetadataExt.AllowAddCategories := chkAllowAddCategories.Checked;
-    LogMetadataExt.AllowLateEntries := chkAllowLateEntries.Checked;
-    LogMetadataExt.DTDisplayFormat:=Trim(cmbDFormat.Caption + ' ' + cmbTFormat.Caption);
+
+    sendLogbook.logName := txtLogName.Text;
+    sendLogbook.logDescription := memoLogDescription.Text;
+    sendLogbook.OpenedBy := txtOpenedBy.Text;
+    sendLogbook.DTOpened := DateTimeToFileDate(Now);
+    sendLogbook.DTAccessed := DateTimeToFileDate(Now);
+    sendLogbook.PassMaster := chkPassMaster.Checked;
+    sendLogbook.PassPerUser := chkPassPerUser.Checked;
+    sendLogbook.PassToExport := chkPassToExport.Checked;
+    sendLogbook.PassToPrint := chkPassToPrint.Checked;
+    dmCrypt.stringhash(txtMasterPass.Text, tempStr);   // Hashed password
+    sendLogbook.PassMasterHash := tempStr;
+    dmCrypt.stringhash(txtPassToExport.Text, tempStr); // Hashed password
+    sendLogbook.PassExportHash := tempStr;
+    dmCrypt.stringhash(txtPassToPrint.Text, tempStr);   // Hashed password
+    sendLogbook.PassPrintHash := tempStr;
+    sendLogbook.AllowCategories := chkAllowLateEntries.Checked;
+    sendLogbook.AllowAddCategories := chkAllowAddCategories.Checked;
+    sendLogbook.AllowLateEntries := chkAllowLateEntries.Checked;
+    sendLogbook.DTDisplayFormat:=Trim(cmbDFormat.Caption + ' ' + cmbTFormat.Caption);
 
     // Convert the contents of the Categories listbox to a delimited string
     for i := 0 to listboxCategories.Count-1 do
@@ -385,11 +380,11 @@ begin
       ReplaceText(listboxCategories.Items.Strings[i], '|', ':');
       if not i = listboxCategories.Count-1 then
       begin
-        LogMetadataExt.Categories := listboxCategories.Items.Strings[i] + '|';
+        sendLogbook.Categories := listboxCategories.Items.Strings[i] + '|';
       end
       else
       begin
-        LogMetadataExt.Categories := listboxCategories.Items.Strings[i];
+        sendLogbook.Categories := listboxCategories.Items.Strings[i];
       end;
     end;
 
@@ -411,19 +406,19 @@ begin
       filepath := ChangeFileExt(SaveDialog1.FileName, '.logb');
 
 
-      // Add to out Most recently used files
-      mruMgr.IniFileName := GetAppConfigDir(True) + 'Test.ini';
-      mruMgr.IniSection := 'RecentLogbooks';
-      mruMgr.MaxRecent := 9;
+      // Add to our Most recently used files
+      mruMgr.ShowRecentFiles;
       mruMgr.AddToRecent(filepath);
 
 
       //ShowMessage(filepath);
 
-      newFormLogbook := TformLogbook.Create(Nil, filepath, lblTypepath.Caption, LogMetadataExt); // Use this format when making a new logbook
+      sendLogbook.Path := filepath;
+      newFormLogbook := TformLogbook.Create(Nil, sendLogbook); // Use this format when making a new logbook
 
       newFormLogbook.ShowModal;                     //newFormLogbook is displayed
       FreeAndNil(newFormLogbook);                   //Free newFormLogbook
+      FreeAndNil(sendLogbook);
 
     end;
   end;
@@ -491,23 +486,6 @@ end;
 procedure TformStartDialog.btnDeleteCategoryClick(Sender: TObject);
 begin
   listboxCategories.Items.Delete(listboxCategories.ItemIndex);
-end;
-
-procedure TformStartDialog.Button2Click(Sender: TObject);
-begin
-  Notebook1.PageIndex:=1;
-end;
-
-procedure TformStartDialog.Button3Click(Sender: TObject);
-var
-  cryptFile, keyString : String;
-begin
-
-  keyString := 'abcdef';
-  cryptFile := 'Test.logb';
-  dmCrypt.encryptFile(keyString, cryptFile);
-  //dmCrypt.decryptFile(keyString, cryptFile);
-
 end;
 
 procedure TformStartDialog.chkAllowCategoriesChange(Sender: TObject);
@@ -597,7 +575,7 @@ end;
 
 procedure TformStartDialog.FormCreate(Sender: TObject);
 begin
-
+  IniPropStorage1.IniFileName := GetAppConfigDir(True) + '\TimberLog.ini';
 end;
 
 procedure TformStartDialog.pgNewLogbookBeforeShow(ASender: TObject;
@@ -626,9 +604,7 @@ var
 begin
 
   // Add to out Most recently used files
-  mruMgr.IniFileName := GetAppConfigDir(True) + 'Test.ini';
-  mruMgr.IniSection := 'RecentLogbooks';
-  mruMgr.MaxRecent := 9;
+  mruMgr.ShowRecentFiles;
   mruMgr.AddToRecent(ShellListView1.GetPathFromItem(ShellListView1.Selected));
 
   formStartDialog.Visible := False;             // Hide the calling form first
@@ -641,11 +617,20 @@ end;
 procedure TformStartDialog.ShellListView1SelectItem(Sender: TObject;
   Item: TListItem; Selected: Boolean);
 var
+  tempLogbook : TLogbook;
   LogMetadata : RLogMetadata;
 begin
-  readLogMetadata(ShellListView1.GetPathFromItem(Item), LogMetadata);
+  tempLogbook := TLogbook.Create;
 
-  WriteRecordToMemo(LogMetadata, memoDetails); // Writes the record contents to the memo
+  try
+    tempLogbook.Path := ShellListView1.GetPathFromItem(Item);
+    tempLogbook.readLogMetadata;
+    tempLogbook.WriteRecordToMemo(memoDetails); // Writes the record contents to the memo
+  finally
+    tempLogbook.Free;
+  end;
+
+
 end;
 
 procedure TformStartDialog.SpeedButton1Click(Sender: TObject);

@@ -15,12 +15,8 @@ interface
 uses
   Classes, SysUtils, shlobj, unitRecordLogMetadata, strutils, unitDefinitions, dmUnitCrypt, Controls, StdCtrls;
 
-
-  procedure buildLogMetadataRecord(out outLogMetadata: RLogMetadata; logName, logDescription, OpenedBy : String; DTOpened, DTAccessed : LongInt); // Processes data from Page 1 and creates RLogMetadata record
   procedure resetPages; // Resets Page 1 to the default values
-  procedure readLogMetadata(path : String; out outLogMetadata : RLogMetadata);
   function returnDocumentsPath : String;
-  function verifyLogMetadata(LogMetadata : RLogMetadata):Boolean;
   procedure processTypeFile(filepath : String; out errorMsg : String; out Logbook_Type : String; Description : TStringList); // Short form used to identify the type name and description
   procedure processTypeFile(filepath : String; out errorMsg : String; out Logbook_Type : String; Description : TStringList;  // Short form used to identify the type name, description, and categories
     Default_Categories : TStringList);
@@ -28,40 +24,20 @@ uses
     Settings: TStringList; Default_Categories: TStringList; Default_Text: TStringList;
     One_Line: TStringList; Multi_Line: TStringList);
   procedure getTypeFileList(var fileList : TStringList);
-  procedure Split (const Delimiter: Char; Input: string; const Strings: TStrings);
-  procedure WriteRecordToMemo(LogMetadata : RLogMetadata; outMemo : TMemo; Path : String = 'Null');
+  procedure Split(const Delimiter : Char; Input : string; const Strings : TStrings);
 
 implementation
 
 uses
   formUnitStartDialog;
 
-procedure Split(const Delimiter: Char; Input: string; const Strings: TStrings);
+procedure Split(const Delimiter : Char; Input : string; const Strings : TStrings);
 begin
    Assert(Assigned(Strings)) ;
    Strings.Clear;
    Strings.StrictDelimiter := true;
    Strings.Delimiter := Delimiter;
    Strings.DelimitedText := Input;
-end;
-
-procedure buildLogMetadataRecord(out outLogMetadata: RLogMetadata; logName, logDescription, OpenedBy : String; DTOpened, DTAccessed : LongInt);
-var
-  str64 : String;
-begin
-  outLogMetadata.headerMark := RecHeader;
-  outLogMetadata.footerMark := RecFooter;
-
-  outLogMetadata.logName := logName;
-  outLogMetadata.logDescription := logDescription;
-  outLogMetadata.OpenedBy := OpenedBy;
-  outLogMetadata.DTOpened := DTOpened;
-  outLogMetadata.DTAccessed := DTAccessed;
-
-  dmCrypt.stringhash(logName + logDescription + OpenedBy + IntToStr(DTOpened) + IntToStr(DTAccessed), str64);
-  SetLength(str64, 64);
-  outLogMetadata.checksum := str64;
-
 end;
 
 procedure resetPages;
@@ -103,46 +79,6 @@ begin
 
 end;
 
-procedure readLogMetadata(path : String; out outLogMetadata : RLogMetadata);
-var
-  SettingsValid : Boolean;
-  LogMetadata : RLogMetadata;
-  FSRecord: TFileStream;
-begin
-  SettingsValid := False;
-
-  try
-    FSRecord := TFileStream.Create(path, fmOpenRead);
-      try
-        FSRecord.Seek(FSRecord.Size - SizeOf(LogMetadata), soBeginning);  // Move to beginning of the record in the file
-        FSRecord.Read(LogMetadata,sizeof(LogMetadata)); // Read the record
-
-        if verifyLogMetadata(LogMetadata) = True then
-        begin
-          SettingsValid := True;
-        end;
-
-      finally
-        FSRecord.Free; // Save new file to disk and free stream
-      end;
-  except
-    //
-  end;
-
-  if SettingsValid = False then
-  begin
-    LogMetadata.OpenedBy := 'The Logbook Is Corrupt or does not exist';
-    LogMetadata.footerMark := '00000000000';
-  end
-  else
-  begin
-    //
-  end;
-
-  outLogMetadata := LogMetadata; // Return the record
-
-end;
-
 function returnDocumentsPath: String;
 var
   DocumentsPath: Array[0..MaxPathLen] of Char; //Allocate memory
@@ -150,24 +86,6 @@ begin
   DocumentsPath := '';
   SHGetSpecialFolderPath(0,DocumentsPath,CSIDL_PERSONAL,false); // http://delphi-miranda-plugins.googlecode.com/svn-history/r105/trunk/FPC/units/src/shlobj.pp
   returnDocumentsPath := DocumentsPath;
-end;
-
-function verifyLogMetadata(LogMetadata: RLogMetadata): Boolean;
-var
-  str64 : String;
-begin
-
-  dmCrypt.stringhash(LogMetadata.logName + LogMetadata.logDescription + LogMetadata.OpenedBy + IntToStr(LogMetadata.DTOpened) + IntToStr(LogMetadata.DTAccessed), str64);
-  SetLength(str64, 64);
-
-  if (LogMetadata.footerMark = RecFooter) and (LogMetadata.headerMark = RecHeader) and (LogMetadata.checksum = str64) then
-  begin
-    verifyLogMetadata := True;
-  end
-  else
-  begin
-    verifyLogMetadata := False;
-  end;
 end;
 
 procedure processTypeFile(filepath : String; out errorMsg : String; out Logbook_Type: String; Description: TStringList);
@@ -666,51 +584,6 @@ begin
 
   FindClose(Info); // Close our search
 end;
-
-procedure WriteRecordToMemo(LogMetadata : RLogMetadata; outMemo : TMemo; Path : String);
-var
-  allValid : Boolean;
-begin
-  allValid:=True;
-
-  outMemo.Lines.Clear;
-
-  outMemo.Lines.Add('Logbook Opened By: ' + Trim(LogMetadata.OpenedBy));
-  outMemo.Lines.Add('Logbook Serial Number/Name: ' + Trim(LogMetadata.logName));
-  try
-    outMemo.Lines.Add('Logbook Opened On: ' + DateTimeToStr(FileDateToDateTime(LogMetadata.DTOpened)));
-    outMemo.Lines.Add('Logbook Last Accessed: ' + DateTimeToStr(FileDateToDateTime(LogMetadata.DTAccessed)));
-  except
-    allValid := False;
-  end;
-
-  if verifyLogMetadata(LogMetadata) then
-  begin
-    outMemo.Lines.Add('Checksum valid');
-  end
-  else
-  begin
-    allValid := False;
-  end;
-
-  outMemo.Lines.Add('Logbook Description: ' + Trim(LogMetadata.logDescription));
-
-  if Path <> 'Null' then
-  begin
-    outMemo.Lines.Add('Full Path to Logbook: ' + Path);
-  end;
-
-  { /// THIS NEEDS TO BE IMPLEMENTED AFTER TESTING IS COMPLETE
-  ////////////////////////////////////////////////////////////////////////////////////
-  if allValid = False then
-  begin
-    outMemo.Lines.Clear;
-    outMemo.Lines.Add('The selected logbook is either corrupted or does not exist');
-  end;
-  }
-end;
-
-
 
 
 end.

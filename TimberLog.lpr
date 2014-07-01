@@ -10,7 +10,7 @@ uses
   Forms, richmemopackage, sqlite3laz, zvdatetimectrls, formUnitStartDialog,
   unitStartFunctions, dmUnitConnectTransaction, dmUnitSourceQuery,
   unitClassLogbook, unitRecordLogMetadata, unitDefinitions, formUnitLogbook,
-  unitRecordLogMetadataExt, dmUnitCrypt, unitTypeTile, unitRecentTile
+  dmUnitCrypt, unitTypeTile, unitRecentTile
   { you can add units after this };
 
 {$R *.res}

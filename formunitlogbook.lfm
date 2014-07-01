@@ -901,7 +901,6 @@ object formLogbook: TformLogbook
   end
   object IniPropStorage1: TIniPropStorage
     StoredValues = <>
-    IniFileName = 'Test.ini'
     left = 296
     top = 232
   end

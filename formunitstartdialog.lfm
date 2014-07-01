@@ -10,7 +10,6 @@ object formStartDialog: TformStartDialog
   Color = clWhite
   OnClose = FormClose
   OnCreate = FormCreate
-  OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
   SessionProperties = 'Width;Position;Height;Notebook1.PageIndex'
@@ -44,7 +43,7 @@ object formStartDialog: TformStartDialog
     Height = 415
     Top = 73
     Width = 824
-    PageIndex = 0
+    PageIndex = 1
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Right = 5
     Color = clWhite
@@ -118,7 +117,7 @@ object formStartDialog: TformStartDialog
         )
         TabOrder = 0
       end
-      object Label13: TLabel
+      object lblCreate: TLabel
         Left = 368
         Height = 31
         Top = 368
@@ -133,7 +132,7 @@ object formStartDialog: TformStartDialog
         Font.Style = [fsBold]
         ParentColor = False
         ParentFont = False
-        OnClick = Label13Click
+        OnClick = lblCreateClick
         OnMouseDown = LabelAsButtonMouseDown
         OnMouseMove = LabelAsButtonMouseMove
         OnMouseUp = LabelAsButtonMouseUp
@@ -977,24 +976,6 @@ object formStartDialog: TformStartDialog
     OnMouseUp = LabelAsButtonMouseUp
     OnMouseLeave = LabelAsButtonMouseLeave
   end
-  object Button2: TButton
-    Left = 857
-    Height = 25
-    Top = 28
-    Width = 75
-    Caption = 'TestPageNew'
-    OnClick = Button2Click
-    TabOrder = 5
-  end
-  object Button3: TButton
-    Left = 960
-    Height = 25
-    Top = 28
-    Width = 75
-    Caption = 'Crypt Test'
-    OnClick = Button3Click
-    TabOrder = 6
-  end
   object ScrollBox2: TScrollBox
     AnchorSideLeft.Control = Shape1
     AnchorSideTop.Control = Label1
@@ -1010,14 +991,10 @@ object formStartDialog: TformStartDialog
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 20
     BorderStyle = bsNone
-    TabOrder = 7
+    TabOrder = 5
   end
   object IniPropStorage1: TIniPropStorage
-    StoredValues = <    
-      item
-        Name = 'MRUList'
-      end>
-    IniFileName = 'Test.ini'
+    StoredValues = <>
     left = 528
     top = 16
   end

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, StrHolder, Forms, Controls, StdCtrls, ExtCtrls,
-  Graphics, Dialogs, unitStartFunctions, unitRecordLogMetadata;
+  Graphics, Dialogs, unitStartFunctions, unitRecordLogMetadata, unitClassLogbook;
 
 type
 
@@ -71,22 +71,31 @@ end;
 
 procedure TframeRecentTile.imgOverlayMouseEnter(Sender: TObject);
 var
+  tempLogbook : TLogbook;
   memoParentDetails : TMemo;
   outLogMetadata : RLogMetadata;
 begin
+  tempLogbook := TLogbook.Create;
+
   shapeBG.Brush.Color := ColorEnter;
   lblFilename.Font.Style := [fsItalic];
 
-  // Since the frame is created at runtime, it can't directly access the
-  // parent (formStartDialog) or its components. So we have to search for
-  // memoDetails to apply properties.
-  memoParentDetails := TMemo(Owner.FindComponent('memoDetails'));
-  if assigned(memoParentDetails) then
-  begin
-    memoParentDetails.Lines.Clear;
-    readLogMetadata(FPath, outLogMetadata);
-    WriteRecordToMemo(outLogMetadata, memoParentDetails, FPath);
+  try
+    // Since the frame is created at runtime, it can't directly access the
+    // parent (formStartDialog) or its components. So we have to search for
+    // memoDetails to apply properties.
+    memoParentDetails := TMemo(Owner.FindComponent('memoDetails'));
+    if assigned(memoParentDetails) then
+    begin
+      memoParentDetails.Lines.Clear;
+      tempLogbook.Path := Path;
+      tempLogbook.readLogMetadata();
+      tempLogbook.WriteRecordToMemo(memoParentDetails);
+    end;
+  finally
+    tempLogbook.Free;
   end;
+
 end;
 
 procedure TframeRecentTile.imgOverlayMouseLeave(Sender: TObject);
