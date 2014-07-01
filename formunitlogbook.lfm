@@ -10,6 +10,7 @@ object formLogbook: TformLogbook
   Menu = MainMenu1
   OnClose = FormClose
   OnCreate = FormCreate
+  OnShow = FormShow
   Position = poDesktopCenter
   SessionProperties = 'WindowState;Width;Position;Height'
   LCLVersion = '1.2.4.0'
@@ -654,23 +655,29 @@ object formLogbook: TformLogbook
       Caption = 'Entry Date/Time:'
       ParentColor = False
     end
-    object btnAddToLog: TButton
-      AnchorSideBottom.Control = Panel3
+    object lblAddNewEntry: TLabel
+      AnchorSideBottom.Control = Panel2
       AnchorSideBottom.Side = asrBottom
-      Left = 408
-      Height = 25
-      Top = 287
-      Width = 184
+      Left = 427
+      Height = 31
+      Top = 285
+      Width = 208
       Anchors = [akLeft, akBottom]
-      BorderSpacing.Bottom = 16
-      Caption = 'Add Entry to Logbook'
+      BorderSpacing.Bottom = 12
+      Caption = 'Add New Entry'
       Font.CharSet = ANSI_CHARSET
-      Font.Height = -13
+      Font.Height = -27
       Font.Name = 'Courier New'
       Font.Pitch = fpFixed
       Font.Quality = fqDraft
+      Font.Style = [fsBold]
+      ParentColor = False
       ParentFont = False
-      TabOrder = 4
+      OnClick = lblAddNewEntryClick
+      OnMouseDown = LabelAsButtonMouseDown
+      OnMouseMove = LabelAsButtonMouseMove
+      OnMouseUp = LabelAsButtonMouseUp
+      OnMouseLeave = LabelAsButtonMouseLeave
     end
   end
   object Panel3: TPanel
@@ -717,6 +724,7 @@ object formLogbook: TformLogbook
       Font.Quality = fqDraft
       ParentFont = False
       TabOrder = 0
+      OnKeyPress = txtSearchKeyPress
     end
     object chkFilterByDate: TCheckBox
       Left = 10
@@ -727,9 +735,9 @@ object formLogbook: TformLogbook
       TabOrder = 1
     end
     object dtStart: TZVDateTimePicker
-      Left = 107
+      Left = 109
       Height = 23
-      Top = 88
+      Top = 95
       Width = 83
       CenturyFrom = 1941
       MaxDate = 2958465
@@ -750,9 +758,9 @@ object formLogbook: TformLogbook
       MonthNames = 'Long'
     end
     object dtEnd: TZVDateTimePicker
-      Left = 107
+      Left = 109
       Height = 23
-      Top = 120
+      Top = 126
       Width = 83
       CenturyFrom = 1941
       MaxDate = 2958465
@@ -772,32 +780,6 @@ object formLogbook: TformLogbook
       HideDateTimeParts = []
       MonthNames = 'Long'
     end
-    object btnResetSearch: TButton
-      Left = 10
-      Height = 25
-      Top = 168
-      Width = 86
-      Caption = 'Reset'
-      Enabled = False
-      OnClick = btnResetSearchClick
-      TabOrder = 4
-    end
-    object btnSearch: TButton
-      Left = 107
-      Height = 25
-      Top = 168
-      Width = 86
-      Caption = 'Search'
-      Enabled = False
-      Font.CharSet = ANSI_CHARSET
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Pitch = fpFixed
-      Font.Quality = fqDraft
-      OnClick = btnSearchClick
-      ParentFont = False
-      TabOrder = 5
-    end
     object Label2: TLabel
       Left = 10
       Height = 15
@@ -813,6 +795,44 @@ object formLogbook: TformLogbook
       Width = 23
       Caption = 'End:'
       ParentColor = False
+    end
+    object lblReset: TLabel
+      Left = 10
+      Height = 23
+      Top = 162
+      Width = 65
+      Caption = 'Reset'
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -21
+      Font.Name = 'Courier New'
+      Font.Pitch = fpFixed
+      Font.Quality = fqDraft
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      OnMouseDown = LabelAsButtonMouseDown
+      OnMouseMove = LabelAsButtonMouseMove
+      OnMouseUp = LabelAsButtonMouseUp
+      OnMouseLeave = LabelAsButtonMouseLeave
+    end
+    object lblSearch: TLabel
+      Left = 109
+      Height = 23
+      Top = 162
+      Width = 78
+      Caption = 'Search'
+      Font.CharSet = ANSI_CHARSET
+      Font.Height = -21
+      Font.Name = 'Courier New'
+      Font.Pitch = fpFixed
+      Font.Quality = fqDraft
+      Font.Style = [fsBold]
+      ParentColor = False
+      ParentFont = False
+      OnMouseDown = LabelAsButtonMouseDown
+      OnMouseMove = LabelAsButtonMouseMove
+      OnMouseUp = LabelAsButtonMouseUp
+      OnMouseLeave = LabelAsButtonMouseLeave
     end
   end
   object StatusBar1: TStatusBar
@@ -999,7 +1019,7 @@ object formLogbook: TformLogbook
     Comments = []
     DetectPreprocessor = False
     IdentifierAttri.FrameEdges = sfeAround
-    IdentifierChars = '!"#$%&''()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ÄÅÇÉÑÖÜãçèêíìôöúùû†°¢£§•¶ß®©™´¨≠ÆØ∞±≤≥¥µ∂∑∏π∫ªºΩæø¬√≈∆‚'
+    IdentifierChars = '!"#$%&''()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~ÄÅÇÉÑÖÜçèêíìôöúùû†°¢£§•¶ß®©™´¨≠ÆØ∞±≤≥¥µ∂∑∏π∫ªºΩæø¬√≈∆‚'
     KeyAttri.FrameEdges = sfeAround
     ConstantAttri.FrameEdges = sfeAround
     ObjectAttri.FrameEdges = sfeAround

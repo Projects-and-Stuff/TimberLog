@@ -7,10 +7,11 @@ unit formUnitStartDialog;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  types, LCLType, ExtCtrls, Buttons, ShellCtrls, LCLIntf, IniPropStorage,
-  formUnitLogbook, unitDefinitions, unitStartFunctions, unitRecordLogMetadata,
-  ComCtrls, unitRecordLogMetadataExt, dmUnitCrypt, unitTypeTile;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
+  StdCtrls, types, LCLType, ExtCtrls, Buttons, ShellCtrls, LCLIntf,
+  IniPropStorage, formUnitLogbook, unitDefinitions, unitStartFunctions,
+  unitRecordLogMetadata, ComCtrls, Grids, unitRecordLogMetadataExt, dmUnitCrypt,
+  unitTypeTile, unitRecentTile, mrumanager, strutils, Contnrs;
 
 type
 
@@ -31,7 +32,6 @@ type
     chkPassToPrint: TCheckBox;
     cmbDFormat: TComboBox;
     cmbTFormat: TComboBox;
-    cmbType: TComboBox;
     GroupBox1: TGroupBox;
     Label10: TLabel;
     Label11: TLabel;
@@ -45,15 +45,17 @@ type
     Label20: TLabel;
     Label21: TLabel;
     Label6: TLabel;
-    Label8: TLabel;
+    lblTypepath: TLabel;
     Label9: TLabel;
     lblNow: TLabel;
     listboxCategories: TListBox;
     memoLogDescription: TMemo;
+    mruMgr: TMRUMenuManager;
     Notebook2: TNotebook;
     pgOptionalSettings: TPage;
     pgBasicSettings: TPage;
     ScrollBox1: TScrollBox;
+    ScrollBox2: TScrollBox;
     Shape6: TShape;
     TabControl1: TTabControl;
     txtCategory: TEdit;
@@ -67,9 +69,8 @@ type
     Label4: TLabel;
     lblOpenOtherLogbooks: TLabel;
     Label5: TLabel;
-    Label7: TLabel;
+    lblNewLogbook: TLabel;
     lblBack: TLabel;
-    listboxRecent: TListBox;
     memoDetails: TMemo;
     Notebook1: TNotebook;
     pgOpenLogbook: TPage;
@@ -94,7 +95,14 @@ type
     txtPassToExport1: TEdit;
     txtPassToPrint: TEdit;
     txtPassToPrint1: TEdit;
-
+    procedure FormDestroy(Sender: TObject);
+    procedure LabelAsButtonMouseDown(Sender: TObject;
+      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure LabelAsButtonMouseLeave(Sender: TObject);
+    procedure LabelAsButtonMouseMove(Sender: TObject;
+      Shift: TShiftState; X, Y: Integer);
+    procedure LabelAsButtonMouseUp(Sender: TObject;
+      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure btnAddCategoryClick(Sender: TObject);
     procedure btnDeleteCategoryClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -112,31 +120,12 @@ type
     procedure Label13Click(Sender: TObject);
     procedure lblBackClick(Sender: TObject);
     procedure lblOpenOtherLogbooksClick(Sender: TObject);
-    procedure LabelAsButtonMouseDown(Sender: TObject;
-      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-    procedure LabelAsButtonMouseLeave(Sender: TObject);
-    procedure LabelAsButtonMouseMove(Sender: TObject;
-      Shift: TShiftState; X, Y: Integer);
-    procedure LabelAsButtonMouseUp(Sender: TObject;
-      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-    procedure listboxRecentDrawItem(Control: TWinControl; Index: Integer;
-      ARect: TRect; State: TOwnerDrawState);
-    procedure listboxRecentMouseDown(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
-    procedure listboxRecentMouseEnter(Sender: TObject);
-    procedure listboxRecentMouseLeave(Sender: TObject);
-    procedure listboxRecentMouseMove(Sender: TObject; Shift: TShiftState; X,
-      Y: Integer);
-    procedure listboxRecentMouseUp(Sender: TObject; Button: TMouseButton;
-      Shift: TShiftState; X, Y: Integer);
     procedure pgNewLogbookBeforeShow(ASender: TObject; ANewPage: TPage;
       ANewIndex: Integer);
     procedure pgNewTypesBeforeShow(ASender: TObject; ANewPage: TPage;
       ANewIndex: Integer);
     procedure pgOpenLogbookBeforeShow(ASender: TObject; ANewPage: TPage;
       ANewIndex: Integer);
-    procedure ShellListView1Change(Sender: TObject; Item: TListItem;
-      Change: TItemChange);
     procedure ShellListView1DblClick(Sender: TObject);
     procedure ShellListView1SelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
@@ -149,10 +138,13 @@ type
   public
     { public declarations }
     FrameTypeTile : array of TframeTypeTile;
+    FrameRecentTile : array of TframeRecentTile;
   end;
 
 var
   formStartDialog: TformStartDialog;
+  typeTileList : TObjectList;
+  recentTileList : TObjectList;
 
 implementation
 
@@ -161,36 +153,23 @@ implementation
 
 { TformStartDialog }
 
-procedure TformStartDialog.listboxRecentDrawItem(Control: TWinControl; Index: Integer;
-  ARect: TRect; State: TOwnerDrawState);
+procedure TformStartDialog.LabelAsButtonMouseLeave(Sender: TObject);
 begin
-  with (Control as TListBox).Canvas do begin
-    Brush.Style := bsSolid;
-    if not listboxRecent.Selected[Index] then begin
-       Font.Color:=clbVividTextDefault;
-    end;
-    FillRect(aRect);
-    Brush.Style := bsSolid;
-    TextOut(aRect.Left, aRect.Top, (Control as TListBox).Items[Index]);
+  with (Sender as TLabel) do begin
+    (Sender as TLabel).Font.Color := clbVividTextDefault;
   end;
+end;
 
-  if odNoFocusRect in State then
-  begin
-    listboxRecent.Canvas.Brush.Color := clWhite;
-    listboxRecent.Canvas.FillRect(ARect);
-    listboxRecent.Canvas.Font.Color := clbVividTextDefault;
-    listboxRecent.Canvas.TextOut(ARect.Left, ARect.Top, listboxRecent.Items[Index]);
+procedure TformStartDialog.LabelAsButtonMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  with (Sender as TLabel) do begin
+    (Sender as TLabel).Font.Color := clbVividTextClicked;
   end;
+end;
 
-  if odSelected in State then
-  begin
-    listboxRecent.Canvas.Brush.Color := clWhite;
-    listboxRecent.Canvas.FillRect(ARect);
-    listboxRecent.Canvas.Font.Color:=clbVividTextMouseOver;
-    listboxRecent.Canvas.TextOut(ARect.Left, ARect.Top, listboxRecent.Items[Index]);
-    listboxRecent.Canvas.Pen.Color := clWhite; // Make the selecton rectangle invisible
-    listboxRecent.Canvas.DrawFocusRect(aRect)
-  end;
+procedure TformStartDialog.FormDestroy(Sender: TObject);
+begin
 
 end;
 
@@ -207,21 +186,6 @@ procedure TformStartDialog.LabelAsButtonMouseUp(Sender: TObject;
 begin
   with (Sender as TLabel) do begin
     (Sender as TLabel).Font.Color := clbVividTextMouseOver;
-  end;
-end;
-
-procedure TformStartDialog.LabelAsButtonMouseLeave(Sender: TObject);
-begin
-  with (Sender as TLabel) do begin
-    (Sender as TLabel).Font.Color := clbVividTextDefault;
-  end;
-end;
-
-procedure TformStartDialog.LabelAsButtonMouseDown(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-begin
-  with (Sender as TLabel) do begin
-    (Sender as TLabel).Font.Color := clbVividTextClicked;
   end;
 end;
 
@@ -244,16 +208,125 @@ begin
 end;
 
 procedure TformStartDialog.FormShow(Sender: TObject);
+var
+  i, tileLength : Integer;
+  fileList : TStringList;
+  errorMsg, Logbook_Type : String;
+  Description : TStringList;
 begin
+
+  typeTileList := TObjectList.create();
+  recentTileList := TObjectList.create();
+
+  mruMgr.IniFileName := GetAppConfigDir(True) + '\Test.ini';
+  mruMgr.IniSection := 'RecentLogbooks';
+  mruMgr.MaxRecent := 9;
+  mruMgr.ShowRecentFiles;
+
+
+  if ScrollBox1.ControlCount > 0 then
+  begin
+    for i := ScrollBox1.ControlCount-1 downto 0 do
+    begin
+      ScrollBox1.Controls[i].Destroy;
+    end;
+  end;
+
+  if ScrollBox2.ControlCount > 0 then
+  begin
+    for i := ScrollBox2.ControlCount-1 downto 0 do
+    begin
+      ScrollBox2.Controls[i].Destroy;
+    end;
+  end;
+
+
+
+
+  //SetLength(FrameRecentTile, 0);
+  SetLength(FrameRecentTile, 1); // Required, or we'll get Seg faults
+
+  if mruMgr.Recent.Count > 0 then
+  begin
+    for i := mruMgr.Recent.Count-1 downto 0 do
+    begin
+      SetLength(FrameRecentTile, Length(FrameRecentTile)+1);
+      FrameRecentTile[i] := TframeRecentTile.Create(formStartDialog);
+      FrameRecentTile[i].Parent := ScrollBox2;
+      FrameRecentTile[i].Align := alTop;
+      FrameRecentTile[i].setColorInitial(clWhite);
+      FrameRecentTile[i].setColorLeave(clWhite);
+      FrameRecentTile[i].setColorEnter(clbBGMouseOver);
+      FrameRecentTile[i].setColorDown(clbBGClicked);
+      FrameRecentTile[i].setColorUp(clbBGMouseOver);
+      FrameRecentTile[i].setFilename(ExtractFileNameOnly(mruMgr.Recent.Strings[i]));
+    end;
+  end
+  else
+  begin
+    ShowMessage('No recent files');
+  end;
+
+
+
+  fileList := TStringList.Create;
+  getTypeFileList(fileList);
+  fileList.Sort;
+
+  SetLength(FrameTypeTile, 0);
+
+
+  ////////////////// CHECK THE ERROR MESSAGE BEFORE PROCEEDING! ////////////
+  if fileList.Strings[0] = 'None' then
+  begin
+    memoDetails.Lines.Clear;
+    memoDetails.Lines.AddText('No Logbook types were found.');
+    memoDetails.Lines.AddText(' ');
+    memoDetails.Lines.AddText('Please refer to the manual in order to correct this problem and add new types.');
+  end
+  else
+  begin
+    SetLength(FrameTypeTile, fileList.Count);
+    for i := fileList.Count-1 downto 0 do
+    begin
+
+      Description := TStringList.Create;
+
+      processTypeFile(fileList[i], errorMsg, Logbook_Type, Description);
+
+      FrameTypeTile[i] := TframeTypeTile.Create(formStartDialog);
+
+
+      FrameTypeTile[i].Parent := ScrollBox1;
+
+      FrameTypeTile[i].Align := alTop;
+      FrameTypeTile[i].setColorInitial(clbBGDefault);
+      FrameTypeTile[i].setColorLeave(clbBGDefault);
+      FrameTypeTile[i].setColorEnter(clbBGMouseOver);
+      FrameTypeTile[i].setColorDown(clbBGClicked);
+      FrameTypeTile[i].setColorUp(clbBGMouseOver);
+      FrameTypeTile[i].setTitle(Logbook_Type);
+      FrameTypeTile[i].setDescription(Description.Strings[0]);
+      FrameTypeTile[i].setPath(fileList.Strings[i]);
+
+      FrameTypeTile[i].DescriptionStrings.Strings := Description;
+      Description.Free;
+
+      //ShowMessage(IntToStr(fileList.Count) + ', ' + IntToStr(Length(FrameTypeTile)) + ', ' + Logbook_Type);
+
+    end;
+  end;
+
+  ShowMessage(IntToStr(Length(FrameTypeTile)));
+
+  fileList.Free;
   Splitter1.Color := clbMedium;
   Splitter2.Color := clbMedium;
   Shape1.Pen.Color := clbMedium;
   lblOpenOtherLogbooks.Font.Color := clbVividTextDefault;
-  listboxRecent.Font.Color := clbVividTextDefault;
-  listboxRecent.Canvas.Font.Color := clbVividTextDefault;
+  lblBack.Font.Color := clbVividTextDefault;
   ShellListView1.Font.Color := clbVividTextDefault;
-  pgNewLogbook.Color:=clbBGDefault;
-
+  pgNewLogbook.Color := clbBGDefault;
 
 
   ShellListView1.Mask := '*.logb'; // Only display *.logb files
@@ -293,48 +366,93 @@ begin
     ShowMessage('The text in both "Password Required to Print" textboxes must match');
   end;
 
-
-
-  // Set LogMetadataExt to the values in the form
-  LogMetadataExt.logName := txtLogName.Text;
-  LogMetadataExt.logDescription := memoLogDescription.Text;
-  LogMetadataExt.OpenedBy := txtOpenedBy.Text;
-  LogMetadataExt.DTOpened := DateTimeToFileDate(Now);
-  LogMetadataExt.DTAccessed := DateTimeToFileDate(Now);
-  LogMetadataExt.PassMaster := chkPassMaster.Checked;
-  LogMetadataExt.PassPerUser := chkPassPerUser.Checked;
-  LogMetadataExt.PassToExport := chkPassToExport.Checked;
-  LogMetadataExt.PassToPrint := chkPassToPrint.Checked;
-  LogMetadataExt.PassMasterHash:= dmCrypt.hash(txtMasterPass.Text);   // Hashed password
-  LogMetadataExt.PassExportHash:= dmCrypt.hash(txtPassToExport.Text); // Hashed password
-  LogMetadataExt.PassPrintHash:= dmCrypt.hash(txtPassToPrint.Text);   // Hashed password
-  LogMetadataExt.AllowCategories := chkAllowLateEntries.Checked;
-  LogMetadataExt.AllowAddCategories := chkAllowAddCategories.Checked;
-  LogMetadataExt.AllowLateEntries := chkAllowLateEntries.Checked;
-  LogMetadataExt.DTDisplayFormat:=Trim(cmbDFormat.Caption + ' ' + cmbTFormat.Caption);
-
-
-  for i := 0 to listboxCategories.Count-1 do
+  if (Trim(txtLogName.Text) = '') then
   begin
-    LogMetadataExt.Categories.Add(listboxCategories.Items.Strings[i]);
+    hasError := True;
+    ShowMessage('Please enter a name for this logbook');
+  end;
+
+  if (Trim(txtOpenedBy.Text) = '') then
+  begin
+    hasError := True;
+    ShowMessage('Please enter the name of the person opening this logbook');
+  end;
+
+  if (Trim(memoLogDescription.Text) = '') then
+  begin
+    hasError := True;
+    ShowMessage('Please enter a description for this logbook');
   end;
 
 
-
-  // Pass the record over to formLogbook
-
-  if SaveDialog1.Execute then
+  if hasError = False then
   begin
-    //formStartDialog.Visible := False;             // Hide the calling form first
-    filepath := ChangeFileExt(SaveDialog1.FileName, '.logb');
-    ShowMessage(filepath);
+    // Set LogMetadataExt to the values in the form
+    LogMetadataExt.logName := txtLogName.Text;
+    LogMetadataExt.logDescription := memoLogDescription.Text;
+    LogMetadataExt.OpenedBy := txtOpenedBy.Text;
+    LogMetadataExt.DTOpened := DateTimeToFileDate(Now);
+    LogMetadataExt.DTAccessed := DateTimeToFileDate(Now);
+    LogMetadataExt.PassMaster := chkPassMaster.Checked;
+    LogMetadataExt.PassPerUser := chkPassPerUser.Checked;
+    LogMetadataExt.PassToExport := chkPassToExport.Checked;
+    LogMetadataExt.PassToPrint := chkPassToPrint.Checked;
+    LogMetadataExt.PassMasterHash:= dmCrypt.hash(txtMasterPass.Text);   // Hashed password
+    LogMetadataExt.PassExportHash:= dmCrypt.hash(txtPassToExport.Text); // Hashed password
+    LogMetadataExt.PassPrintHash:= dmCrypt.hash(txtPassToPrint.Text);   // Hashed password
+    LogMetadataExt.AllowCategories := chkAllowLateEntries.Checked;
+    LogMetadataExt.AllowAddCategories := chkAllowAddCategories.Checked;
+    LogMetadataExt.AllowLateEntries := chkAllowLateEntries.Checked;
+    LogMetadataExt.DTDisplayFormat:=Trim(cmbDFormat.Caption + ' ' + cmbTFormat.Caption);
+
+    // Convert the contents of the Categories listbox to a delimited string
+    for i := 0 to listboxCategories.Count-1 do
+    begin
+      ReplaceText(listboxCategories.Items.Strings[i], '|', ':');
+      if not i = listboxCategories.Count-1 then
+      begin
+        LogMetadataExt.Categories := listboxCategories.Items.Strings[i] + '|';
+      end
+      else
+      begin
+        LogMetadataExt.Categories := listboxCategories.Items.Strings[i];
+      end;
+    end;
+
+
+
+    // Pass the record over to formLogbook
+    try
+      if not DirectoryExists(returnDocumentsPath + '\TimberLog\') then  // Check if TimberLog user directory exists
+      begin
+        MkDir(returnDocumentsPath + '\TimberLog\');
+      end;
+    finally
+      SaveDialog1.InitialDir := returnDocumentsPath + '\TimberLog';
+    end;
+
+    if SaveDialog1.Execute then
+    begin
+      formStartDialog.Visible := False;             // Hide the calling form first
+      filepath := ChangeFileExt(SaveDialog1.FileName, '.logb');
+
+
+      // Add to out Most recently used files
+      mruMgr.IniFileName := GetAppConfigDir(True) + 'Test.ini';
+      mruMgr.IniSection := 'RecentLogbooks';
+      mruMgr.MaxRecent := 9;
+      mruMgr.AddToRecent(filepath);
+
+
+      //ShowMessage(filepath);
+
+      newFormLogbook := TformLogbook.Create(Nil, filepath, lblTypepath.Caption, LogMetadataExt); // Use this format when making a new logbook
+
+      newFormLogbook.ShowModal;                     //newFormLogbook is displayed
+      FreeAndNil(newFormLogbook);                   //Free newFormLogbook
+
+    end;
   end;
-  //newFormLogbook := TformLogbook.Create(Nil, 'filepath', RLogMetadata); // Use this format when making a new logbook
-
-  //newFormLogbook.ShowModal;                     //Form2 is displayed
-  //FreeAndNil(newFormLogbook);                   //Free Form2
-
-
 
 
 
@@ -504,126 +622,15 @@ begin
 end;
 
 procedure TformStartDialog.FormCreate(Sender: TObject);
-var
-  i : Integer;
-  fileList : TStringList;
-  errorMsg, Logbook_Type : String;
-  Description : TStringList;
 begin
-  fileList := TStringList.Create;
 
-
-  SetLength(FrameTypeTile, 1);
-
-  getTypeFileList(fileList);
-
-
-  fileList.Sort;
-
-  ////////////////// CHECK THE ERROR MESSAGE BEFORE PROCEEDING! ////////////
-  if fileList.Strings[0] = 'None' then
-  begin
-    memoDetails.Lines.Clear;
-    memoDetails.Lines.AddText('No Logbook types were found.');
-    memoDetails.Lines.AddText(' ');
-    memoDetails.Lines.AddText('Please refer to the manual in order to correct this problem and add new types.');
-
-  end
-  else
-  begin
-    for i := fileList.Count-1 downto 0 do
-    begin
-      Description := TStringList.Create;
-      SetLength(FrameTypeTile, Length(FrameTypeTile)+1);
-
-      processTypeFile(fileList[i], errorMsg, Logbook_Type, Description);
-
-      FrameTypeTile[i] := TframeTypeTile.Create(formStartDialog);
-      FrameTypeTile[i].Name := '';
-      FrameTypeTile[i].Parent := ScrollBox1;
-      FrameTypeTile[i].Align := alTop;
-      FrameTypeTile[i].setColorInitial(clbBGDefault);
-      FrameTypeTile[i].setColorLeave(clbBGDefault);
-      FrameTypeTile[i].setColorEnter(clbBGMouseOver);
-      FrameTypeTile[i].setColorDown(clbBGClicked);
-      FrameTypeTile[i].setColorUp(clbBGMouseOver);
-      FrameTypeTile[i].setTitle(Logbook_Type);
-      FrameTypeTile[i].setDescription(Description.Strings[0]);
-      FrameTypeTile[i].setPath(fileList.Strings[i]);
-
-
-      FrameTypeTile[i].DescriptionStrings.Strings := Description;
-      // ShowMessage(errorMsg);
-      Description.Free;
-    end;
-  end;
-
-
-
-  fileList.Free;
-
-
-end;
-
-procedure TformStartDialog.listboxRecentMouseDown(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-var
-  ARect : TRect;
-begin
-  ARect := listboxRecent.ItemRect(listboxRecent.ItemAtPos(Point(X,Y), True));
-  listboxRecent.Canvas.Brush.Color := clWhite;
-  listboxRecent.Canvas.FillRect(ARect);
-  listboxRecent.Canvas.Font.Color:=clbVividTextClicked;
-  listboxRecent.Canvas.TextOut(ARect.Left, ARect.Top, listboxRecent.Items[listboxRecent.ItemAtPos(Point(X,Y), True)]);
-end;
-
-procedure TformStartDialog.listboxRecentMouseEnter(Sender: TObject);
-var
-  i : Integer;
-begin
-  listboxRecent.SetFocus;
-  for i := 0 to listboxRecent.Count-1 do
-  begin
-    listboxRecentDrawItem(listboxRecent, i, listboxRecent.ItemRect(i), [odNoFocusRect]);
-    listboxRecent.Selected[i] := False;
-  end;
-end;
-
-procedure TformStartDialog.listboxRecentMouseLeave(Sender: TObject);
-var
-  i :Integer;
-begin
-  listboxRecent.ItemIndex := -1;
-
-  for i := 0 to listboxRecent.Count-1 do
-  begin
-    listboxRecentDrawItem(listboxRecent, i, listboxRecent.ItemRect(i), [odNoFocusRect]);
-    listboxRecent.Selected[i] := False;
-  end;
-end;
-
-procedure TformStartDialog.listboxRecentMouseMove(Sender: TObject; Shift: TShiftState; X,
-  Y: Integer);
-begin
-  listboxRecent.ItemIndex := listboxRecent.ItemAtPos(Point(X,Y), True);
-end;
-
-procedure TformStartDialog.listboxRecentMouseUp(Sender: TObject;
-  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
-var
-  ARect : TRect;
-begin
-  ARect := listboxRecent.ItemRect(listboxRecent.ItemAtPos(Point(X,Y), True));
-  listboxRecent.Canvas.Brush.Color := clWhite;
-  listboxRecent.Canvas.FillRect(ARect);
-  listboxRecent.Canvas.Font.Color:=clbVividTextMouseOver;
-  listboxRecent.Canvas.TextOut(ARect.Left, ARect.Top, listboxRecent.Items[listboxRecent.ItemAtPos(Point(X,Y), True)]);
 end;
 
 procedure TformStartDialog.pgNewLogbookBeforeShow(ASender: TObject;
   ANewPage: TPage; ANewIndex: Integer);
 begin
   lblBack.Visible := True;
+  resetPages;
 end;
 
 procedure TformStartDialog.pgNewTypesBeforeShow(ASender: TObject;
@@ -638,17 +645,18 @@ begin
   lblBack.Visible := True;
 end;
 
-procedure TformStartDialog.ShellListView1Change(Sender: TObject;
-  Item: TListItem; Change: TItemChange);
-begin
-
-end;
-
 // Create a new TformLogbook and pass the filepath to it
 procedure TformStartDialog.ShellListView1DblClick(Sender: TObject);
 var
   newFormLogbook : TformLogbook;
 begin
+
+  // Add to out Most recently used files
+  mruMgr.IniFileName := GetAppConfigDir(True) + 'Test.ini';
+  mruMgr.IniSection := 'RecentLogbooks';
+  mruMgr.MaxRecent := 9;
+  mruMgr.AddToRecent(ShellListView1.GetPathFromItem(ShellListView1.Selected));
+
   formStartDialog.Visible := False;             // Hide the calling form first
   newFormLogbook := TformLogbook.Create(Nil, ShellListView1.GetPathFromItem(ShellListView1.Selected));
 
@@ -683,6 +691,8 @@ begin
   lblNow.Caption := FormatDateTime(cmbDFormat.Caption + ' ' + cmbTFormat.Caption, Now);
 end;
 
+
+// NOT GUI SPECIFIC. THIS SHOULD BE HANDLED ELSEWHERE (another unit). PASS memoDetails TO THE PROCEDURE
 procedure TformStartDialog.WriteRecordToMemo(LogMetadata : RLogMetadata);
 begin
   memoDetails.Lines.Clear;

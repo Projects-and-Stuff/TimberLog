@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, StrHolder, Forms, Controls, StdCtrls, ExtCtrls,
-  Graphics, Dialogs;
+  Graphics, Dialogs, messages, windows, LMessages;
 
 type
 
@@ -34,6 +34,8 @@ type
     ColorUp : TColor;
   public
     { public declarations }
+    constructor Create(AOwner: TComponent); override;
+    destructor Destroy; override;
   published
     procedure setColorEnter(newColor : TColor);
     procedure setColorLeave(newColor : TColor);
@@ -43,8 +45,7 @@ type
     procedure setTitle(newTitle : String);
     procedure setDescription(newDescription : String);
     procedure setPath(newPath : String);
-
-
+    procedure Kill;
   end;
 
 implementation
@@ -55,6 +56,17 @@ uses
 {$R *.lfm}
 
 { TframeTypeTile }
+
+constructor TframeTypeTile.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  Name := '';
+end;
+
+destructor TframeTypeTile.Destroy;
+begin
+  inherited Destroy;
+end;
 
 procedure TframeTypeTile.imgOverlayMouseEnter(Sender: TObject);
 var
@@ -81,9 +93,36 @@ begin
 end;
 
 procedure TframeTypeTile.imgOverlayClick(Sender: TObject);
+var
+  lblParentTypepath : TLabel;
+  lblParentNewLogbook : TLabel;
+  notebookParent : TNotebook;
 begin
-  ShowMessage(lblPath.Caption);
-  // performSomething(lblPath.Caption);
+  //ShowMessage(lblPath.Caption);
+
+  shapeBG.Brush.Color := ColorLeave;
+
+  // Since the frame is created at runtime, it can't directly access the
+  // parent (formStartDialog) or its components. So we have to search for
+  // memoDetails etc to apply properties.
+  lblParentNewLogbook := TLabel(Owner.FindComponent('lblNewLogbook'));
+  if assigned(lblParentNewLogbook) then
+  begin
+    lblParentNewLogbook.Caption := 'New Logbook - Type: ' + lblTitle.Caption;
+  end;
+
+  notebookParent := TNotebook(Owner.FindComponent('Notebook1'));
+  if assigned(notebookParent) then
+  begin
+    notebookParent.PageIndex := 1;
+  end;
+
+  lblParentTypepath := TLabel(Owner.FindComponent('lblTypepath'));
+  if assigned(lblParentTypepath) then
+  begin
+    lblParentTypepath.Caption := lblPath.Caption;
+  end;
+
 end;
 
 procedure TframeTypeTile.imgOverlayMouseLeave(Sender: TObject);
@@ -154,6 +193,11 @@ end;
 procedure TframeTypeTile.setPath(newPath: String);
 begin
   lblPath.Caption := newPath;
+end;
+
+procedure TframeTypeTile.Kill;
+begin
+  Application.ReleaseComponent(Self);
 end;
 
 

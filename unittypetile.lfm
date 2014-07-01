@@ -8,8 +8,8 @@ object frameTypeTile: TframeTypeTile
   Color = clWhite
   ParentColor = False
   TabOrder = 0
-  DesignLeft = 389
-  DesignTop = 156
+  DesignLeft = 394
+  DesignTop = 268
   object shapeBG: TShape
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -27,7 +27,6 @@ object frameTypeTile: TframeTypeTile
     BorderSpacing.Right = 4
     BorderSpacing.Bottom = 2
     Brush.Color = clSkyBlue
-    Shape = stRoundRect
   end
   object lblTitle: TLabel
     AnchorSideRight.Control = shapeBG

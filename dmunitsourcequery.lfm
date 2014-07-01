@@ -1,20 +1,25 @@
 object dmSourceQuery: TdmSourceQuery
   OldCreateOrder = False
   Height = 63
-  HorizontalOffset = 352
-  VerticalOffset = 352
-  Width = 227
+  HorizontalOffset = 393
+  VerticalOffset = 350
+  Width = 316
   object DataSource1: TDataSource
-    DataSet = SQLQuery1
+    DataSet = SQLQuery
     left = 24
     top = 8
   end
-  object SQLQuery1: TSQLQuery
+  object SQLQuery: TSQLQuery
     FieldDefs = <>
     Database = dmConnectTransaction.SQLite3Connection1
     Transaction = dmConnectTransaction.SQLTransaction1
     Params = <>
     left = 96
+    top = 8
+  end
+  object Sqlite3Dataset1: TSqlite3Dataset
+    MasterSource = DataSource1
+    left = 256
     top = 8
   end
 end

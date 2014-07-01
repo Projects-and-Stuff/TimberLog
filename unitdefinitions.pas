@@ -28,13 +28,12 @@ var
 implementation
 
 begin
-
-
-  clbLightest := RGBToColor(255,231,244);
-  clbLight := RGBToColor(238,123,188);
-  clbMedium := RGBToColor(225,  0,127);
-  clbDark := RGBToColor(165,  0, 93);
-  clbDarkest := RGBToColor(120,  0, 68);
+  // Blue
+  clbLightest := RGBToColor(205,235,235);
+  clbLight := RGBToColor(167,222,222);
+  clbMedium := RGBToColor(130,208,208);
+  clbDark := RGBToColor( 99,195,195);
+  clbDarkest := RGBToColor( 73,184,184);
 
 
   clbBGDefault := clbLightest;

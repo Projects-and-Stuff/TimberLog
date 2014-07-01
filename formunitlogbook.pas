@@ -16,9 +16,6 @@ type
   { TformLogbook }
 
   TformLogbook = class(TForm)
-    btnAddToLog: TButton;
-    btnResetSearch: TButton;
-    btnSearch: TButton;
     Button1: TButton;
     CheckBox1: TCheckBox;
     chkFilterByDate: TCheckBox;
@@ -29,6 +26,9 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
+    lblAddNewEntry: TLabel;
+    lblReset: TLabel;
+    lblSearch: TLabel;
     LabeledEdit1: TLabeledEdit;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
@@ -76,6 +76,8 @@ type
     procedure Button1Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure lblAddNewEntryClick(Sender: TObject);
     procedure mnuChangeFontClick(Sender: TObject);
     procedure mnuViewManualClick(Sender: TObject);
     procedure mnuVisitWebsiteClick(Sender: TObject);
@@ -85,11 +87,19 @@ type
     procedure mnuNewLogbookClick(Sender: TObject);
     procedure mnuExitClick(Sender: TObject);
     procedure mnuCloseClick(Sender: TObject);
+    procedure LabelAsButtonMouseDown(Sender: TObject;
+      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure LabelAsButtonMouseLeave(Sender: TObject);
+    procedure LabelAsButtonMouseMove(Sender: TObject;
+      Shift: TShiftState; X, Y: Integer);
+    procedure LabelAsButtonMouseUp(Sender: TObject;
+      Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+    procedure txtSearchKeyPress(Sender: TObject; var Key: char);
   private
 
     { private declarations }
   public
-    constructor Create(AOwner: TComponent; const filepath: String;
+    constructor Create(AOwner: TComponent; const filepath: String; const typepath : String;
       const InputMetadataExt: RLogMetadataExt);
     constructor Create(AOwner: TComponent; const filepath: String);
     { public declarations }
@@ -117,11 +127,13 @@ begin
 end;
 
 // Used to create a new logbook
-constructor TformLogbook.Create(AOwner: TComponent; const filepath : String; const InputMetadataExt : RLogMetadataExt);
+constructor TformLogbook.Create(AOwner: TComponent; const filepath : String; const typepath : String; const InputMetadataExt : RLogMetadataExt);
 begin
   inherited Create(AOwner);
 
-  ATLogbook.NewLogbook(filepath, InputMetadataExt);
+  ShowMessage(IntToStr(Length(InputMetadataExt.Categories)))
+
+  //ATLogbook.NewLogbook(filepath, InputMetadataExt);
 end;
 
 
@@ -138,6 +150,21 @@ procedure TformLogbook.FormCreate(Sender: TObject);
 begin
   Splitter1.Color := clbMedium;
   Splitter2.Color := clbMedium;
+end;
+
+procedure TformLogbook.FormShow(Sender: TObject);
+begin
+  dtEnd.DateTime := Now;
+
+  lblAddNewEntry.Font.Color := clbVividTextDefault;
+  lblReset.Font.Color := clbVividTextDefault;
+  lblSearch.Font.Color := clbVividTextDefault;
+
+end;
+
+procedure TformLogbook.lblAddNewEntryClick(Sender: TObject);
+begin
+
 end;
 
 procedure TformLogbook.mnuChangeFontClick(Sender: TObject);
@@ -213,6 +240,16 @@ begin
   Close;
 end;
 
+procedure TformLogbook.btnResetSearchClick(Sender: TObject);
+begin
+
+end;
+
+procedure TformLogbook.btnSearchClick(Sender: TObject);
+begin
+
+end;
+
 procedure TformLogbook.Button1Click(Sender: TObject);
 var
   testLogMetadata : RLogMetadata;
@@ -237,14 +274,43 @@ begin
   //ATLogbook.NewLogbook();
 end;
 
-procedure TformLogbook.btnSearchClick(Sender: TObject);
+procedure TformLogbook.LabelAsButtonMouseLeave(Sender: TObject);
 begin
-
+  with (Sender as TLabel) do begin
+    (Sender as TLabel).Font.Color := clbVividTextDefault;
+  end;
 end;
 
-procedure TformLogbook.btnResetSearchClick(Sender: TObject);
+procedure TformLogbook.LabelAsButtonMouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
 begin
+  with (Sender as TLabel) do begin
+    (Sender as TLabel).Font.Color := clbVividTextClicked;
+  end;
+end;
 
+procedure TformLogbook.LabelAsButtonMouseMove(Sender: TObject;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  with (Sender as TLabel) do begin
+    (Sender as TLabel).Font.Color := clbVividTextMouseOver;
+  end;
+end;
+
+procedure TformLogbook.LabelAsButtonMouseUp(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+  with (Sender as TLabel) do begin
+    (Sender as TLabel).Font.Color := clbVividTextMouseOver;
+  end;
+end;
+
+procedure TformLogbook.txtSearchKeyPress(Sender: TObject; var Key: char);
+begin
+  if key = #13 then
+    begin
+      //PerformSearch;
+    end;
 end;
 
 initialization

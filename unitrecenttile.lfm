@@ -1,0 +1,72 @@
+object frameRecentTile: TframeRecentTile
+  Left = 0
+  Height = 36
+  Top = 0
+  Width = 387
+  ClientHeight = 36
+  ClientWidth = 387
+  TabOrder = 0
+  DesignLeft = 389
+  DesignTop = 156
+  object shapeBG: TShape
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 4
+    Height = 32
+    Top = 2
+    Width = 379
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 4
+    BorderSpacing.Top = 2
+    BorderSpacing.Right = 4
+    BorderSpacing.Bottom = 2
+    Pen.Style = psClear
+    Shape = stRoundRect
+  end
+  object lblFilename: TLabel
+    AnchorSideLeft.Control = shapeBG
+    AnchorSideTop.Control = shapeBG
+    AnchorSideRight.Control = shapeBG
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = shapeBG
+    AnchorSideBottom.Side = asrBottom
+    Left = 10
+    Height = 31
+    Top = 3
+    Width = 373
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    AutoSize = False
+    BorderSpacing.Left = 6
+    BorderSpacing.Top = 1
+    Caption = 'File Name'
+    Font.CharSet = ANSI_CHARSET
+    Font.Height = -27
+    Font.Name = 'Courier New'
+    Font.Pitch = fpFixed
+    Font.Quality = fqDraft
+    ParentColor = False
+    ParentFont = False
+  end
+  object imgOverlay: TImage
+    AnchorSideLeft.Control = Owner
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Owner
+    AnchorSideBottom.Side = asrBottom
+    Left = 0
+    Height = 36
+    Top = 0
+    Width = 387
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    OnClick = imgOverlayClick
+    OnMouseDown = imgOverlayMouseDown
+    OnMouseEnter = imgOverlayMouseEnter
+    OnMouseLeave = imgOverlayMouseLeave
+    OnMouseUp = imgOverlayMouseUp
+  end
+end

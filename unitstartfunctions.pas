@@ -28,6 +28,7 @@ uses
     Default_Categories: TStringList; Default_Text: TStringList;
     One_Line: TStringList; Multi_Line: TStringList);
   procedure getTypeFileList(var fileList : TStringList);
+  procedure Split (const Delimiter: Char; Input: string; const Strings: TStrings);
 
 implementation
 
@@ -40,11 +41,39 @@ begin
 
 end;
 
+procedure Split(const Delimiter: Char; Input: string; const Strings: TStrings);
+begin
+   Assert(Assigned(Strings)) ;
+   Strings.Clear;
+   Strings.StrictDelimiter := true;
+   Strings.Delimiter := Delimiter;
+   Strings.DelimitedText := Input;
+end;
+
 procedure resetPages;
 begin
-  formStartDialog.Notebook1.PageIndex := 0; // Reset to the default page on formStartDialog
+  //formStartDialog.Notebook1.PageIndex := 0; // Reset to the default page on formStartDialog
 
   // Clear out all the components on page 1
+  formStartDialog.txtLogName.Clear;
+  formStartDialog.memoLogDescription.Clear;
+  formStartDialog.chkPassMaster.Checked:=False;
+  formStartDialog.chkPassToExport.Checked:=False;
+  formStartDialog.chkPassToPrint.Checked:=False;
+  formStartDialog.chkPassPerUser.Checked:=False;
+  formStartDialog.txtMasterPass.Clear;
+  formStartDialog.txtMasterPass1.Clear;
+  formStartDialog.txtPassToExport.Clear;
+  formStartDialog.txtPassToExport1.Clear;
+  formStartDialog.txtPassToPrint.Clear;
+  formStartDialog.txtPassToPrint1.Clear;
+  formStartDialog.txtOpenedBy.Clear;
+  formStartDialog.cmbDFormat.ItemIndex:=0;
+  formStartDialog.cmbTFormat.ItemIndex:=0;
+  formStartDialog.chkAllowCategories.Checked:=False;
+  formStartDialog.chkAllowAddCategories.Checked:=False;
+  formStartDialog.txtCategory.Clear;
+  formStartDialog.listboxCategories.Clear;
 
 
 
@@ -57,7 +86,6 @@ begin
     begin
       MkDir(returnDocumentsPath + '\TimberLog\');
     end;
-
 
     formStartDialog.ShellTreeView1.Path := returnDocumentsPath + '\TimberLog\';
   finally
@@ -105,6 +133,7 @@ begin
   end;
 
   readLogMetadata := LogMetadata; // Return the record
+
 
 end;
 

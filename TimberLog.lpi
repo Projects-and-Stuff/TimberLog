@@ -18,7 +18,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="1"/>
-      <BuildNr Value="386"/>
+      <BuildNr Value="453"/>
       <StringTable ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -32,48 +32,54 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="13">
+    <RequiredPackages Count="15">
       <Item1>
-        <PackageName Value="rx"/>
+        <PackageName Value="lazmrumenu"/>
       </Item1>
       <Item2>
-        <PackageName Value="gradcontrols"/>
+        <PackageName Value="sqlite3laz"/>
       </Item2>
       <Item3>
-        <PackageName Value="dcpcrypt"/>
+        <PackageName Value="rx"/>
       </Item3>
       <Item4>
-        <PackageName Value="SearchBarPackage"/>
+        <PackageName Value="gradcontrols"/>
       </Item4>
       <Item5>
-        <PackageName Value="ZVDateTimeCtrls"/>
+        <PackageName Value="dcpcrypt"/>
       </Item5>
       <Item6>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="SearchBarPackage"/>
       </Item6>
       <Item7>
-        <PackageName Value="richmemopackage"/>
+        <PackageName Value="ZVDateTimeCtrls"/>
       </Item7>
       <Item8>
-        <PackageName Value="FCL"/>
+        <PackageName Value="SynEdit"/>
       </Item8>
       <Item9>
-        <PackageName Value="SQLDBLaz"/>
+        <PackageName Value="richmemopackage"/>
       </Item9>
       <Item10>
-        <PackageName Value="RunTimeTypeInfoControls"/>
+        <PackageName Value="FCL"/>
       </Item10>
       <Item11>
-        <PackageName Value="KControlsLaz"/>
+        <PackageName Value="SQLDBLaz"/>
       </Item11>
       <Item12>
-        <PackageName Value="lazmxstorage"/>
+        <PackageName Value="RunTimeTypeInfoControls"/>
       </Item12>
       <Item13>
-        <PackageName Value="LCL"/>
+        <PackageName Value="KControlsLaz"/>
       </Item13>
+      <Item14>
+        <PackageName Value="lazmxstorage"/>
+      </Item14>
+      <Item15>
+        <PackageName Value="LCL"/>
+      </Item15>
     </RequiredPackages>
-    <Units Count="13">
+    <Units Count="21">
       <Unit0>
         <Filename Value="TimberLog.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -160,6 +166,49 @@
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="unitTypeTile"/>
       </Unit12>
+      <Unit13>
+        <Filename Value="unittablecategories.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="unitTableCategories"/>
+      </Unit13>
+      <Unit14>
+        <Filename Value="unittableentries.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="unitTableEntries"/>
+      </Unit14>
+      <Unit15>
+        <Filename Value="unittablesettings.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="unitTableSettings"/>
+      </Unit15>
+      <Unit16>
+        <Filename Value="unittableusers.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="unitTableUsers"/>
+      </Unit16>
+      <Unit17>
+        <Filename Value="unittabletemplates.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="unitTableTemplates"/>
+      </Unit17>
+      <Unit18>
+        <Filename Value="unitguihelper.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="unitGUIHelper"/>
+      </Unit18>
+      <Unit19>
+        <Filename Value="mrumanager.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="mrumanager"/>
+      </Unit19>
+      <Unit20>
+        <Filename Value="unitrecenttile.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frameRecentTile"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Frame"/>
+        <UnitName Value="unitRecentTile"/>
+      </Unit20>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

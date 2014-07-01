@@ -1,7 +1,7 @@
 object formStartDialog: TformStartDialog
-  Left = 462
+  Left = 391
   Height = 731
-  Top = 131
+  Top = 246
   Width = 1210
   BorderStyle = bsNone
   Caption = 'formStartDialog'
@@ -10,6 +10,7 @@ object formStartDialog: TformStartDialog
   Color = clWhite
   OnClose = FormClose
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   OnShow = FormShow
   Position = poScreenCenter
   SessionProperties = 'Width;Position;Height;Notebook1.PageIndex'
@@ -43,11 +44,11 @@ object formStartDialog: TformStartDialog
     Height = 415
     Top = 73
     Width = 824
-    PageIndex = 2
+    PageIndex = 0
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Right = 5
     Color = clWhite
-    TabOrder = 1
+    TabOrder = 0
     TabStop = True
     object pgNewTypes: TPage
       OnBeforeShow = pgNewTypesBeforeShow
@@ -88,7 +89,7 @@ object formStartDialog: TformStartDialog
     object pgNewLogbook: TPage
       OnBeforeShow = pgNewLogbookBeforeShow
       Color = clWhite
-      object Label7: TLabel
+      object lblNewLogbook: TLabel
         Left = 8
         Height = 31
         Top = 8
@@ -150,57 +151,45 @@ object formStartDialog: TformStartDialog
           object Label9: TLabel
             Left = 8
             Height = 15
+            Hint = 'The logbook name may be the name of the piece of equipment or experiment this logbook will be used for, the serial number of a piece of equipment, etc.'
             Top = 16
             Width = 85
             Caption = 'Logbook Name:'
             ParentColor = False
+            ParentShowHint = False
+            ShowHint = True
             WordWrap = True
           end
           object txtLogName: TEdit
             Left = 152
             Height = 23
+            Hint = 'The logbook name may be the name of the piece of equipment or experiment this logbook will be used for, the serial number of a piece of equipment, etc.'
             Top = 16
             Width = 238
             MaxLength = 64
+            ParentShowHint = False
+            ShowHint = True
             TabOrder = 0
-          end
-          object Label8: TLabel
-            Left = 8
-            Height = 15
-            Top = 56
-            Width = 79
-            Caption = 'Logbook Type:'
-            ParentColor = False
-          end
-          object cmbType: TComboBox
-            Left = 152
-            Height = 23
-            Top = 56
-            Width = 238
-            ItemHeight = 15
-            MaxLength = 64
-            Style = csDropDownList
-            TabOrder = 1
           end
           object Label11: TLabel
             Left = 8
             Height = 15
-            Top = 96
+            Top = 56
             Width = 113
             Caption = 'Logbook Description:'
             ParentColor = False
           end
           object memoLogDescription: TMemo
             Left = 152
-            Height = 144
+            Height = 184
             Hint = 'Please provide a short description of your new logbook here.'#13#10#13#10'Keep in mind that any information posted here will be publicly viewable.'#13#10#13#10'Do not post sensitive information here.'
-            Top = 96
+            Top = 56
             Width = 238
             MaxLength = 1024
             ParentShowHint = False
             ScrollBars = ssAutoVertical
             ShowHint = True
-            TabOrder = 2
+            TabOrder = 1
           end
           object GroupBox1: TGroupBox
             Left = 408
@@ -210,7 +199,7 @@ object formStartDialog: TformStartDialog
             Caption = 'Password Options:'
             ClientHeight = 247
             ClientWidth = 378
-            TabOrder = 3
+            TabOrder = 2
             object chkPassToExport: TCheckBox
               Left = 9
               Height = 19
@@ -333,7 +322,7 @@ object formStartDialog: TformStartDialog
             Top = 258
             Width = 238
             MaxLength = 64
-            TabOrder = 4
+            TabOrder = 3
           end
         end
         object pgOptionalSettings: TPage
@@ -547,6 +536,15 @@ object formStartDialog: TformStartDialog
         Width = 808
         Pen.Color = clActiveBorder
       end
+      object lblTypepath: TLabel
+        Left = 16
+        Height = 24
+        Top = 392
+        Width = 792
+        AutoSize = False
+        ParentColor = False
+        Visible = False
+      end
     end
     object pgOpenLogbook: TPage
       OnBeforeShow = pgOpenLogbookBeforeShow
@@ -611,7 +609,6 @@ object formStartDialog: TformStartDialog
         ReadOnly = True
         ScrollBars = ssAutoBoth
         TabOrder = 1
-        OnChange = ShellListView1Change
         OnDblClick = ShellListView1DblClick
         OnSelectItem = ShellListView1SelectItem
         ObjectTypes = [otNonFolders]
@@ -684,8 +681,8 @@ object formStartDialog: TformStartDialog
     ParentFont = False
   end
   object lblOpenOtherLogbooks: TLabel
-    AnchorSideLeft.Control = listboxRecent
     AnchorSideLeft.Side = asrCenter
+    AnchorSideBottom.Control = Shape1
     Left = 16
     Height = 31
     Top = 672
@@ -770,7 +767,7 @@ object formStartDialog: TformStartDialog
     ParentFont = False
     ReadOnly = True
     ScrollBars = ssAutoVertical
-    TabOrder = 3
+    TabOrder = 2
   end
   object Splitter2: TSplitter
     AnchorSideLeft.Control = Splitter1
@@ -874,39 +871,6 @@ object formStartDialog: TformStartDialog
     }
     OnClick = SpeedButton1Click
   end
-  object listboxRecent: TListBox
-    AnchorSideLeft.Control = Owner
-    AnchorSideRight.Control = Splitter1
-    Left = 24
-    Height = 440
-    Top = 200
-    Width = 352
-    Anchors = [akTop, akLeft, akRight]
-    BorderSpacing.Left = 24
-    BorderStyle = bsNone
-    Color = clWhite
-    Font.CharSet = ANSI_CHARSET
-    Font.Color = clSkyBlue
-    Font.Height = -27
-    Font.Name = 'Courier New'
-    Font.Pitch = fpFixed
-    Font.Quality = fqDraft
-    Items.Strings = (
-      'MyLog.logb'
-      'Radar.logb'
-      'TPS-59 SN A6.logb'
-    )
-    ItemHeight = 40
-    OnDrawItem = listboxRecentDrawItem
-    OnMouseMove = listboxRecentMouseMove
-    OnMouseDown = listboxRecentMouseDown
-    OnMouseUp = listboxRecentMouseUp
-    OnMouseEnter = listboxRecentMouseEnter
-    OnMouseLeave = listboxRecentMouseLeave
-    ParentFont = False
-    Style = lbOwnerDrawVariable
-    TabOrder = 0
-  end
   object SpeedButton2: TSpeedButton
     Left = 1150
     Height = 22
@@ -972,7 +936,7 @@ object formStartDialog: TformStartDialog
     Width = 75
     Caption = 'TestLogForm'
     OnClick = Button1Click
-    TabOrder = 5
+    TabOrder = 4
   end
   object Shape5: TShape
     AnchorSideRight.Control = Splitter1
@@ -984,7 +948,6 @@ object formStartDialog: TformStartDialog
     BorderSpacing.Right = 8
   end
   object lblBack: TLabel
-    AnchorSideLeft.Control = listboxRecent
     AnchorSideLeft.Side = asrCenter
     AnchorSideRight.Control = Splitter1
     Left = 262
@@ -1017,7 +980,7 @@ object formStartDialog: TformStartDialog
     Width = 75
     Caption = 'TestPageNew'
     OnClick = Button2Click
-    TabOrder = 6
+    TabOrder = 5
   end
   object Button3: TButton
     Left = 960
@@ -1026,10 +989,30 @@ object formStartDialog: TformStartDialog
     Width = 75
     Caption = 'Crypt Test'
     OnClick = Button3Click
+    TabOrder = 6
+  end
+  object ScrollBox2: TScrollBox
+    AnchorSideLeft.Control = Shape1
+    AnchorSideTop.Control = Label1
+    AnchorSideTop.Side = asrBottom
+    AnchorSideRight.Control = Splitter1
+    AnchorSideBottom.Control = Shape2
+    Left = 20
+    Height = 449
+    Top = 199
+    Width = 356
+    HorzScrollBar.Page = 1
+    VertScrollBar.Page = 1
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    BorderSpacing.Left = 20
+    BorderStyle = bsNone
     TabOrder = 7
   end
   object IniPropStorage1: TIniPropStorage
-    StoredValues = <>
+    StoredValues = <    
+      item
+        Name = 'MRUList'
+      end>
     IniFileName = 'Test.ini'
     left = 528
     top = 16
@@ -1039,5 +1022,10 @@ object formStartDialog: TformStartDialog
     Filter = 'TimberLog Logbook|*.logb'
     left = 589
     top = 16
+  end
+  object mruMgr: TMRUMenuManager
+    MaxRecent = 9
+    left = 998
+    top = 524
   end
 end

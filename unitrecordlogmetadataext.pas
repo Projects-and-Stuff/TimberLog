@@ -24,16 +24,15 @@ type
       PassPerUser : Boolean;		// Are users required to use individual passwords to submit entries?
       PassToExport : Boolean;		// Are users required to enter a password to export to text/pdf/other formats?
       PassToPrint : Boolean;		// Are users required to enter a password to print the logbook?
-      PassMasterHash : String;           // Hashed Master Password
-      PassExportHash : String;           // Hashed Export Password (Can be recovered using master password)
-      PassPrintHash : String;            // Hashed Print Password  (Can be recovered using master password)
+      PassMasterHash : String;          // Hashed Master Password
+      PassExportHash : String;          // Hashed Export Password (Can be recovered using master password)
+      PassPrintHash : String;           // Hashed Print Password  (Can be recovered using master password)
       AllowCategories : Boolean;	// Are categories allowed in this logbook?
       AllowAddCategories : Boolean;	// Can users add to the list of categories (or are the categories constants?)
       AllowLateEntries : Boolean;	// Are users allowed to add late entries? (the logbook creator that the actual date is also saved)
-      Categories : TStringList;         // The list of categories
+      Categories : String;              // The list of categories
       DTDisplayFormat : String; 	// Format string for the DateTime fields (internally stored as LongInt)
     end;
-
 
   {
   headerMark and footerMark definition:
