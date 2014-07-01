@@ -16,7 +16,8 @@ type
   // It provides basic metadata about the logbook for display to end users
   RLogMetadata = packed record
     headerMark : array [0..10] of char;		// used to verify TLogMetadata
-    checksum : array [0..63] of char;		// Checksum of entire file (minus RLogMetadata)
+    checksum : array [0..63] of char;		// Checksum of RLogMetadata
+    fileChecksum : array [0..63] of char;	// Checksum of entire file (minus RLogMetadata)
     logName : array [0..63] of char;		// Serial Number or Name of equipment (Should match the value in Settings table)
     logDescription : array [0..1023] of char;	// Short description or directions for this logbook (Should match the value in Settings table)
     OpenedBy : array [0..63] of char;		// Name of person opening the logbook (Should match the value in Settings table)

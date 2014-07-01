@@ -90,7 +90,7 @@ begin
       memoParentDetails.Lines.Clear;
       tempLogbook.Path := Path;
       tempLogbook.readLogMetadata();
-      tempLogbook.WriteRecordToMemo(memoParentDetails);
+      tempLogbook.WriteMetadataToMemo(memoParentDetails);
     end;
   finally
     tempLogbook.Free;

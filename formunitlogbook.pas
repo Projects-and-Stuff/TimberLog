@@ -8,7 +8,7 @@ uses
   Classes, SysUtils, FileUtil, SynEdit, SynCompletion, SynHighlighterAny,
   SynExportHTML, RichMemo, ZVDateTimePicker, Forms, Controls,
   Graphics, Dialogs, IniPropStorage, StdCtrls, Menus, ExtCtrls,
-  unitClassLogbook, unitRecordLogMetadataExt, unitRecordLogMetadata, LCLIntf,
+  unitClassLogbook, unitRecordLogMetadata, LCLIntf,
   ComCtrls, unitStartFunctions, unitDefinitions;
 
 type
@@ -100,8 +100,7 @@ type
     { private declarations }
   public
     constructor Create(AOwner: TComponent; const inputLogbook : TLogbook);
-    constructor Create(AOwner: TComponent; const filepath: String; const typepath : String;
-      const InputMetadataExt: RLogMetadataExt);
+    constructor Create(AOwner: TComponent; const filepath: String; const typepath : String);
     constructor Create(AOwner: TComponent; const filepath: String);
     { public declarations }
   end;
@@ -128,11 +127,11 @@ begin
 end;
 
 // Used to create a new logbook
-constructor TformLogbook.Create(AOwner: TComponent; const filepath : String; const typepath : String; const InputMetadataExt : RLogMetadataExt);
+constructor TformLogbook.Create(AOwner: TComponent; const filepath : String; const typepath : String);
 begin
   inherited Create(AOwner);
 
-  ShowMessage(IntToStr(Length(InputMetadataExt.Categories)))
+  //ShowMessage(IntToStr(Length(InputMetadataExt.Categories)))
 
   //ATLogbook.NewLogbook(filepath, InputMetadataExt);
 end;

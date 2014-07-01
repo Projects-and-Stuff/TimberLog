@@ -19,7 +19,25 @@ type
     { private declarations }
   public
     { public declarations }
-    procedure PerformSearch(inputObject : TObject; searchString : String = '%'; dateStart : LongInt = 0; dateEnd : LongInt = 4102444800);
+
+    /// NOTE: Each of the search procedures includes default values. So to get all records from the table, just leave the inputs blank
+
+    // procedure createDatabase // Creates the tables, sets pragma details
+    procedure entriesSearch(inputObject : TObject; searchString : String = '%'; category : String = '%'; username : String = '%'; dateStart : LongInt = 0; dateEnd : LongInt = 4102444800);
+    // procedure entriesNew
+    // procedure categoriesNew
+    // procedure categoriesSearch
+    // procedure usersSearch
+    // procedure usersAdd // Only adds one user at a time
+    // procedure usersUpdatePass // Only updates one record at a time
+    // procedure templatesSearch
+    // procedure templatesAdd
+    // procedure settingsSearch
+    // procedure settingsAdd // Only used when creating the logbook (check whether the settings exist before trying to add)
+    // procedure settingsUpdateChecksum
+    // procedure settingsUpdatePassMaster
+    // procedure settingsUpdatePassExport
+    // procedure settingsUpdatePassPrint
   end;
 
 var
@@ -38,8 +56,9 @@ implementation
 // searchString should be split up somehow!!!! Yet it should still avoid SQL injection
 // If dateStart is left blank, it defaults to the epoch
 // If dateEnd is left blank, it defaults to Jan 1, 2100
-procedure TdmSourceQuery.PerformSearch(inputObject : TObject; searchString: String; dateStart: LongInt;
-  dateEnd: LongInt);
+///////// Add search by Username and Category
+procedure TdmSourceQuery.entriesSearch(inputObject : TObject; searchString, category, username : String; dateStart : LongInt;
+  dateEnd : LongInt);
 var
   ActUpon : TRichMemo;
   tempSearchString : String;
@@ -50,8 +69,6 @@ begin
   ActUpon.Clear;
 
   // use tempSearchString to split searchString up into its individual parts and apply each term to the search
-
-
 
 
 
@@ -68,6 +85,8 @@ begin
     ParamByName('searchString').AsString := '%' + searchString + '%';
     ParamByName('dateStart').AsString := SdateStart;
     ParamByName('dateEnd').AsString := SdateEnd;
+    //ParamByName('category').AsString := SdateEnd;
+    //ParamByName('username').AsString := SdateEnd;
     Open;
 
     while not EOF do

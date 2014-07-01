@@ -10,7 +10,7 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
   StdCtrls, types, LCLType, ExtCtrls, Buttons, ShellCtrls, LCLIntf,
   IniPropStorage, formUnitLogbook, unitDefinitions, unitStartFunctions,
-  unitRecordLogMetadata, ComCtrls, Grids, unitRecordLogMetadataExt, dmUnitCrypt,
+  unitRecordLogMetadata, ComCtrls, Grids, dmUnitCrypt,
   unitTypeTile, unitRecentTile, mrumanager, strutils, Contnrs, unitClassLogbook;
 
 type
@@ -353,7 +353,6 @@ begin
   if hasError = False then
   begin
     // Set LogMetadataExt to the values in the form
-
     sendLogbook.logName := txtLogName.Text;
     sendLogbook.logDescription := memoLogDescription.Text;
     sendLogbook.OpenedBy := txtOpenedBy.Text;
@@ -373,6 +372,16 @@ begin
     sendLogbook.AllowAddCategories := chkAllowAddCategories.Checked;
     sendLogbook.AllowLateEntries := chkAllowLateEntries.Checked;
     sendLogbook.DTDisplayFormat:=Trim(cmbDFormat.Caption + ' ' + cmbTFormat.Caption);
+    // Generate salts (should this be done inside the class?)
+    Randomize;
+    dmCrypt.stringhash(IntToStr(Random(2000000000)), tempStr);
+    sendLogbook.PassMasterSalt := tempStr;
+    Randomize;
+    dmCrypt.stringhash(IntToStr(Random(2000000000)), tempStr);
+    sendLogbook.PassExportSalt := tempStr;
+    Randomize;
+    dmCrypt.stringhash(IntToStr(Random(2000000000)), tempStr);
+    sendLogbook.PassPrintSalt := tempStr;
 
     // Convert the contents of the Categories listbox to a delimited string
     for i := 0 to listboxCategories.Count-1 do
@@ -625,11 +634,10 @@ begin
   try
     tempLogbook.Path := ShellListView1.GetPathFromItem(Item);
     tempLogbook.readLogMetadata;
-    tempLogbook.WriteRecordToMemo(memoDetails); // Writes the record contents to the memo
+    tempLogbook.WriteMetadataToMemo(memoDetails); // Writes the record contents to the memo
   finally
     tempLogbook.Free;
   end;
-
 
 end;
 
