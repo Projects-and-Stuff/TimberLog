@@ -261,6 +261,7 @@ object formStartDialog: TformStartDialog
               Width = 145
               EchoMode = emPassword
               Enabled = False
+              MaxLength = 256
               PasswordChar = '*'
               TabOrder = 5
             end
@@ -271,6 +272,7 @@ object formStartDialog: TformStartDialog
               Width = 145
               EchoMode = emPassword
               Enabled = False
+              MaxLength = 256
               PasswordChar = '*'
               TabOrder = 6
             end
@@ -281,6 +283,7 @@ object formStartDialog: TformStartDialog
               Width = 145
               EchoMode = emPassword
               Enabled = False
+              MaxLength = 256
               PasswordChar = '*'
               TabOrder = 7
             end
@@ -291,6 +294,7 @@ object formStartDialog: TformStartDialog
               Width = 145
               EchoMode = emPassword
               Enabled = False
+              MaxLength = 256
               PasswordChar = '*'
               TabOrder = 8
             end

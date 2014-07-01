@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, StrHolder, Forms, Controls, StdCtrls, ExtCtrls,
-  Graphics, Dialogs;
+  Graphics, Dialogs, unitStartFunctions, unitRecordLogMetadata;
 
 type
 
@@ -25,6 +25,7 @@ type
       Shift: TShiftState; X, Y: Integer);
   private
     { private declarations }
+    FPath : String;
     ColorEnter : TColor;
     ColorLeave : TColor;
     ColorDown : TColor;
@@ -32,6 +33,7 @@ type
   public
     { public declarations }
     constructor Create(AOwner: TComponent); overload;
+    property Path: String read FPath;
   published
     procedure setColorEnter(newColor : TColor);
     procedure setColorLeave(newColor : TColor);
@@ -39,6 +41,8 @@ type
     procedure setColorDown(newColor : TColor);
     procedure setColorUp(newColor : TColor);
     procedure setFilename(newFilename : String);
+    procedure setPath(newPath : String);
+
   end;
 
 implementation
@@ -51,7 +55,11 @@ procedure TframeRecentTile.imgOverlayClick(Sender: TObject);
 begin
   shapeBG.Brush.Color := ColorLeave;
 
-  // Do something here
+  ////////////////////////
+  // Open the file here //
+  ////////////////////////
+
+
 end;
 
 procedure TframeRecentTile.imgOverlayMouseDown(Sender: TObject;
@@ -62,15 +70,40 @@ begin
 end;
 
 procedure TframeRecentTile.imgOverlayMouseEnter(Sender: TObject);
+var
+  memoParentDetails : TMemo;
+  outLogMetadata : RLogMetadata;
 begin
   shapeBG.Brush.Color := ColorEnter;
   lblFilename.Font.Style := [fsItalic];
+
+  // Since the frame is created at runtime, it can't directly access the
+  // parent (formStartDialog) or its components. So we have to search for
+  // memoDetails to apply properties.
+  memoParentDetails := TMemo(Owner.FindComponent('memoDetails'));
+  if assigned(memoParentDetails) then
+  begin
+    memoParentDetails.Lines.Clear;
+    readLogMetadata(FPath, outLogMetadata);
+    WriteRecordToMemo(outLogMetadata, memoParentDetails, FPath);
+  end;
 end;
 
 procedure TframeRecentTile.imgOverlayMouseLeave(Sender: TObject);
+var
+  memoParentDetails : TMemo;
 begin
   shapeBG.Brush.Color := ColorLeave;
   lblFilename.Font.Style := [];
+
+  // Since the frame is created at runtime, it can't directly access the
+  // parent (formStartDialog) or its components. So we have to search for
+  // memoDetails to apply properties.
+  memoParentDetails := TMemo(Owner.FindComponent('memoDetails'));
+  if assigned(memoParentDetails) then
+  begin
+    memoParentDetails.Lines.Clear;
+  end;
 end;
 
 procedure TframeRecentTile.imgOverlayMouseUp(Sender: TObject;
@@ -114,6 +147,11 @@ end;
 procedure TframeRecentTile.setFilename(newFilename: String);
 begin
   lblFilename.Caption := newFilename;
+end;
+
+procedure TframeRecentTile.setPath(newPath: String);
+begin
+  FPath := newPath;
 end;
 
 

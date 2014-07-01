@@ -165,6 +165,12 @@ end;
 procedure TformLogbook.lblAddNewEntryClick(Sender: TObject);
 begin
 
+
+
+
+
+
+  richmemoLogView.SelStart:=Length(richmemoLogView.Lines.Text)-1; // Scroll to the end (most recent entry)
 end;
 
 procedure TformLogbook.mnuChangeFontClick(Sender: TObject);

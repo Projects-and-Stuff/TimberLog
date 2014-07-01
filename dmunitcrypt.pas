@@ -18,7 +18,7 @@ type
     { private declarations }
   public
     { public declarations }
-    function hash(input : String): String;
+    procedure stringhash(input : String; out output : String);
     procedure encryptString(keystring : String; var input: String);
     procedure decryptString(keystring : String; var input: String);
     function encryptFile(keystring : String; inputFileName: String): Boolean;
@@ -34,7 +34,7 @@ implementation
 
 { TdmCrypt }
 
-function TdmCrypt.hash(input: String): String;
+procedure TdmCrypt.stringhash(input : String; out output : String);
 var
   Digest : array[0..63] of byte;  // 256bit digest (64 bytes)
   i : integer;
@@ -50,7 +50,7 @@ begin
       hashOut := hashOut + IntToHex(Digest[i],2);
     end;
 
-    hash := hashOut;
+    output := hashOut;
 end;
 
 procedure TdmCrypt.encryptString(keystring : String; var input: String);

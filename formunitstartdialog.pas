@@ -132,7 +132,6 @@ type
     procedure SpeedButton1Click(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure TabControl1Change(Sender: TObject);
-    procedure WriteRecordToMemo(LogMetadata : RLogMetadata);
   private
     { private declarations }
   public
@@ -215,32 +214,23 @@ var
   Description : TStringList;
 begin
 
-  if Assigned(recentTileList) then
+  if Assigned(recentTileList) then // Check if we've already created the recentTiles
   begin
-    recentTileList.Clear;
-  end
-  else
-  begin
-    //ShowMessage('Not Assigned');
+    recentTileList.Clear; // If so, remove them all in prep for refreshing the list
   end;
 
-  if Assigned(typeTileList) then
+  if Assigned(typeTileList) then // Check if we've already created the typeTiles
   begin
-    typeTileList.Clear;
-  end
-  else
-  begin
-    //ShowMessage('Not Assigned');
+    typeTileList.Clear; // If so, remove them all in prep for refreshing the list
   end;
 
+  recentTileList := TObjectList.create(); // Make the object lists for our frames
   typeTileList := TObjectList.create();
-  recentTileList := TObjectList.create();
 
-  mruMgr.IniFileName := GetAppConfigDir(True) + '\Test.ini';
+  mruMgr.IniFileName := GetAppConfigDir(True) + '\Test.ini'; // Get our recent files
   mruMgr.IniSection := 'RecentLogbooks';
   mruMgr.MaxRecent := 9;
   mruMgr.ShowRecentFiles;
-
 
   if mruMgr.Recent.Count > 0 then
   begin
@@ -258,6 +248,7 @@ begin
       TframeRecentTile(recentTileList.Items[i]).setColorDown(clbBGClicked);
       TframeRecentTile(recentTileList.Items[i]).setColorUp(clbBGMouseOver);
       TframeRecentTile(recentTileList.Items[i]).setFilename(ExtractFileNameOnly(mruMgr.Recent.Strings[i]));
+      TframeRecentTile(recentTileList.Items[i]).setPath(mruMgr.Recent.Strings[i]);
     end;
   end
   else
@@ -265,14 +256,9 @@ begin
     ShowMessage('No recent files');
   end;
 
-
-
   fileList := TStringList.Create;
   getTypeFileList(fileList);
   fileList.Sort;
-
-  SetLength(FrameTypeTile, 0);
-
 
   ////////////////// CHECK THE ERROR MESSAGE BEFORE PROCEEDING! ////////////
   if fileList.Strings[0] = 'None' then
@@ -284,38 +270,29 @@ begin
   end
   else
   begin
-    SetLength(FrameTypeTile, fileList.Count);
+    for i := 0 to fileList.Count-1 do
+    begin
+      typeTileList.Add(TframeTypeTile.Create(formStartDialog));
+    end;
     for i := fileList.Count-1 downto 0 do
     begin
-
       Description := TStringList.Create;
-
       processTypeFile(fileList[i], errorMsg, Logbook_Type, Description);
 
-      FrameTypeTile[i] := TframeTypeTile.Create(formStartDialog);
-
-
-      FrameTypeTile[i].Parent := ScrollBox1;
-
-      FrameTypeTile[i].Align := alTop;
-      FrameTypeTile[i].setColorInitial(clbBGDefault);
-      FrameTypeTile[i].setColorLeave(clbBGDefault);
-      FrameTypeTile[i].setColorEnter(clbBGMouseOver);
-      FrameTypeTile[i].setColorDown(clbBGClicked);
-      FrameTypeTile[i].setColorUp(clbBGMouseOver);
-      FrameTypeTile[i].setTitle(Logbook_Type);
-      FrameTypeTile[i].setDescription(Description.Strings[0]);
-      FrameTypeTile[i].setPath(fileList.Strings[i]);
-
-      FrameTypeTile[i].DescriptionStrings.Strings := Description;
+      TframeTypeTile(typeTileList.Items[i]).Parent := ScrollBox1;
+      TframeTypeTile(typeTileList.Items[i]).Align := alTop;
+      TframeTypeTile(typeTileList.Items[i]).setColorInitial(clbBGDefault);
+      TframeTypeTile(typeTileList.Items[i]).setColorLeave(clbBGDefault);
+      TframeTypeTile(typeTileList.Items[i]).setColorEnter(clbBGMouseOver);
+      TframeTypeTile(typeTileList.Items[i]).setColorDown(clbBGClicked);
+      TframeTypeTile(typeTileList.Items[i]).setColorUp(clbBGMouseOver);
+      TframeTypeTile(typeTileList.Items[i]).setTitle(Logbook_Type);
+      TframeTypeTile(typeTileList.Items[i]).setDescription(Description.Strings[0]);
+      TframeTypeTile(typeTileList.Items[i]).setPath(fileList.Strings[i]);
+      TframeTypeTile(typeTileList.Items[i]).DescriptionStrings.Strings := Description;
       Description.Free;
-
-      //ShowMessage(IntToStr(fileList.Count) + ', ' + IntToStr(Length(FrameTypeTile)) + ', ' + Logbook_Type);
-
     end;
   end;
-
-  //ShowMessage(IntToStr(Length(FrameTypeTile)));
 
   fileList.Free;
   Splitter1.Color := clbMedium;
@@ -394,9 +371,9 @@ begin
     LogMetadataExt.PassPerUser := chkPassPerUser.Checked;
     LogMetadataExt.PassToExport := chkPassToExport.Checked;
     LogMetadataExt.PassToPrint := chkPassToPrint.Checked;
-    LogMetadataExt.PassMasterHash:= dmCrypt.hash(txtMasterPass.Text);   // Hashed password
-    LogMetadataExt.PassExportHash:= dmCrypt.hash(txtPassToExport.Text); // Hashed password
-    LogMetadataExt.PassPrintHash:= dmCrypt.hash(txtPassToPrint.Text);   // Hashed password
+    dmCrypt.stringhash(txtMasterPass.Text, LogMetadataExt.PassMasterHash);   // Hashed password
+    dmCrypt.stringhash(txtPassToExport.Text, LogMetadataExt.PassExportHash); // Hashed password
+    dmCrypt.stringhash(txtPassToPrint.Text, LogMetadataExt.PassPrintHash);   // Hashed password
     LogMetadataExt.AllowCategories := chkAllowLateEntries.Checked;
     LogMetadataExt.AllowAddCategories := chkAllowAddCategories.Checked;
     LogMetadataExt.AllowLateEntries := chkAllowLateEntries.Checked;
@@ -666,10 +643,9 @@ procedure TformStartDialog.ShellListView1SelectItem(Sender: TObject;
 var
   LogMetadata : RLogMetadata;
 begin
-  LogMetadata := readLogMetadata(ShellListView1.GetPathFromItem(Item));
+  readLogMetadata(ShellListView1.GetPathFromItem(Item), LogMetadata);
 
-
-  WriteRecordToMemo(LogMetadata); // Writes the record contents to the memo
+  WriteRecordToMemo(LogMetadata, memoDetails); // Writes the record contents to the memo
 end;
 
 procedure TformStartDialog.SpeedButton1Click(Sender: TObject);
@@ -688,22 +664,6 @@ begin
   lblNow.Caption := FormatDateTime(cmbDFormat.Caption + ' ' + cmbTFormat.Caption, Now);
 end;
 
-
-// NOT GUI SPECIFIC. THIS SHOULD BE HANDLED ELSEWHERE (another unit). PASS memoDetails TO THE PROCEDURE
-procedure TformStartDialog.WriteRecordToMemo(LogMetadata : RLogMetadata);
-begin
-  memoDetails.Lines.Clear;
-  memoDetails.Lines.Add('Footer: ' + Trim(LogMetadata.footerMark));
-  memoDetails.Lines.Add('Logbook Opened By: ' + Trim(LogMetadata.OpenedBy));
-  memoDetails.Lines.Add('Logbook Serial Number/Name: ' + Trim(LogMetadata.logName));
-  try
-    memoDetails.Lines.Add('Logbook Opened On: ' + DateTimeToStr(FileDateToDateTime(LogMetadata.DTOpened)));
-    memoDetails.Lines.Add('Logbook Last Accessed: ' + DateTimeToStr(FileDateToDateTime(LogMetadata.DTAccessed)));
-  except
-    memoDetails.Lines.Add('Unable to Read Logbook Dates. Likely Corruption');
-  end;
-  memoDetails.Lines.Add('Logbook Description: ' + Trim(LogMetadata.logDescription));
-end;
 
 end.
 

@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, StrHolder, Forms, Controls, StdCtrls, ExtCtrls,
-  Graphics, Dialogs, messages, windows, LMessages;
+  Graphics, Dialogs, messages, windows, LMessages, unitStartFunctions;
 
 type
 
@@ -74,15 +74,15 @@ var
 begin
   shapeBG.Brush.Color := ColorEnter;
 
-    // Since the frame is created at runtime, it can't directly access the
-    // parent (formStartDialog) or its components. So we have to search for
-    // memoDetails to apply properties.
-    memoParentDetails := TMemo(Owner.FindComponent('memoDetails'));
-    if assigned(memoParentDetails) then
-    begin
-      memoParentDetails.Lines.Clear;
-      memoParentDetails.Lines := DescriptionStrings.Strings;
-    end;
+  // Since the frame is created at runtime, it can't directly access the
+  // parent (formStartDialog) or its components. So we have to search for
+  // memoDetails to apply properties.
+  memoParentDetails := TMemo(Owner.FindComponent('memoDetails'));
+  if assigned(memoParentDetails) then
+  begin
+    memoParentDetails.Lines.Clear;
+    memoParentDetails.Lines := DescriptionStrings.Strings;
+  end;
 
 end;
 
@@ -97,24 +97,39 @@ var
   lblParentTypepath : TLabel;
   lblParentNewLogbook : TLabel;
   notebookParent : TNotebook;
-begin
-  //ShowMessage(lblPath.Caption);
+  memoParentDetails : TMemo;
+  listboxParentCategories : TListBox;
+  errorMsg, Logbook_Type : String;
+  Description, Default_Categories : TStringList;
 
+begin
   shapeBG.Brush.Color := ColorLeave;
+
+  Description := TStringList.Create;
+  Default_Categories := TStringList.Create;
+
+  processTypeFile(lblPath.Caption, errorMsg, Logbook_Type, Description, Default_Categories);
+  //ShowMessage((Default_Categories[0]));
 
   // Since the frame is created at runtime, it can't directly access the
   // parent (formStartDialog) or its components. So we have to search for
   // memoDetails etc to apply properties.
+  notebookParent := TNotebook(Owner.FindComponent('Notebook1')); // Change pages first, so the memo and listbox aren't cleared with resetPages
+  if assigned(notebookParent) then
+  begin
+    notebookParent.PageIndex := 1;
+  end;
+
+  listboxParentCategories := TListBox(Owner.FindComponent('listboxCategories'));
+  if assigned(listboxParentCategories) then
+  begin
+    listboxParentCategories.Items := Default_Categories;
+  end;
+
   lblParentNewLogbook := TLabel(Owner.FindComponent('lblNewLogbook'));
   if assigned(lblParentNewLogbook) then
   begin
     lblParentNewLogbook.Caption := 'New Logbook - Type: ' + lblTitle.Caption;
-  end;
-
-  notebookParent := TNotebook(Owner.FindComponent('Notebook1'));
-  if assigned(notebookParent) then
-  begin
-    notebookParent.PageIndex := 1;
   end;
 
   lblParentTypepath := TLabel(Owner.FindComponent('lblTypepath'));
@@ -123,22 +138,43 @@ begin
     lblParentTypepath.Caption := lblPath.Caption;
   end;
 
+  memoParentDetails := TMemo(Owner.FindComponent('memoDetails'));
+  if assigned(memoParentDetails) then
+  begin
+    memoParentDetails.Lines := Description;
+  end;
+
+
+  Description.Free;
+  Default_Categories.Free;
+
 end;
 
 procedure TframeTypeTile.imgOverlayMouseLeave(Sender: TObject);
 var
   memoParentDetails : TMemo;
+  notebookParent : TNotebook;
 begin
   shapeBG.Brush.Color := ColorLeave;
 
-    // Since the frame is created at runtime, it can't directly access the
-    // parent (formStartDialog) or its components. So we have to search for
-    // memoDetails to apply properties.
-    memoParentDetails := TMemo(Owner.FindComponent('memoDetails'));
-    if assigned(memoParentDetails) then
+  // Since the frame is created at runtime, it can't directly access the
+  // parent (formStartDialog) or its components. So we have to search for
+  // memoDetails to apply properties.
+
+  // Check whether we're on page 0. If so, clear the memo lines when MouseLeave
+  notebookParent := TNotebook(Owner.FindComponent('Notebook1'));
+  if assigned(notebookParent) then
+  begin
+    if notebookParent.PageIndex = 0 then
     begin
-      memoParentDetails.Lines.Clear;
+      memoParentDetails := TMemo(Owner.FindComponent('memoDetails'));
+      if assigned(memoParentDetails) then
+      begin
+        memoParentDetails.Lines.Clear;
+      end;
     end;
+
+  end;
 end;
 
 procedure TframeTypeTile.imgOverlayMouseUp(Sender: TObject;

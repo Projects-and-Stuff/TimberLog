@@ -7,20 +7,16 @@ unit unitClassLogbook;
 interface
 
 uses
-  Classes, SysUtils, unitRecordLogMetadata, unitRecordLogMetadataExt;
+  Classes, SysUtils, unitRecordLogMetadata, unitRecordLogMetadataExt, unitDefinitions, dmUnitCrypt;
 
 type
 
   { TLogbook }
 
   TLogbook = class(TObject)
-    const
-      RecHeader = '>TimberLog<';
-      RecFooter = '>TimberLog<';
-
     private // self access only
       FLogMetadataExt: RLogMetadataExt; // The Logbook Metadata Extended record
-      FLogMetadata: RLogMetadata; // The Logbook Metadata record
+      FLogMetadata: RLogMetadata;       // The Logbook Metadata record
       Path : String; 			// Full path to the logbook file (*.logb)
       logName : String[64]; 		// Serial Number or Name of equipment
       logDescription : String; 		// Short description or directions for this logbook
@@ -302,8 +298,13 @@ end;
 // Verifies that the header and footer of the record is valid
 // Probability of these values being correct by mere chance are astronomical
 function TLogbook.verifyLogMetadata: Boolean;
+var
+  str64 : String;
 begin
-  if (LogMetadata.headerMark = RecHeader) and (LogMetadata.footerMark = RecFooter) then
+  dmCrypt.stringhash(LogMetadata.logName + LogMetadata.logDescription + LogMetadata.OpenedBy + IntToStr(LogMetadata.DTOpened) + IntToStr(LogMetadata.DTAccessed), str64);
+  SetLength(str64, 64);
+
+  if (LogMetadata.footerMark = RecFooter) and (LogMetadata.headerMark = RecHeader) and (LogMetadata.checksum = str64) then
   begin
     verifyLogMetadata := True;
   end

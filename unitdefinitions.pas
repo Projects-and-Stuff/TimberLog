@@ -24,6 +24,18 @@ var
   clbVividTextMouseOver : TColor;
   clbVividTextClicked : TColor;
 
+const
+  RecHeader = '>TimberLog<';
+  RecFooter = '>TimberLog<';
+
+  blockLogbook_Type = '>>>*Logbook_Type*<<<';
+  blockDescription = '>>>*Description*<<<';
+  blockSettings = '>>>*Settings*<<<';
+  blockDefault_Categories = '>>>*Default_Categories*<<<';
+  blockDefault_Text = '>>>*Default_Text*<<<';
+  blockOne_Line = '>>>*One_Line*<<<';
+  blockMulti_Line = '>>>*Multi_Line*<<<';
+
 
 implementation
 
