@@ -36,6 +36,8 @@ const
   blockOne_Line = '>>>*One_Line*<<<';
   blockMulti_Line = '>>>*Multi_Line*<<<';
 
+  AppId = '277843001';
+
 
 implementation
 
