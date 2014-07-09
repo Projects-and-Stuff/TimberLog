@@ -1,0 +1,42 @@
+object dmDBTools: TdmDBTools
+  OnCreate = DataModuleCreate
+  OldCreateOrder = False
+  Height = 137
+  HorizontalOffset = 393
+  VerticalOffset = 350
+  Width = 316
+  object DataSource1: TDataSource
+    DataSet = SQLQuery
+    left = 24
+    top = 8
+  end
+  object SQLQuery: TSQLQuery
+    FieldDefs = <>
+    Database = SQLite3Connection1
+    Transaction = SQLTransaction1
+    Params = <>
+    left = 96
+    top = 8
+  end
+  object Sqlite3Dataset1: TSqlite3Dataset
+    MasterSource = DataSource1
+    left = 256
+    top = 8
+  end
+  object SQLTransaction1: TSQLTransaction
+    Active = False
+    Database = SQLite3Connection1
+    left = 188
+    top = 80
+  end
+  object SQLite3Connection1: TSQLite3Connection
+    Connected = False
+    LoginPrompt = False
+    KeepConnection = False
+    Transaction = SQLTransaction1
+    LogEvents = []
+    Options = []
+    left = 76
+    top = 80
+  end
+end
