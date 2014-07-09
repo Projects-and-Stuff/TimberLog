@@ -7,10 +7,10 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, richmemopackage, sqlite3laz, zvdatetimectrls, formUnitStartDialog,
-  unitStartFunctions, dmUnitConnectTransaction, dmUnitSourceQuery,
-  unitClassLogbook, unitRecordLogMetadata, unitDefinitions, formUnitLogbook,
-  dmUnitCrypt, unitTypeTile, unitRecentTile
+  Forms, richmemopackage, uniqueinstance_package, sqlite3laz, zvdatetimectrls,
+  formUnitStartDialog, unitStartFunctions, dmUnitDBTools, unitClassLogbook,
+  unitRecordLogMetadata, unitDefinitions, formUnitLogbook, dmUnitCrypt,
+  unitTypeTile, unitRecentTile
   { you can add units after this };
 
 {$R *.res}
@@ -18,9 +18,8 @@ uses
 begin
   RequireDerivedFormResource := True;
   Application.Initialize;
+  Application.CreateForm(TdmDBTools, dmDBTools);
   Application.CreateForm(TformStartDialog, formStartDialog);
-  Application.CreateForm(TdmConnectTransaction, dmConnectTransaction);
-  Application.CreateForm(TdmSourceQuery, dmSourceQuery);
   Application.CreateForm(TformLogbook, formLogbook);
   Application.CreateForm(TdmCrypt, dmCrypt);
   Application.Run;

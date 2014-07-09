@@ -9,7 +9,7 @@ uses
   SynExportHTML, RichMemo, ZVDateTimePicker, Forms, Controls,
   Graphics, Dialogs, IniPropStorage, StdCtrls, Menus, ExtCtrls,
   unitClassLogbook, unitRecordLogMetadata, LCLIntf,
-  ComCtrls, unitStartFunctions, unitDefinitions;
+  ComCtrls, unitStartFunctions, unitDefinitions, dmUnitDBTools;
 
 type
 
@@ -19,6 +19,7 @@ type
     Button1: TButton;
     CheckBox1: TCheckBox;
     chkFilterByDate: TCheckBox;
+    cmbCategory: TComboBox;
     dtEnd: TZVDateTimePicker;
     dtStart: TZVDateTimePicker;
     FontDialog1: TFontDialog;
@@ -26,6 +27,7 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
+    lblCategory: TLabel;
     lblAddNewEntry: TLabel;
     lblReset: TLabel;
     lblSearch: TLabel;
@@ -55,22 +57,23 @@ type
     mnuExit: TMenuItem;
     MenuItem5: TMenuItem;
     mnuClose: TMenuItem;
-    MenuItem7: TMenuItem;
+    mnuThisLogbook: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
     richmemoLogView: TRichMemo;
+    Shape1: TShape;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
     StatusBar1: TStatusBar;
     SynAnySyn1: TSynAnySyn;
-    SynCompletion1: TSynCompletion;
+    SynAutoComplete1: TSynAutoComplete;
     syneditLogEdit: TSynEdit;
     SynExporterHTML1: TSynExporterHTML;
     txtSearch: TLabeledEdit;
-    ZVDateTimePicker1: TZVDateTimePicker;
+    dtLateEntry: TZVDateTimePicker;
     procedure btnResetSearchClick(Sender: TObject);
     procedure btnSearchClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
@@ -96,11 +99,9 @@ type
       Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure txtSearchKeyPress(Sender: TObject; var Key: char);
   private
-
     { private declarations }
   public
     constructor Create(AOwner: TComponent; const inputLogbook : TLogbook);
-    constructor Create(AOwner: TComponent; const filepath: String; const typepath : String);
     constructor Create(AOwner: TComponent; const filepath: String);
     { public declarations }
   end;
@@ -118,33 +119,34 @@ uses
 
 { TformLogbook }
 
-// Used to open a logbook
+// Used to open an existing logbook
 constructor TformLogbook.Create(AOwner: TComponent; const filepath : String);
 begin
   inherited Create(AOwner);
 
-  //ATLogbook.OpenLogbook(filepath);
+  ATLogbook.Path := filepath;
+  ATLogbook.openLogbook;
+
 end;
 
-// Used to create a new logbook
-constructor TformLogbook.Create(AOwner: TComponent; const filepath : String; const typepath : String);
-begin
-  inherited Create(AOwner);
-
-  //ShowMessage(IntToStr(Length(InputMetadataExt.Categories)))
-
-  //ATLogbook.NewLogbook(filepath, InputMetadataExt);
-end;
-
-// Used to create a new logbook
+// Used when a new logbook has been created by formStartDialog
 constructor TformLogbook.Create(AOwner: TComponent; const inputLogbook : TLogbook);
 begin
   inherited Create(AOwner);
   ATLogbook.Create;
   ATLogbook := inputLogbook;
 
+  ATLogbook.headerMark := RecHeader;
+  ATLogbook.footerMark := RecFooter;
 
-  //ATLogbook.NewLogbook(filepath, InputMetadataExt);
+  // If there are no logbook errors set, make the "This Logbook" menu item enabled
+  if ATLogbook.isError = '' then
+  begin
+    mnuThisLogbook.Enabled := True;
+  end;
+
+
+
 end;
 
 procedure TformLogbook.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -153,7 +155,24 @@ begin
 
   formStartDialog.Visible := True; // Show formStartDialog before we close this form
 
-  ATLogbook.CloseLogbook();
+  ShowMessage(DateTimeToStr(FileDateToDateTime(ATLogbook.DTOpened)));
+
+  try
+    dmDBTools.closeAll; // Make sure the database is closed before we try to perform file operations
+    ATLogbook.CloseLogbook(); // Finalize the logbook and add LogMetadata to the end
+  finally
+    if ATLogbook.isError <> '' then
+    begin
+      ShowMessage(ATLogbook.isError); // Show any errors
+    end;
+  end;
+
+  ShowMessage(DateTimeToStr(FileDateToDateTime(ATLogbook.LogMetadata.DTOpened)));
+
+
+
+  //ATLogbook.Free;
+
 end;
 
 procedure TformLogbook.FormCreate(Sender: TObject);

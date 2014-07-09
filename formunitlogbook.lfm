@@ -7,6 +7,11 @@ object formLogbook: TformLogbook
   ClientHeight = 685
   ClientWidth = 1097
   Color = clWhite
+  Font.CharSet = ANSI_CHARSET
+  Font.Height = -13
+  Font.Name = 'Courier New'
+  Font.Pitch = fpFixed
+  Font.Quality = fqDraft
   Menu = MainMenu1
   OnClose = FormClose
   OnCreate = FormCreate
@@ -28,7 +33,7 @@ object formLogbook: TformLogbook
     Anchors = [akTop, akLeft, akRight, akBottom]
     ClientHeight = 328
     ClientWidth = 881
-    TabOrder = 1
+    TabOrder = 0
     object richmemoLogView: TRichMemo
       AnchorSideLeft.Control = Panel1
       AnchorSideTop.Control = Panel1
@@ -49,6 +54,7 @@ object formLogbook: TformLogbook
       Font.Quality = fqCleartypeNatural
       HideSelection = False
       ParentFont = False
+      ReadOnly = True
       ScrollBars = ssAutoBoth
       TabOrder = 0
       WordWrap = False
@@ -69,7 +75,7 @@ object formLogbook: TformLogbook
     Anchors = [akTop, akLeft, akRight, akBottom]
     ClientHeight = 329
     ClientWidth = 881
-    TabOrder = 2
+    TabOrder = 1
     inline syneditLogEdit: TSynEdit
       AnchorSideLeft.Control = Panel2
       AnchorSideTop.Control = Panel2
@@ -589,9 +595,9 @@ object formLogbook: TformLogbook
     object LabeledEdit1: TLabeledEdit
       AnchorSideBottom.Control = Panel2
       AnchorSideBottom.Side = asrBottom
-      Left = 25
-      Height = 23
-      Top = 289
+      Left = 8
+      Height = 24
+      Top = 288
       Width = 119
       Anchors = [akLeft, akBottom]
       BorderSpacing.Bottom = 16
@@ -599,37 +605,43 @@ object formLogbook: TformLogbook
       EditLabel.AnchorSideRight.Control = LabeledEdit1
       EditLabel.AnchorSideRight.Side = asrBottom
       EditLabel.AnchorSideBottom.Control = LabeledEdit1
-      EditLabel.Left = 25
-      EditLabel.Height = 15
-      EditLabel.Top = 271
+      EditLabel.Left = 8
+      EditLabel.Height = 16
+      EditLabel.Top = 269
       EditLabel.Width = 119
       EditLabel.Caption = 'Name:'
       EditLabel.ParentColor = False
       TabOrder = 1
     end
     object CheckBox1: TCheckBox
+      AnchorSideLeft.Control = cmbCategory
+      AnchorSideLeft.Side = asrBottom
       AnchorSideBottom.Control = Panel2
       AnchorSideBottom.Side = asrBottom
-      Left = 160
-      Height = 19
-      Top = 293
-      Width = 72
+      Left = 335
+      Height = 20
+      Top = 292
+      Width = 100
       Anchors = [akLeft, akBottom]
+      BorderSpacing.Left = 16
       BorderSpacing.Bottom = 16
       Caption = 'Late Entry'
       TabOrder = 2
     end
-    object ZVDateTimePicker1: TZVDateTimePicker
+    object dtLateEntry: TZVDateTimePicker
+      AnchorSideLeft.Control = CheckBox1
+      AnchorSideLeft.Side = asrBottom
       AnchorSideBottom.Control = Panel2
       AnchorSideBottom.Side = asrBottom
-      Left = 245
-      Height = 23
-      Top = 289
-      Width = 137
+      Left = 451
+      Height = 24
+      Top = 288
+      Width = 185
       CenturyFrom = 1941
       MaxDate = 2958465
       MinDate = -53780
       TabOrder = 3
+      BorderSpacing.Left = 16
       BorderSpacing.Bottom = 16
       TrailingSeparator = False
       TextForNullDate = 'NULL'
@@ -646,24 +658,34 @@ object formLogbook: TformLogbook
       MonthNames = 'Long'
     end
     object Label1: TLabel
-      AnchorSideBottom.Control = ZVDateTimePicker1
-      Left = 245
-      Height = 15
-      Top = 274
-      Width = 89
+      AnchorSideLeft.Control = CheckBox1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideBottom.Control = dtLateEntry
+      Left = 451
+      Height = 16
+      Top = 269
+      Width = 128
       Anchors = [akLeft, akBottom]
+      BorderSpacing.Left = 16
+      BorderSpacing.Bottom = 3
       Caption = 'Entry Date/Time:'
       ParentColor = False
     end
     object lblAddNewEntry: TLabel
+      AnchorSideLeft.Control = dtLateEntry
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideRight.Control = Panel2
+      AnchorSideRight.Side = asrBottom
       AnchorSideBottom.Control = Panel2
       AnchorSideBottom.Side = asrBottom
-      Left = 427
+      Left = 652
       Height = 31
-      Top = 285
+      Top = 277
       Width = 208
       Anchors = [akLeft, akBottom]
-      BorderSpacing.Bottom = 12
+      BorderSpacing.Left = 16
+      BorderSpacing.Right = 36
+      BorderSpacing.Bottom = 20
       Caption = 'Add New Entry'
       Font.CharSet = ANSI_CHARSET
       Font.Height = -27
@@ -679,6 +701,36 @@ object formLogbook: TformLogbook
       OnMouseUp = LabelAsButtonMouseUp
       OnMouseLeave = LabelAsButtonMouseLeave
     end
+    object cmbCategory: TComboBox
+      AnchorSideLeft.Control = LabeledEdit1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideBottom.Control = Panel2
+      AnchorSideBottom.Side = asrBottom
+      Left = 143
+      Height = 23
+      Top = 289
+      Width = 176
+      Anchors = [akLeft, akBottom]
+      BorderSpacing.Left = 16
+      BorderSpacing.Bottom = 16
+      ItemHeight = 16
+      TabOrder = 4
+      Text = 'Select...'
+    end
+    object lblCategory: TLabel
+      AnchorSideLeft.Control = LabeledEdit1
+      AnchorSideLeft.Side = asrBottom
+      AnchorSideBottom.Control = cmbCategory
+      Left = 143
+      Height = 16
+      Top = 270
+      Width = 72
+      Anchors = [akLeft, akBottom]
+      BorderSpacing.Left = 16
+      BorderSpacing.Bottom = 3
+      Caption = 'Category:'
+      ParentColor = False
+    end
   end
   object Panel3: TPanel
     AnchorSideRight.Control = Splitter1
@@ -690,7 +742,7 @@ object formLogbook: TformLogbook
     Anchors = [akRight]
     ClientHeight = 662
     ClientWidth = 211
-    TabOrder = 3
+    TabOrder = 2
     object txtSearch: TLabeledEdit
       AnchorSideLeft.Control = Panel1
       AnchorSideRight.Control = Panel1
@@ -728,17 +780,17 @@ object formLogbook: TformLogbook
     end
     object chkFilterByDate: TCheckBox
       Left = 10
-      Height = 19
+      Height = 20
       Top = 64
-      Width = 91
+      Width = 140
       Caption = 'Filter by date:'
       TabOrder = 1
     end
     object dtStart: TZVDateTimePicker
-      Left = 109
-      Height = 23
-      Top = 95
-      Width = 83
+      Left = 87
+      Height = 24
+      Top = 88
+      Width = 105
       CenturyFrom = 1941
       MaxDate = 2958465
       MinDate = -53780
@@ -758,10 +810,10 @@ object formLogbook: TformLogbook
       MonthNames = 'Long'
     end
     object dtEnd: TZVDateTimePicker
-      Left = 109
-      Height = 23
-      Top = 126
-      Width = 83
+      Left = 87
+      Height = 24
+      Top = 118
+      Width = 105
       CenturyFrom = 1941
       MaxDate = 2958465
       MinDate = -53780
@@ -782,17 +834,17 @@ object formLogbook: TformLogbook
     end
     object Label2: TLabel
       Left = 10
-      Height = 15
-      Top = 95
-      Width = 27
+      Height = 16
+      Top = 96
+      Width = 48
       Caption = 'Start:'
       ParentColor = False
     end
     object Label3: TLabel
       Left = 10
-      Height = 15
+      Height = 16
       Top = 126
-      Width = 23
+      Width = 32
       Caption = 'End:'
       ParentColor = False
     end
@@ -834,6 +886,21 @@ object formLogbook: TformLogbook
       OnMouseUp = LabelAsButtonMouseUp
       OnMouseLeave = LabelAsButtonMouseLeave
     end
+    object Shape1: TShape
+      AnchorSideLeft.Control = Panel3
+      AnchorSideTop.Control = lblSearch
+      AnchorSideTop.Side = asrBottom
+      AnchorSideRight.Control = Panel3
+      AnchorSideRight.Side = asrBottom
+      Left = 7
+      Height = 1
+      Top = 191
+      Width = 197
+      Anchors = [akTop, akLeft, akRight]
+      BorderSpacing.Left = 6
+      BorderSpacing.Top = 6
+      BorderSpacing.Right = 6
+    end
   end
   object StatusBar1: TStatusBar
     Left = 0
@@ -864,15 +931,6 @@ object formLogbook: TformLogbook
       end>
     SimplePanel = False
   end
-  object Button1: TButton
-    Left = 1008
-    Height = 25
-    Top = 8
-    Width = 75
-    Caption = 'Button1'
-    OnClick = Button1Click
-    TabOrder = 0
-  end
   object Splitter1: TSplitter
     AnchorSideLeft.Control = Panel3
     AnchorSideLeft.Side = asrBottom
@@ -901,12 +959,12 @@ object formLogbook: TformLogbook
   end
   object IniPropStorage1: TIniPropStorage
     StoredValues = <>
-    left = 296
-    top = 232
+    left = 408
+    top = 8
   end
   object MainMenu1: TMainMenu
-    left = 400
-    top = 152
+    left = 328
+    top = 8
     object MenuItem1: TMenuItem
       Caption = 'File'
       object mnuNewLogbook: TMenuItem
@@ -929,7 +987,7 @@ object formLogbook: TformLogbook
         OnClick = mnuExitClick
       end
     end
-    object MenuItem7: TMenuItem
+    object mnuThisLogbook: TMenuItem
       Caption = 'This Logbook'
       Enabled = False
       object MenuItem8: TMenuItem
@@ -999,19 +1057,6 @@ object formLogbook: TformLogbook
       end
     end
   end
-  object SynCompletion1: TSynCompletion
-    Position = 0
-    LinesInWindow = 6
-    SelectedColor = clHighlight
-    CaseSensitive = False
-    Width = 262
-    ShortCut = 16416
-    EndOfTokenChr = '()[].'
-    ExecCommandID = ecSynCompletionExecute
-    Editor = syneditLogEdit
-    left = 774
-    top = 432
-  end
   object SynAnySyn1: TSynAnySyn
     Enabled = False
     CommentAttri.FrameEdges = sfeAround
@@ -1037,18 +1082,6 @@ object formLogbook: TformLogbook
     left = 848
     top = 432
   end
-  object SynExporterHTML1: TSynExporterHTML
-    Color = clWindow
-    DefaultFilter = 'HTML Document (*.htm,*.html)|*.htm;*.html'
-    Font.Color = clBlack
-    Font.Height = -13
-    Font.Name = 'Courier New'
-    HTMLFontSize = fs03
-    Title = 'Untitled'
-    UseBackground = False
-    left = 920
-    top = 432
-  end
   object FontDialog1: TFontDialog
     Font.CharSet = ANSI_CHARSET
     Font.Height = -13
@@ -1059,7 +1092,14 @@ object formLogbook: TformLogbook
     MaxFontSize = 72
     Options = [fdFixedPitchOnly, fdForceFontExist, fdNoOEMFonts]
     PreviewText = 'TimberLog'
-    left = 296
-    top = 152
+    left = 248
+    top = 8
+  end
+  object SynAutoComplete1: TSynAutoComplete
+    EndOfTokenChr = '()[].'
+    ShortCut = 8224
+    ExecCommandID = ecSynAutoCompletionExecute
+    left = 783
+    top = 432
   end
 end

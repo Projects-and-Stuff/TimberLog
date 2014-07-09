@@ -72,7 +72,7 @@ begin
       MkDir(returnDocumentsPath + '\TimberLog\');
     end;
 
-    formStartDialog.ShellTreeView1.Path := returnDocumentsPath + '\TimberLog\';
+    formStartDialog.shellTreeSelectFolder.Path := returnDocumentsPath + '\TimberLog\';
   finally
 
   end;

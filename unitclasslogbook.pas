@@ -12,89 +12,90 @@ uses
 type
 
   { TLogbook }
-  str64 = String[64]; //
-  charArray = String[11];
 
   TLogbook = class(TObject)
     private // self access only
-      FheaderMark : charArray;       // used to verify TLogMetadata
-      FfooterMark : charArray;       // used to verify TLogMetadata
+      FheaderMark : String;       // used to verify TLogMetadata
+      FfooterMark : String;       // used to verify TLogMetadata
       FPath : String; 			// Full path to the logbook file (*.logb)
-      FlogName : String;			// Serial Number or Name of equipment (Should match the value in Settings table)
+      FlogName : String;		// Serial Number or Name of equipment (Should match the value in Settings table)
       FlogDescription : String;		// Short description or directions for this logbook (Should match the value in Settings table)
       FOpenedBy : String;		// Name of person opening the logbook (Should match the value in Settings table)
-      Fchecksum : String[64]; 		// Checksum of the metadata settings
-      FfileChecksum : String[64]; 	// Checksum of the entire File minus RLogMetadata)
-      Fchecksumsum : String[64]; 	// Checksum of all entry checksums (This may just take too long to be reasonable)
+      Fchecksum : String; 		// Checksum of the metadata settings
+      FfileChecksum : String;           // Checksum of the entire File minus RLogMetadata)
+      Fchecksumsum : String; 	        // Checksum of all entry checksums (This may just take too long to be reasonable)
       FDTOpened : LongInt;		// DateTime that the file was originally opened (Should match the value in Settings table)
       FDTAccessed : LongInt;		// DateTime that the file was last saved (Should match the value in Settings table)
       FPassMaster : Boolean;		// Is a master password required?
       FPassPerUser : Boolean;		// Are users required to use individual passwords to submit entries?
       FPassToExport : Boolean;		// Are users required to enter a password to export to text/pdf/other formats?
       FPassToPrint : Boolean;		// Are users required to enter a password to print the logbook?
-      FPassMasterSalt : String[64];          // Salt for Master Password
-      FPassMasterHash : String[64];          // Hashed Master Password
-      FPassExportSalt : String[64];          // Salt for Export Password
-      FPassExportHash : String[64];          // Hashed Export Password (Can be recovered using master password)
-      FPassPrintSalt : String[64];           // Salt for Print Password
-      FPassPrintHash : String[64];           // Hashed Print Password  (Can be recovered using master password)
-      FAllowCategories : Boolean;	// Are categories allowed in this logbook?
-      FAllowAddCategories : Boolean;	// Can users add to the list of categories (or are the categories constants?)
-      FAllowLateEntries : Boolean;	// Are users allowed to add late entries? (the logbook creator that the actual date is also saved)
-      FCategories : String;             // The list of categories
-      FDTDisplayFormat : String; 	// Format string for the DateTime fields (internally stored as LongInt)
+      FPassMasterSalt : String;          // Salt for Master Password
+      FPassMasterHash : String;          // Hashed Master Password
+      FPassExportSalt : String;          // Salt for Export Password
+      FPassExportHash : String;          // Hashed Export Password (Can be recovered using master password)
+      FPassPrintSalt : String;           // Salt for Print Password
+      FPassPrintHash : String;           // Hashed Print Password  (Can be recovered using master password)
+      FAllowCategories : Boolean;	 // Are categories allowed in this logbook?
+      FAllowAddCategories : Boolean;	 // Can users add to the list of categories (or are the categories constants?)
+      FAllowLateEntries : Boolean;	 // Are users allowed to add late entries? (the logbook creator that the actual date is also saved)
+      FCategories : String;              // The list of categories
+      FDTDisplayFormat : String; 	 // Format string for the DateTime fields (internally stored as LongInt)
+      FisError : String;                 // Tests whether the logbook is in a fault condition at any point during its creation
 
     public // access by anything
       LogMetadata: RLogMetadata;        // The Logbook Metadata record.
                                         // Its purpose is only for reading/writing metadata from/to the logbook file
 
       procedure writeMetadataToMemo(outMemo : TMemo);
-      function verifyLogMetadata:Boolean; // Verifies that FLogMetadata header and footer are valid
-      procedure createBackup();            // Copies 'filepath', minus the record, and renames both files
-      function readLogMetadata(): Boolean; // Reads the record from the end of 'filepath'
+      function verifyLogMetadataStructure(tempLogMetadata : RLogMetadata):Boolean ; // Verifies that FLogMetadata header and footer are valid
+      function verifyLogMetadataContent(tempLogMetadata : RLogMetadata):Boolean ; // Verifies that FLogMetadata header and footer are valid
+      procedure createBackup;            // Copies 'filepath', minus the record, and renames both files
+      function readLogMetadata(tempRecord : Boolean = False): Boolean; // Reads the record from the end of 'filepath'
       procedure buildLogMetadataRecord(AlogName, AlogDescription, AOpenedBy : String; ADTOpened, ADTAccessed : LongInt); // Processes data from Page 1 and creates RLogMetadata record
-      procedure writeLogMetadata();        // Writes FLogMetadata to file
-      procedure deleteBackupLog();         // Deletes the backup logbook
-      procedure copyDataToLogMetadata();         // Copies the data from the main class parameters to LogMetadata
-      procedure copyDataFromLogMetadata();         // Copies the data from LogMetadata to the main class parameters
+      procedure writeLogMetadata;        // Writes FLogMetadata to file
+      procedure deleteBackupLog;         // Deletes the backup logbook
+      procedure copyDataToLogMetadata;         // Copies the data from the main class parameters to LogMetadata
+      procedure copyDataFromLogMetadata;         // Copies the data from LogMetadata to the main class parameters
       constructor Create; overload;
       constructor Create(Args: array of Integer); overload;
       destructor Destroy; override;
 
       // Make OpenLogbook a function with boolean return
-      procedure openLogbook(filepath : String); // Opens an existing logbook file
+      procedure openLogbook; // Opens an existing logbook file
 
       // Make NewLogbook a function with boolean return
-      procedure newLogbook(); // Creates a new logbook file database
-      procedure closeLogbook();            // Process for final logbook closing
+      procedure newLogbook; // Creates a new logbook file database
+      procedure closeLogbook;            // Process for final logbook closing
 
     published // special type of public scope
       property Path: String read FPath write FPath; // Allows access for reading and writing Path of the logbook
-      property headerMark: charArray read FheaderMark write FheaderMark; // Allows access for reading and writing Path of the logbook
-      property footerMark: charArray read FfooterMark write FfooterMark; // Allows access for reading and writing Path of the logbook
+      property headerMark: String read FheaderMark write FheaderMark; // Allows access for reading and writing Path of the logbook
+      property footerMark: String read FfooterMark write FfooterMark; // Allows access for reading and writing Path of the logbook
       property logName: String read FlogName write FlogName; // Allows access for reading and writing Path of the logbook
       property logDescription: String read FlogDescription write FlogDescription; // Allows access for reading and writing Path of the logbook
       property OpenedBy: String read FOpenedBy write FOpenedBy; // Allows access for reading and writing Path of the logbook
-      property checksum: str64 read Fchecksum write Fchecksum; // Allows access for reading and writing Path of the logbook
-      property fileChecksum: str64 read FfileChecksum write FfileChecksum; // Allows access for reading and writing Path of the logbook
-      property checksumsum: str64 read Fchecksumsum write Fchecksumsum; // Allows access for reading and writing Path of the logbook
+      property checksum: String read Fchecksum write Fchecksum; // Allows access for reading and writing Path of the logbook
+      property fileChecksum: String read FfileChecksum write FfileChecksum; // Allows access for reading and writing Path of the logbook
+      property checksumsum: String read Fchecksumsum write Fchecksumsum; // Allows access for reading and writing Path of the logbook
       property DTOpened: LongInt read FDTOpened write FDTOpened; // Allows access for reading and writing Path of the logbook
       property DTAccessed: LongInt read FDTAccessed write FDTAccessed; // Allows access for reading and writing Path of the logbook
       property PassMaster: Boolean read FPassMaster write FPassMaster; // Allows access for reading and writing Path of the logbook
       property PassPerUser: Boolean read FPassPerUser write FPassPerUser; // Allows access for reading and writing Path of the logbook
       property PassToExport: Boolean read FPassToExport write FPassToExport; // Allows access for reading and writing Path of the logbook
       property PassToPrint: Boolean read FPassToPrint write FPassToPrint; // Allows access for reading and writing Path of the logbook
-      property PassMasterSalt : str64 read FPassMasterSalt write FPassMasterSalt; // Allows access for reading and writing Path of the logbook
-      property PassMasterHash : str64 read FPassMasterHash write FPassMasterHash; // Allows access for reading and writing Path of the logbook
-      property PassExportSalt : str64 read FPassExportSalt write FPassExportSalt; // Allows access for reading and writing Path of the logbook
-      property PassExportHash : str64 read FPassExportHash write FPassExportHash; // Allows access for reading and writing Path of the logbook
-      property PassPrintSalt : str64 read FPassPrintSalt write FPassPrintSalt; // Allows access for reading and writing Path of the logbook
-      property PassPrintHash : str64 read FPassPrintHash write FPassPrintHash; // Allows access for reading and writing Path of the logbook
+      property PassMasterSalt : String read FPassMasterSalt write FPassMasterSalt; // Allows access for reading and writing Path of the logbook
+      property PassMasterHash : String read FPassMasterHash write FPassMasterHash; // Allows access for reading and writing Path of the logbook
+      property PassExportSalt : String read FPassExportSalt write FPassExportSalt; // Allows access for reading and writing Path of the logbook
+      property PassExportHash : String read FPassExportHash write FPassExportHash; // Allows access for reading and writing Path of the logbook
+      property PassPrintSalt : String read FPassPrintSalt write FPassPrintSalt; // Allows access for reading and writing Path of the logbook
+      property PassPrintHash : String read FPassPrintHash write FPassPrintHash; // Allows access for reading and writing Path of the logbook
       property AllowCategories : Boolean read FAllowCategories write FAllowCategories; // Allows access for reading and writing Path of the logbook
       property AllowAddCategories : Boolean read FAllowAddCategories write FAllowAddCategories; // Allows access for reading and writing Path of the logbook
       property AllowLateEntries : Boolean read FAllowLateEntries write FAllowLateEntries; // Allows access for reading and writing Path of the logbook
       property Categories: String read FCategories write FCategories; // Allows access for reading and writing Path of the logbook
       property DTDisplayFormat: String read FDTDisplayFormat write FDTDisplayFormat; // Allows access for reading and writing Path of the logbook
+      property isError : String read FisError write FisError;
     end;
 
 
@@ -109,12 +110,15 @@ implementation
 
 { TLogbook }
 
-
+uses
+  dmUnitDBTools;
 
 // General class constructor
 constructor TLogbook.Create;
 begin
-
+  isError := ''; // Initially, there is no fault, so the string is set to blank.
+                 // But it may be set true while attempting to create the logbook
+                 // in which case an error message will be set.
 end;
 
 // Overloaded constructor. For possible future use
@@ -129,11 +133,10 @@ begin
 end;
 
 // Opens an existing .logb file
-procedure TLogbook.openLogbook(filepath: String);
+procedure TLogbook.openLogbook;
 begin
 
-  // Save the logbook filepath in the path variable (used when closing the logbook)
-  Path := filepath;
+  // The path should already be set prior to opening the logbook. Check to ensure it is!
 
   // Read the record in to FLogMetadata
   if ReadLogMetadata() = true then
@@ -163,9 +166,6 @@ end;
 procedure TLogbook.closeLogbook();
 begin
 
-
-  CopyDataToLogMetadata();
-
   // Write the record to the end of the logbook
   WriteLogMetadata();
 
@@ -177,31 +177,37 @@ end;
 
 // Reads the RLogMetadata record from a file, saves it to the class's LogMetadata
 // And returns true or false depending on if it was successful
-function TLogbook.readLogMetadata(): Boolean;
+
+// Return of true means the LogMetadata exists and its format is valid
+function TLogbook.readLogMetadata(tempRecord : Boolean): Boolean;
 var
-  SettingsValid : Boolean;
   FSRecord: TFileStream;
+  tempLogMetadata : RLogMetadata;
 begin
-  SettingsValid := False;
+  readLogMetadata := False;
 
   try
-    FSRecord := TFileStream.Create(path, fmOpenRead);
+    FSRecord := TFileStream.Create(path, fmOpenRead or fmShareDenyNone);
       try
-        FSRecord.Seek(FSRecord.Size - SizeOf(LogMetadata), soBeginning);  // Move to beginning of the record in the file
-        FSRecord.Read(LogMetadata,sizeof(LogMetadata)); // Read the record
-        CopyDataFromLogMetadata(); // Copy the record into the main class
-        if verifyLogMetadata = True then
+        FSRecord.Seek(FSRecord.Size - SizeOf(RLogMetadata), soBeginning);  // Move to beginning of the record in the file
+        FSRecord.Read(tempLogMetadata,sizeof(RLogMetadata)); // Read the record
+        if verifyLogMetadataStructure(tempLogMetadata) then
         begin
-          SettingsValid := True;
+          readLogMetadata := True;
+          if tempRecord = False then
+          begin
+            LogMetadata := tempLogMetadata;
+          end;
         end;
 
-      finally
-        FSRecord.Free; // Save new file to disk and free stream
+      except
+        isError:='Error reading file during readLogMetadata';
       end;
-  except
-    //
+  finally
+    FSRecord.Free; // Save new file to disk and free stream
   end;
 
+  {
   if SettingsValid = False then
   begin
     OpenedBy := 'The Logbook Is Corrupt or does not exist';
@@ -211,6 +217,9 @@ begin
   begin
     //
   end;
+  }
+
+
 
 end;
 
@@ -247,20 +256,21 @@ begin
   fileChecksum := tempString;
 
   // Only time we write to LogMetadata;
-  CopyDataToLogMetadata();
+  CopyDataToLogMetadata;
 
 
   // Before we write to the logbook, perform a read
   // If it's successful, then the RLogMetadata entry already exists.
   // We'll overwrite it instead of appending to the end
-  if ReadLogMetadata() = false then
+  if ReadLogMetadata = false then
   begin
-
+    //isError := 'Does not exist yet';
     if FileExists(Path) then
     begin
 
       try
-        FSUpdate := TFileStream.Create(Path, fmOpenWrite);
+        FSUpdate := TFileStream.Create(Path, fmOpenWrite or fmShareDenyNone);
+
           try
             FSUpdate.Seek(FSUpdate.Size, soBeginning);  // Move to end of output file
             FSUpdate.Write(LogMetadata, SizeOf(LogMetadata)); // Write the record to the file
@@ -273,10 +283,11 @@ begin
   end
   else // if the record already exists...
   begin
+    //isError := 'Does exist';
     if FileExists(Path) then
     begin
       try
-        FSUpdate := TFileStream.Create(Path, fmOpenWrite);
+        FSUpdate := TFileStream.Create(Path, fmOpenWrite or fmShareDenyNone);
         if FSUpdate.Size > SizeOf(LogMetadata)then // Don't try to overwrite if file is too small for some reason
         begin
           try
@@ -311,7 +322,7 @@ end;
 
 procedure TLogbook.copyDataToLogMetadata;
 begin
-  LogMetadata.headerMark := headerMark;
+  LogMetadata.headerMark := RecHeader;
   LogMetadata.checksum := checksum;
   LogMetadata.fileChecksum := fileChecksum;
   LogMetadata.logName := logName;
@@ -319,7 +330,8 @@ begin
   LogMetadata.OpenedBy := OpenedBy;
   LogMetadata.DTOpened := DTOpened;
   LogMetadata.DTAccessed := DTAccessed;
-  LogMetadata.footerMark := footerMark;
+  LogMetadata.PassMasterSalt := PassMasterSalt;
+  LogMetadata.footerMark := RecFooter;
 end;
 
 procedure TLogbook.copyDataFromLogMetadata;
@@ -332,6 +344,7 @@ begin
   OpenedBy := LogMetadata.OpenedBy;
   DTOpened := LogMetadata.DTOpened;
   DTAccessed := LogMetadata.DTAccessed;
+  PassMasterSalt := LogMetadata.PassMasterSalt;
   footerMark := LogMetadata.footerMark;
 end;
 
@@ -382,7 +395,7 @@ begin
     allValid := False;
   end;
 
-  if verifyLogMetadata then
+  if verifyLogMetadataStructure(LogMetadata) then
   begin
     outMemo.Lines.Add('Checksum valid');
   end
@@ -410,20 +423,37 @@ end;
 
 // Verifies that the header and footer of the record is valid
 // Probability of these values being correct by mere chance are astronomical
-function TLogbook.verifyLogMetadata: Boolean;
-var
-  str64 : String;
+function TLogbook.verifyLogMetadataStructure(tempLogMetadata : RLogMetadata) : Boolean;
 begin
-  dmCrypt.stringhash(LogMetadata.logName + LogMetadata.logDescription + LogMetadata.OpenedBy + IntToStr(LogMetadata.DTOpened) + IntToStr(LogMetadata.DTAccessed), str64);
-  SetLength(str64, 64);
 
-  if (LogMetadata.footerMark = RecFooter) and (LogMetadata.headerMark = RecHeader) and (LogMetadata.checksum = str64) then
+  if (tempLogMetadata.footerMark = RecFooter) and (tempLogMetadata.headerMark = RecHeader) then
   begin
-    verifyLogMetadata := True;
+    verifyLogMetadataStructure := True;
+    //isError := 'true';
   end
   else
   begin
-    verifyLogMetadata := False;
+    verifyLogMetadataStructure := False;
+    //isError := 'false';
+  end;
+end;
+
+// Verifies that the header and footer of the record is valid
+// Probability of these values being correct by mere chance are astronomical
+function TLogbook.verifyLogMetadataContent(tempLogMetadata : RLogMetadata) : Boolean;
+var
+  str64 : String;
+begin
+  dmCrypt.stringhash(tempLogMetadata.logName + tempLogMetadata.logDescription + tempLogMetadata.OpenedBy + IntToStr(tempLogMetadata.DTOpened) + IntToStr(tempLogMetadata.DTAccessed), str64);
+  SetLength(str64, 64);
+
+  if (tempLogMetadata.footerMark = RecFooter) and (tempLogMetadata.headerMark = RecHeader) and (tempLogMetadata.checksum = str64) then
+  begin
+    verifyLogMetadataContent := True;
+  end
+  else
+  begin
+    verifyLogMetadataContent := False;
   end;
 end;
 
