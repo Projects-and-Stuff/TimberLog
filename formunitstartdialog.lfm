@@ -1,7 +1,7 @@
 object formStartDialog: TformStartDialog
-  Left = 391
+  Left = 444
   Height = 731
-  Top = 246
+  Top = 247
   Width = 1210
   BorderStyle = bsNone
   Caption = 'formStartDialog'
@@ -43,7 +43,7 @@ object formStartDialog: TformStartDialog
     Height = 415
     Top = 73
     Width = 824
-    PageIndex = 1
+    PageIndex = 2
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Right = 5
     Color = clWhite
@@ -198,7 +198,7 @@ object formStartDialog: TformStartDialog
             Caption = 'Password Options:'
             ClientHeight = 247
             ClientWidth = 378
-            TabOrder = 2
+            TabOrder = 3
             object chkPassToExport: TCheckBox
               Left = 9
               Height = 19
@@ -206,7 +206,7 @@ object formStartDialog: TformStartDialog
               Width = 211
               Caption = 'Password Required to Export Entries:'
               OnChange = chkPassToExportChange
-              TabOrder = 0
+              TabOrder = 3
             end
             object chkPassMaster: TCheckBox
               Left = 9
@@ -215,7 +215,7 @@ object formStartDialog: TformStartDialog
               Width = 355
               Caption = 'Master Password Required to View or Add New Logbook Entries'
               OnChange = chkPassMasterChange
-              TabOrder = 1
+              TabOrder = 0
             end
             object txtMasterPass: TEdit
               Left = 129
@@ -226,7 +226,7 @@ object formStartDialog: TformStartDialog
               Enabled = False
               MaxLength = 256
               PasswordChar = '*'
-              TabOrder = 2
+              TabOrder = 1
             end
             object Label12: TLabel
               Left = 24
@@ -242,7 +242,7 @@ object formStartDialog: TformStartDialog
               Top = 224
               Width = 282
               Caption = 'Individual User Passwords Required for Each Entry'
-              TabOrder = 3
+              TabOrder = 9
             end
             object chkPassToPrint: TCheckBox
               Left = 9
@@ -251,7 +251,7 @@ object formStartDialog: TformStartDialog
               Width = 203
               Caption = 'Password Required to Print Entries:'
               OnChange = chkPassToPrintChange
-              TabOrder = 4
+              TabOrder = 6
             end
             object txtPassToExport: TEdit
               Left = 224
@@ -262,7 +262,7 @@ object formStartDialog: TformStartDialog
               Enabled = False
               MaxLength = 256
               PasswordChar = '*'
-              TabOrder = 5
+              TabOrder = 4
             end
             object txtPassToPrint: TEdit
               Left = 224
@@ -273,7 +273,7 @@ object formStartDialog: TformStartDialog
               Enabled = False
               MaxLength = 256
               PasswordChar = '*'
-              TabOrder = 6
+              TabOrder = 7
             end
             object txtPassToPrint1: TEdit
               Left = 224
@@ -284,7 +284,7 @@ object formStartDialog: TformStartDialog
               Enabled = False
               MaxLength = 256
               PasswordChar = '*'
-              TabOrder = 7
+              TabOrder = 8
             end
             object txtPassToExport1: TEdit
               Left = 224
@@ -295,7 +295,7 @@ object formStartDialog: TformStartDialog
               Enabled = False
               MaxLength = 256
               PasswordChar = '*'
-              TabOrder = 8
+              TabOrder = 5
             end
             object txtMasterPass1: TEdit
               Left = 129
@@ -306,7 +306,7 @@ object formStartDialog: TformStartDialog
               Enabled = False
               MaxLength = 256
               PasswordChar = '*'
-              TabOrder = 9
+              TabOrder = 2
             end
           end
           object Label6: TLabel
@@ -325,7 +325,7 @@ object formStartDialog: TformStartDialog
             Top = 258
             Width = 238
             MaxLength = 64
-            TabOrder = 3
+            TabOrder = 2
           end
         end
         object pgOptionalSettings: TPage
@@ -566,7 +566,7 @@ object formStartDialog: TformStartDialog
         ParentColor = False
         ParentFont = False
       end
-      object ShellTreeView1: TShellTreeView
+      object shellTreeSelectFolder: TShellTreeView
         AnchorSideLeft.Control = pgOpenLogbook
         AnchorSideTop.Control = Splitter3
         AnchorSideRight.Control = Splitter3
@@ -586,9 +586,9 @@ object formStartDialog: TformStartDialog
         TabOrder = 0
         Options = [tvoAutoItemHeight, tvoHideSelection, tvoKeepCollapsedNodes, tvoReadOnly, tvoShowButtons, tvoShowLines, tvoShowRoot, tvoToolTips, tvoThemedDraw]
         ObjectTypes = [otFolders]
-        ShellListView = ShellListView1
+        ShellListView = shellListSelectFile
       end
-      object ShellListView1: TShellListView
+      object shellListSelectFile: TShellListView
         AnchorSideLeft.Control = Splitter3
         AnchorSideLeft.Side = asrBottom
         AnchorSideRight.Control = pgOpenLogbook
@@ -612,13 +612,13 @@ object formStartDialog: TformStartDialog
         ReadOnly = True
         ScrollBars = ssAutoBoth
         TabOrder = 1
-        OnDblClick = ShellListView1DblClick
-        OnSelectItem = ShellListView1SelectItem
+        OnDblClick = shellListSelectFileDblClick
+        OnSelectItem = shellListSelectFileSelectItem
         ObjectTypes = [otNonFolders]
-        ShellTreeView = ShellTreeView1
+        ShellTreeView = shellTreeSelectFolder
       end
       object Splitter3: TSplitter
-        AnchorSideTop.Control = ShellListView1
+        AnchorSideTop.Control = shellListSelectFile
         AnchorSideBottom.Control = pgOpenLogbook
         AnchorSideBottom.Side = asrBottom
         Left = 256
@@ -815,7 +815,7 @@ object formStartDialog: TformStartDialog
     ParentColor = False
     ParentFont = False
   end
-  object SpeedButton1: TSpeedButton
+  object btnClose: TSpeedButton
     Left = 1178
     Height = 22
     Top = 10
@@ -872,9 +872,9 @@ object formStartDialog: TformStartDialog
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000
     }
-    OnClick = SpeedButton1Click
+    OnClick = btnCloseClick
   end
-  object SpeedButton2: TSpeedButton
+  object btnHelp: TSpeedButton
     Left = 1150
     Height = 22
     Top = 10
@@ -930,7 +930,7 @@ object formStartDialog: TformStartDialog
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
       FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0000
     }
-    OnClick = SpeedButton2Click
+    OnClick = btnHelpClick
   end
   object Button1: TButton
     Left = 737
@@ -938,7 +938,6 @@ object formStartDialog: TformStartDialog
     Top = 28
     Width = 75
     Caption = 'TestLogForm'
-    OnClick = Button1Click
     TabOrder = 4
   end
   object Shape5: TShape
@@ -1008,5 +1007,11 @@ object formStartDialog: TformStartDialog
     MaxRecent = 9
     left = 998
     top = 524
+  end
+  object UniqueInstance1: TUniqueInstance
+    Enabled = True
+    Identifier = 'TimberLog0101'
+    left = 892
+    top = 16
   end
 end

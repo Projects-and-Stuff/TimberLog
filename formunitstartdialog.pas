@@ -7,11 +7,11 @@ unit formUnitStartDialog;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, types, LCLType, ExtCtrls, Buttons, ShellCtrls, LCLIntf,
-  IniPropStorage, formUnitLogbook, unitDefinitions, unitStartFunctions,
-  unitRecordLogMetadata, ComCtrls, Grids, dmUnitCrypt,
-  unitTypeTile, unitRecentTile, mrumanager, strutils, Contnrs, unitClassLogbook;
+  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
+  types, LCLType, ExtCtrls, Buttons, ShellCtrls, LCLIntf, IniPropStorage,
+  formUnitLogbook, unitDefinitions, unitStartFunctions, unitRecordLogMetadata,
+  ComCtrls, Grids, dmUnitCrypt, dmUnitDBTools, unitTypeTile, unitRecentTile,
+  mrumanager, UniqueInstance, strutils, Contnrs, unitClassLogbook;
 
 type
 
@@ -79,10 +79,10 @@ type
     Shape3: TShape;
     Shape4: TShape;
     Shape5: TShape;
-    ShellListView1: TShellListView;
-    ShellTreeView1: TShellTreeView;
-    SpeedButton1: TSpeedButton;
-    SpeedButton2: TSpeedButton;
+    shellListSelectFile: TShellListView;
+    shellTreeSelectFolder: TShellTreeView;
+    btnClose: TSpeedButton;
+    btnHelp: TSpeedButton;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
     Splitter3: TSplitter;
@@ -93,6 +93,7 @@ type
     txtPassToExport1: TEdit;
     txtPassToPrint: TEdit;
     txtPassToPrint1: TEdit;
+    UniqueInstance1: TUniqueInstance;
     procedure LabelAsButtonMouseDown(Sender: TObject;
       Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure LabelAsButtonMouseLeave(Sender: TObject);
@@ -102,7 +103,6 @@ type
       Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
     procedure btnAddCategoryClick(Sender: TObject);
     procedure btnDeleteCategoryClick(Sender: TObject);
-    procedure Button1Click(Sender: TObject);
     procedure chkAllowCategoriesChange(Sender: TObject);
     procedure chkPassMasterChange(Sender: TObject);
     procedure chkPassToExportChange(Sender: TObject);
@@ -121,11 +121,11 @@ type
       ANewIndex: Integer);
     procedure pgOpenLogbookBeforeShow(ASender: TObject; ANewPage: TPage;
       ANewIndex: Integer);
-    procedure ShellListView1DblClick(Sender: TObject);
-    procedure ShellListView1SelectItem(Sender: TObject; Item: TListItem;
+    procedure shellListSelectFileDblClick(Sender: TObject);
+    procedure shellListSelectFileSelectItem(Sender: TObject; Item: TListItem;
       Selected: Boolean);
-    procedure SpeedButton1Click(Sender: TObject);
-    procedure SpeedButton2Click(Sender: TObject);
+    procedure btnCloseClick(Sender: TObject);
+    procedure btnHelpClick(Sender: TObject);
     procedure TabControl1Change(Sender: TObject);
   private
     { private declarations }
@@ -187,7 +187,7 @@ begin
       MkDir(returnDocumentsPath + '\TimberLog\');
     end;
 
-    ShellTreeView1.Path := returnDocumentsPath + '\TimberLog\';
+    shellTreeSelectFolder.Path := returnDocumentsPath + '\TimberLog\';
   finally
 
   end;
@@ -290,10 +290,11 @@ begin
   Shape1.Pen.Color := clbMedium;
   lblOpenOtherLogbooks.Font.Color := clbVividTextDefault;
   lblBack.Font.Color := clbVividTextDefault;
-  ShellListView1.Font.Color := clbVividTextDefault;
+  lblCreate.Font.Color := clbVividTextDefault;
+  shellListSelectFile.Font.Color := clbVividTextDefault;
   pgNewLogbook.Color := clbBGDefault;
 
-  ShellListView1.Mask := '*.logb'; // Only display *.logb files
+  shellListSelectFile.Mask := '*.logb'; // Only display *.logb files
   Notebook1.PageIndex := 0;
 
 end;
@@ -352,7 +353,7 @@ begin
 
   if hasError = False then
   begin
-    // Set LogMetadataExt to the values in the form
+    // Set the values in the logbook from the form
     sendLogbook.logName := txtLogName.Text;
     sendLogbook.logDescription := memoLogDescription.Text;
     sendLogbook.OpenedBy := txtOpenedBy.Text;
@@ -372,16 +373,11 @@ begin
     sendLogbook.AllowAddCategories := chkAllowAddCategories.Checked;
     sendLogbook.AllowLateEntries := chkAllowLateEntries.Checked;
     sendLogbook.DTDisplayFormat:=Trim(cmbDFormat.Caption + ' ' + cmbTFormat.Caption);
-    // Generate salts (should this be done inside the class?)
-    Randomize;
-    dmCrypt.stringhash(IntToStr(Random(2000000000)), tempStr);
-    sendLogbook.PassMasterSalt := tempStr;
-    Randomize;
-    dmCrypt.stringhash(IntToStr(Random(2000000000)), tempStr);
-    sendLogbook.PassExportSalt := tempStr;
-    Randomize;
-    dmCrypt.stringhash(IntToStr(Random(2000000000)), tempStr);
-    sendLogbook.PassPrintSalt := tempStr;
+    // Generate salts
+    sendLogbook.PassMasterSalt := dmCrypt.newSalt();
+    sendLogbook.PassExportSalt := dmCrypt.newSalt();
+    sendLogbook.PassPrintSalt := dmCrypt.newSalt();
+
 
     // Convert the contents of the Categories listbox to a delimited string
     for i := 0 to listboxCategories.Count-1 do
@@ -398,22 +394,30 @@ begin
     end;
 
 
-
-    // Pass the record over to formLogbook
+    // Allow user to select a location to save the file
     try
       if not DirectoryExists(returnDocumentsPath + '\TimberLog\') then  // Check if TimberLog user directory exists
       begin
         MkDir(returnDocumentsPath + '\TimberLog\');
       end;
+      SaveDialog1.FileName := returnDocumentsPath + '\TimberLog\' + sendLogbook.logName + '.logb';
     finally
-      SaveDialog1.InitialDir := returnDocumentsPath + '\TimberLog';
+      //SaveDialog1.InitialDir := returnDocumentsPath + '\TimberLog';
+      //SaveDialog1.FileName := returnDocumentsPath + '\TimberLog\' + sendLogbook.logName + '.logb';
     end;
 
-    if SaveDialog1.Execute then
-    begin
-      formStartDialog.Visible := False;             // Hide the calling form first
-      filepath := ChangeFileExt(SaveDialog1.FileName, '.logb');
+    //SelectDirectoryDialog1.InitialDir := returnDocumentsPath + '\TimberLog\';
+    //SelectDirectoryDialog1.Title := 'Choose Location to Save the Logbook';
 
+    if SaveDialog1.Execute then
+    //if SelectDirectoryDialog1.Execute then
+    begin
+
+
+      filepath := ChangeFileExt(SaveDialog1.FileName, '.logb');
+      //filepath := ChangeFileExt(IncludeTrailingBackslash(SelectDirectoryDialog1.FileName) + sendLogbook.logName, '.logb');
+
+      formStartDialog.Visible := False;             // Hide the calling form first
 
       // Add to our Most recently used files
       mruMgr.ShowRecentFiles;
@@ -423,11 +427,30 @@ begin
       //ShowMessage(filepath);
 
       sendLogbook.Path := filepath;
+      dmDBTools.createDatabase(sendLogbook);
+
       newFormLogbook := TformLogbook.Create(Nil, sendLogbook); // Use this format when making a new logbook
 
       newFormLogbook.ShowModal;                     //newFormLogbook is displayed
       FreeAndNil(newFormLogbook);                   //Free newFormLogbook
       FreeAndNil(sendLogbook);
+
+
+
+      {
+      //////////////// THIS IS THE TEST START ////////////////
+      filepath := ChangeFileExt(SaveDialog1.FileName, '.logb');
+      sendLogbook.Path := filepath;
+
+      dmDBTools.createDatabase(sendLogbook);
+
+      ShowMessage(sendLogbook.isError);
+      FreeAndNil(sendLogbook);
+
+      ///////////////// THIS IS THE TEST END ////////////////
+      }
+
+
 
     end;
   end;
@@ -442,18 +465,6 @@ begin
   pgNewTypes.Show;
   Notebook1.PageIndex := 0;
   lblBack.Visible := False;
-end;
-
-procedure TformStartDialog.Button1Click(Sender: TObject);
-var
-  newFormLogbook : TformLogbook;
-begin
-  formStartDialog.Visible := False;             // Hide the calling form first
-  newFormLogbook := TformLogbook.Create(Nil, 'filepath'); // This format for opening a file
-  //newFormLogbook := TformLogbook.Create(Nil, 'filepath', RLogMetadata); // Use this format when making a new logbook
-
-  newFormLogbook.ShowModal;                     //Form2 is displayed
-  FreeAndNil(newFormLogbook);                   //Free Form2
 end;
 
 procedure TformStartDialog.btnAddCategoryClick(Sender: TObject);
@@ -607,23 +618,23 @@ begin
 end;
 
 // Create a new TformLogbook and pass the filepath to it
-procedure TformStartDialog.ShellListView1DblClick(Sender: TObject);
+procedure TformStartDialog.shellListSelectFileDblClick(Sender: TObject);
 var
   newFormLogbook : TformLogbook;
 begin
 
-  // Add to out Most recently used files
+  // Add to our Most Recently Used (MRU) file list
   mruMgr.ShowRecentFiles;
-  mruMgr.AddToRecent(ShellListView1.GetPathFromItem(ShellListView1.Selected));
+  mruMgr.AddToRecent(shellListSelectFile.GetPathFromItem(shellListSelectFile.Selected));
 
   formStartDialog.Visible := False;             // Hide the calling form first
-  newFormLogbook := TformLogbook.Create(Nil, ShellListView1.GetPathFromItem(ShellListView1.Selected));
+  newFormLogbook := TformLogbook.Create(Nil, shellListSelectFile.GetPathFromItem(shellListSelectFile.Selected));
 
   newFormLogbook.ShowModal;                     //Form2 is displayed
   FreeAndNil(newFormLogbook);                   //Free Form2
 end;
 
-procedure TformStartDialog.ShellListView1SelectItem(Sender: TObject;
+procedure TformStartDialog.shellListSelectFileSelectItem(Sender: TObject;
   Item: TListItem; Selected: Boolean);
 var
   tempLogbook : TLogbook;
@@ -632,7 +643,7 @@ begin
   tempLogbook := TLogbook.Create;
 
   try
-    tempLogbook.Path := ShellListView1.GetPathFromItem(Item);
+    tempLogbook.Path := shellListSelectFile.GetPathFromItem(Item);
     tempLogbook.readLogMetadata;
     tempLogbook.WriteMetadataToMemo(memoDetails); // Writes the record contents to the memo
   finally
@@ -641,12 +652,12 @@ begin
 
 end;
 
-procedure TformStartDialog.SpeedButton1Click(Sender: TObject);
+procedure TformStartDialog.btnCloseClick(Sender: TObject);
 begin
   formStartDialog.Close;
 end;
 
-procedure TformStartDialog.SpeedButton2Click(Sender: TObject);
+procedure TformStartDialog.btnHelpClick(Sender: TObject);
 begin
   OpenDocument('TimberLogHelp\index.html');
 end;
