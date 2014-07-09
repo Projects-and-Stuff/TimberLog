@@ -6,7 +6,7 @@
 <meta content="text/html; charset=utf-8" http-equiv="content-type">
 <meta name="Generator" content="Microsoft Word 15 (filtered)">
 <link rel="stylesheet" type="text/css" href="embeddedstyles.css">
-<title>Encryption and Security</title>
+<title>Encryption, Security, and Data Integrity</title>
 <meta name="generator" content="chmProcessor">
 <meta name="keywords" content="Logbook, Logs, Data">
 <meta name="description" content="TimberLog Manual">
@@ -14,8 +14,8 @@
 <body lang="EN-US" link="blue" vlink="purple">
 <div class="WordSection1">
 <h2><a name="node4" id="node4"></a><span style=
-'font-family:"Calibri Light","sans-serif"'>Encryption and
-Security</span></h2>
+'font-family:"Calibri Light","sans-serif"'>Encryption, Security,
+and Data Integrity</span></h2>
 <p class="MsoListParagraphCxSpFirst" style=
 'margin-top:0in;margin-right:0in; margin-bottom:0in;margin-left:.25in;margin-bottom:.0001pt;text-indent:-.25in; line-height:normal'>
 -<span style=
@@ -23,10 +23,10 @@ Security</span></h2>
 <span style='font-family:"Calibri Light","sans-serif"'>The
 underlying logbook structure is based upon the</span> <a href=
 "http://www.sqlite.org/"><span style=
-'font-family:"Calibri Light","sans-serif"'>SQLite3 Database
-specification</span></a><span style=
+'font-family:"Calibri Light","sans-serif";color:#1F497D'>SQLite3
+Database specification</span></a><span style=
 'font-family:"Calibri Light","sans-serif"'>. If a master password
-is provided upon logbook creation, the entire logbook, sans the
+is provided upon logbook creation, the entire logbook, minus the
 logbook metadata (Logbook Name, Logbook Description, Person who
 opened the logbook, etc.) is encrypted using AES-128.</span></p>
 <p class="MsoListParagraphCxSpMiddle" style=
@@ -152,9 +152,13 @@ the current machine and user profile is displayed</span></p>
 <span style='font-family:"Calibri Light","sans-serif"'>Because of
 the two-way checksum salting of each entry, even if someone knows
 the master password, in order to modify the contents of any past
-entry, they would have to update every single entry in the logbook
-and also calculate the final checksum of checksums
-values.</span></p>
+entry, they would have to perform calculations to modify every
+single entry in the logbook and also calculate the final checksum
+of checksums values.</span></p>
+<p class="MsoNormal" style=
+'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
+<span style=
+'font-family:"Calibri Light","sans-serif"'>&nbsp;</span></p>
 <p class="MsoNormal" style=
 'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
 <span style=

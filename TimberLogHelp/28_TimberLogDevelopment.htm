@@ -6,82 +6,78 @@
 <meta content="text/html; charset=utf-8" http-equiv="content-type">
 <meta name="Generator" content="Microsoft Word 15 (filtered)">
 <link rel="stylesheet" type="text/css" href="embeddedstyles.css">
-<title>Default Categories Block</title>
+<title>TimberLog Development</title>
 <meta name="generator" content="chmProcessor">
 <meta name="keywords" content="Logbook, Logs, Data">
 <meta name="description" content="TimberLog Manual">
 </head>
 <body lang="EN-US" link="blue" vlink="purple">
 <div class="WordSection1">
-<h2><a name="node20" id="node20"></a><span style=
-'font-family:"Calibri Light","sans-serif"'>Default Categories
-Block</span></h2>
+<h1><a name="node27" id="node27"></a><span style=
+'font-family:"Calibri Light","sans-serif"'>TimberLog
+Development</span></h1>
 <p class="MsoNormal" style=
 'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
 <span style=
 'font-family:"Calibri Light","sans-serif"'>&nbsp;</span></p>
 <p class="MsoNormal" style=
 'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
-<span style='font-family:"Calibri Light","sans-serif"'>The Default
-Categories Block allows the author to provide a list of categories
-that can be included in a logbook by default. When a new logbook is
-made, these categories can be modified for a particular logbook.
-Every line within this block should contain only one category name.
-This block allows multiple lines of text, enclosed in the Default
-Categories Block elements, as in this example, which provides six
-different default categories:</span></p>
-<p class="MsoNormal" style=
-'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
 <span style=
 'font-family:"Calibri Light","sans-serif"'>&nbsp;</span></p>
-<table class="MsoTableGrid" border="1" cellspacing="0" cellpadding=
-"0" style='border-collapse:collapse;border:none'>
-<tr>
-<td width="638" valign="top" style=
-'width:6.65in;border:solid windowtext 1.0pt; padding:0in 5.4pt 0in 5.4pt'>
-<p class="MsoNormal" style=
-'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
-<span style=
-'font-family:"Courier New"'>&gt;&gt;&gt;*Default_Categories*&lt;&lt;&lt;</span></p>
-<p class="MsoNormal" style=
-'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
-<span style='font-family:"Courier New"'>Electrical
-Engineering</span></p>
-<p class="MsoNormal" style=
-'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
-<span style='font-family:"Courier New"'>Computer
-Engineering</span></p>
-<p class="MsoNormal" style=
-'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
-<span style='font-family:"Courier New"'>Personal
-Projects</span></p>
-<p class="MsoNormal" style=
-'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
-<span style='font-family:"Courier New"'>Mechatronics</span></p>
-<p class="MsoNormal" style=
-'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
-<span style='font-family:"Courier New"'>Drawing Notes</span></p>
-<p class="MsoNormal" style=
-'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
-<span style='font-family:"Courier New"'>Regulations</span></p>
-<p class="MsoNormal" style=
-'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
-<span style=
-'font-family:"Courier New"'>&gt;&gt;&gt;*Default_Categories*&lt;&lt;&lt;</span></p>
-</td>
-</tr>
-</table>
+</div>
+<div class="WordSection1">
+<h2><a name="node28" id="node28"></a><span style=
+'font-family:"Calibri Light","sans-serif"'>Development
+Environment</span></h2>
 <p class="MsoNormal" style=
 'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
 <span style=
 'font-family:"Calibri Light","sans-serif"'>&nbsp;</span></p>
 <p class="MsoNormal" style=
 'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
-<span style='font-family:"Calibri Light","sans-serif"'>Only the
-lines within the first instance of the Default Categories Block in
-each logbook type file will be used. All additional Default
-Categories Blocks will be ignored. This block is
-optional.</span></p>
+<span style='font-family:"Calibri Light","sans-serif"'>TimberLog is
+currently being developed with</span> <a href=
+"http://lazarus.freepascal.org/"><span style=
+'font-family:"Calibri Light","sans-serif"'>Lazarus</span></a>
+<span style='font-family:"Calibri Light","sans-serif"'>1.2.4 (a
+rapid application development IDE using the Free Pascal Compiler
+FPC 2.6.4)</span></p>
+<p class="MsoNormal" style=
+'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
+<span style=
+'font-family:"Calibri Light","sans-serif"'>&nbsp;</span></p>
+<p class="MsoNormal" style=
+'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
+<span style='font-family:"Calibri Light","sans-serif"'>Additional
+Required Packages:</span></p>
+<p class="MsoNormal" style=
+'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
+<span style='font-family:"Calibri Light","sans-serif"'>sqlite3laz -
+Comes with Lazarus by default, but must be installed</span></p>
+<p class="MsoNormal" style=
+'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
+<a href="http://wiki.lazarus.freepascal.org/RichMemo"><span style=
+'font-family:"Calibri Light","sans-serif";color:#1F497D'>RichMemo</span></a>
+<span style='font-family:"Calibri Light","sans-serif"'>- Part of
+the Code and Component Repository (CCR)</span></p>
+<p class="MsoNormal" style=
+'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
+<a href=
+"http://wiki.lazarus.freepascal.org/ZVDateTimeControls_Package"><span style='font-family:"Calibri Light","sans-serif";color:#1F497D'>
+ZVDateTimeCtrls</span></a> <span style=
+'font-family:"Calibri Light","sans-serif"'>- Part of the Code and
+Component Repository (CCR)</span></p>
+<p class="MsoNormal" style=
+'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
+<a href=
+"http://wiki.lazarus.freepascal.org/UniqueInstance"><span style=
+'font-family:"Calibri Light","sans-serif";color:#1F497D'>UniqueInstance</span></a>
+<span style='font-family:"Calibri Light","sans-serif"'>- Part of
+the luipack Project</span></p>
+<p class="MsoNormal" style=
+'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
+<span style=
+'font-family:"Calibri Light","sans-serif"'>&nbsp;</span></p>
 <p class="MsoNormal" style=
 'margin-bottom:0in;margin-bottom:.0001pt;line-height: normal'>
 <span style=
