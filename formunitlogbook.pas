@@ -36,7 +36,7 @@ type
 
   TformLogbook = class(TForm)
     Button1: TButton;
-    CheckBox1: TCheckBox;
+    chkLateEntry: TCheckBox;
     chkFilterByDate: TCheckBox;
     cmbCategory: TComboBox;
     dtEnd: TZVDateTimePicker;
@@ -96,13 +96,13 @@ type
     SynExporterHTML1: TSynExporterHTML;
     txtSearch: TLabeledEdit;
     dtLateEntry: TZVDateTimePicker;
-    procedure btnResetSearchClick(Sender: TObject);
-    procedure btnSearchClick(Sender: TObject);
     procedure Button1Click(Sender: TObject);
+    procedure chkFilterByDateChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure lblAddNewEntryClick(Sender: TObject);
+    procedure lblResetClick(Sender: TObject);
     procedure mnuChangeFontClick(Sender: TObject);
     procedure mnuViewManualClick(Sender: TObject);
     procedure mnuVisitWebsiteClick(Sender: TObject);
@@ -167,8 +167,6 @@ begin
     mnuThisLogbook.Enabled := True;
   end;
 
-
-
 end;
 
 procedure TformLogbook.FormClose(Sender: TObject; var CloseAction: TCloseAction);
@@ -190,10 +188,6 @@ begin
   end;
 
   ShowMessage(DateTimeToStr(FileDateToDateTime(ATLogbook.LogMetadata.DTOpened)));
-
-
-
-  //ATLogbook.Free;
 
 end;
 
@@ -217,12 +211,28 @@ end;
 procedure TformLogbook.lblAddNewEntryClick(Sender: TObject);
 begin
 
+  // Verify the length of the entry lines
 
+  // Verify name and entry are present
+
+  // if chkLateEntry is checked, make sure a valid date (in the past) is selected
 
 
 
 
   richmemoLogView.SelStart:=Length(richmemoLogView.Lines.Text)-1; // Scroll to the end (most recent entry)
+end;
+
+procedure TformLogbook.lblResetClick(Sender: TObject);
+begin
+  txtSearch.Clear;
+  chkFilterByDate.Checked := False;
+
+  dtStart.Date := Now - 90;
+  dtEnd.Date := Now;
+
+  // Clear categories
+
 end;
 
 procedure TformLogbook.mnuChangeFontClick(Sender: TObject);
@@ -298,16 +308,6 @@ begin
   Close;
 end;
 
-procedure TformLogbook.btnResetSearchClick(Sender: TObject);
-begin
-
-end;
-
-procedure TformLogbook.btnSearchClick(Sender: TObject);
-begin
-
-end;
-
 procedure TformLogbook.Button1Click(Sender: TObject);
 var
   testLogMetadata : RLogMetadata;
@@ -329,6 +329,21 @@ begin
 
 
   //ATLogbook.NewLogbook();
+end;
+
+procedure TformLogbook.chkFilterByDateChange(Sender: TObject);
+begin
+  if chkFilterByDate.Checked = True then
+  begin
+    dtStart.Enabled := True;
+    dtEnd.Enabled := True;
+  end
+  else
+  begin
+    dtStart.Enabled := False;
+    dtEnd.Enabled := False;
+  end;
+
 end;
 
 procedure TformLogbook.LabelAsButtonMouseLeave(Sender: TObject);

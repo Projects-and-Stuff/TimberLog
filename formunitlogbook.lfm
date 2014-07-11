@@ -613,7 +613,7 @@ object formLogbook: TformLogbook
       EditLabel.ParentColor = False
       TabOrder = 1
     end
-    object CheckBox1: TCheckBox
+    object chkLateEntry: TCheckBox
       AnchorSideLeft.Control = cmbCategory
       AnchorSideLeft.Side = asrBottom
       AnchorSideBottom.Control = Panel2
@@ -629,7 +629,7 @@ object formLogbook: TformLogbook
       TabOrder = 2
     end
     object dtLateEntry: TZVDateTimePicker
-      AnchorSideLeft.Control = CheckBox1
+      AnchorSideLeft.Control = chkLateEntry
       AnchorSideLeft.Side = asrBottom
       AnchorSideBottom.Control = Panel2
       AnchorSideBottom.Side = asrBottom
@@ -658,7 +658,7 @@ object formLogbook: TformLogbook
       MonthNames = 'Long'
     end
     object Label1: TLabel
-      AnchorSideLeft.Control = CheckBox1
+      AnchorSideLeft.Control = chkLateEntry
       AnchorSideLeft.Side = asrBottom
       AnchorSideBottom.Control = dtLateEntry
       Left = 451
@@ -784,6 +784,7 @@ object formLogbook: TformLogbook
       Top = 64
       Width = 140
       Caption = 'Filter by date:'
+      OnChange = chkFilterByDateChange
       TabOrder = 1
     end
     object dtStart: TZVDateTimePicker
@@ -862,6 +863,7 @@ object formLogbook: TformLogbook
       Font.Style = [fsBold]
       ParentColor = False
       ParentFont = False
+      OnClick = lblResetClick
       OnMouseDown = LabelAsButtonMouseDown
       OnMouseMove = LabelAsButtonMouseMove
       OnMouseUp = LabelAsButtonMouseUp
