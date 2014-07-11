@@ -3,7 +3,7 @@
 
 ---
 
-Compiled Binary Downloads, additional information, research, and notes can be found at http://www.projectsandstuff.com, or email us at support@projectsandstuff.com
+Compiled Binary Downloads, additional information, research, and notes can be found at http://www.projectsandstuff.com/TimberLog, or email us at support@projectsandstuff.com
 
 Let us know if you fork and make improvements. We'd be glad to consider merges that improve this project.
 
