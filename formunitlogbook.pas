@@ -53,6 +53,9 @@ type
     LabeledEdit1: TLabeledEdit;
     MainMenu1: TMainMenu;
     MenuItem1: TMenuItem;
+    MenuItem2: TMenuItem;
+    MenuItem3: TMenuItem;
+    MenuItem4: TMenuItem;
     mnuViewManual: TMenuItem;
     mnuVisitWebsite: TMenuItem;
     mnuAbout: TMenuItem;

@@ -707,8 +707,8 @@ object formLogbook: TformLogbook
       AnchorSideBottom.Control = Panel2
       AnchorSideBottom.Side = asrBottom
       Left = 143
-      Height = 23
-      Top = 289
+      Height = 24
+      Top = 288
       Width = 176
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 16
@@ -723,7 +723,7 @@ object formLogbook: TformLogbook
       AnchorSideBottom.Control = cmbCategory
       Left = 143
       Height = 16
-      Top = 270
+      Top = 269
       Width = 72
       Anchors = [akLeft, akBottom]
       BorderSpacing.Left = 16
@@ -1014,6 +1014,15 @@ object formLogbook: TformLogbook
           Caption = 'Current View'
         end
         object mnuExportEntireLogPDF: TMenuItem
+          Caption = 'Entire Logbook'
+        end
+      end
+      object MenuItem2: TMenuItem
+        Caption = 'Export as HTML'
+        object MenuItem3: TMenuItem
+          Caption = 'Current View'
+        end
+        object MenuItem4: TMenuItem
           Caption = 'Entire Logbook'
         end
       end
