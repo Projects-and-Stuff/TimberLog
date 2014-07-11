@@ -102,8 +102,8 @@ type
     shellTreeSelectFolder: TShellTreeView;
     btnClose: TSpeedButton;
     btnHelp: TSpeedButton;
-    Splitter1: TSplitter;
-    Splitter2: TSplitter;
+    Splitter_Vert: TSplitter;
+    Splitter_Horiz: TSplitter;
     Splitter3: TSplitter;
     txtMasterPass: TEdit;
     txtMasterPass1: TEdit;
@@ -304,8 +304,8 @@ begin
   end;
 
   fileList.Free;
-  Splitter1.Color := clbMedium;
-  Splitter2.Color := clbMedium;
+  Splitter_Vert.Color := clbMedium;
+  Splitter_Horiz.Color := clbMedium;
   Shape1.Pen.Color := clbMedium;
   lblOpenOtherLogbooks.Font.Color := clbVividTextDefault;
   lblBack.Font.Color := clbVividTextDefault;

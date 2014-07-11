@@ -1,7 +1,7 @@
 object formStartDialog: TformStartDialog
-  Left = 444
+  Left = 427
   Height = 731
-  Top = 247
+  Top = 190
   Width = 1210
   BorderStyle = bsNone
   Caption = 'formStartDialog'
@@ -32,18 +32,18 @@ object formStartDialog: TformStartDialog
     Pen.Width = 5
   end
   object Notebook1: TNotebook
-    AnchorSideLeft.Control = Splitter1
+    AnchorSideLeft.Control = Splitter_Vert
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Shape3
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Shape1
     AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = Splitter2
+    AnchorSideBottom.Control = Splitter_Horiz
     Left = 381
     Height = 415
     Top = 73
     Width = 824
-    PageIndex = 2
+    PageIndex = 0
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Right = 5
     Color = clWhite
@@ -646,7 +646,7 @@ object formStartDialog: TformStartDialog
     ParentFont = False
   end
   object Shape2: TShape
-    AnchorSideRight.Control = Splitter1
+    AnchorSideRight.Control = Splitter_Vert
     Left = 8
     Height = 1
     Top = 648
@@ -654,7 +654,7 @@ object formStartDialog: TformStartDialog
     Anchors = [akTop, akLeft, akRight]
     BorderSpacing.Right = 8
   end
-  object Splitter1: TSplitter
+  object Splitter_Vert: TSplitter
     AnchorSideTop.Control = Shape3
     AnchorSideTop.Side = asrBottom
     AnchorSideBottom.Control = Owner
@@ -708,9 +708,9 @@ object formStartDialog: TformStartDialog
     OnMouseLeave = LabelAsButtonMouseLeave
   end
   object Shape4: TShape
-    AnchorSideLeft.Control = Splitter1
+    AnchorSideLeft.Control = Splitter_Vert
     AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = Splitter2
+    AnchorSideTop.Control = Splitter_Horiz
     AnchorSideTop.Side = asrBottom
     AnchorSideRight.Control = Shape1
     AnchorSideRight.Side = asrBottom
@@ -726,7 +726,7 @@ object formStartDialog: TformStartDialog
     Pen.Color = clWhite
   end
   object memoDetails: TMemo
-    AnchorSideLeft.Control = Splitter1
+    AnchorSideLeft.Control = Splitter_Vert
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Label5
     AnchorSideTop.Side = asrBottom
@@ -772,8 +772,8 @@ object formStartDialog: TformStartDialog
     ScrollBars = ssAutoVertical
     TabOrder = 2
   end
-  object Splitter2: TSplitter
-    AnchorSideLeft.Control = Splitter1
+  object Splitter_Horiz: TSplitter
+    AnchorSideLeft.Control = Splitter_Vert
     AnchorSideLeft.Side = asrBottom
     AnchorSideRight.Control = Owner
     AnchorSideRight.Side = asrBottom
@@ -795,9 +795,9 @@ object formStartDialog: TformStartDialog
     Width = 1192
   end
   object Label5: TLabel
-    AnchorSideLeft.Control = Splitter1
+    AnchorSideLeft.Control = Splitter_Vert
     AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = Splitter2
+    AnchorSideTop.Control = Splitter_Horiz
     AnchorSideTop.Side = asrBottom
     Left = 389
     Height = 31
@@ -941,7 +941,7 @@ object formStartDialog: TformStartDialog
     TabOrder = 4
   end
   object Shape5: TShape
-    AnchorSideRight.Control = Splitter1
+    AnchorSideRight.Control = Splitter_Vert
     Left = 8
     Height = 1
     Top = 152
@@ -951,7 +951,7 @@ object formStartDialog: TformStartDialog
   end
   object lblBack: TLabel
     AnchorSideLeft.Side = asrCenter
-    AnchorSideRight.Control = Splitter1
+    AnchorSideRight.Control = Splitter_Vert
     Left = 262
     Height = 31
     Top = 96
@@ -979,7 +979,7 @@ object formStartDialog: TformStartDialog
     AnchorSideLeft.Control = Shape1
     AnchorSideTop.Control = Label1
     AnchorSideTop.Side = asrBottom
-    AnchorSideRight.Control = Splitter1
+    AnchorSideRight.Control = Splitter_Vert
     AnchorSideBottom.Control = Shape2
     Left = 20
     Height = 449

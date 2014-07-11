@@ -35,20 +35,23 @@ type
     DataSource1: TDataSource;
     SQLite3Connection1: TSQLite3Connection;
     Sqlite3Dataset1: TSqlite3Dataset;
-    SQLQuery: TSQLQuery;
+    SQLQuery1: TSQLQuery;
     SQLTransaction1: TSQLTransaction;
     procedure DataModuleCreate(Sender: TObject);
   private
     { private declarations }
-    procedure createTableEntries;
-    procedure createTableSettings;
-    procedure createTableCategories;
-    procedure createTableTemplates;
-    procedure createTableUsers;
-    procedure fillTableSettings(inputLogbook : TLogbook);
-    procedure setAppId;                                      // Inserts an ID into pragma application_id
+    procedure createTableEntries;                            // Creates the Entries Table
+    procedure createTableSettings;                           // Creates the Entries Table
+    procedure createTableCategories;                         // Creates the Entries Table
+    procedure createTableTemplates;                          // Creates the Entries Table
+    procedure createTableUsers;                              // Creates the Entries Table
+    procedure settings_Add(inputLogbook : TLogbook);         // Initially fills in the values for the Settings Table (check whether the settings exist before trying to add)
+    procedure settings_Update(inputLogbook : TLogbook);      // Updates writeable values for the Settings Table
+    procedure setAppId;                                      // Inserts app ID into pragma application_id - Used to identify .logb file format version used
     procedure setUserVersion;                                // Inserts a random number into pragma user_verion
-
+    procedure queryAppId(id : String);                       // Obtains the application_id Pragma value
+    procedure queryUserVersion(version : String);            // Obtains the user_version Pragma value
+    procedure resetKey(oldKey : String; newKey : String);
   public
     { public declarations }
 
@@ -56,21 +59,20 @@ type
     procedure closeAll;
 
     /// NOTE: Each of the search procedures includes default values. So to get all records from the table, just leave the inputs blank
-    procedure entriesSearch(inputObject : TObject; searchString : String = '%'; category : String = '%'; username : String = '%'; dateStart : LongInt = 0; dateEnd : LongInt = 4102444800);
-    procedure entriesNew(username : String; entry : String; lateEntry : LongInt = 0);
-    // procedure categoriesNew
-    // procedure categoriesSearch
-    // procedure usersSearch
-    // procedure usersAdd // Only adds one user at a time
-    // procedure usersUpdatePass // Only updates one record at a time
-    // procedure templatesSearch
-    // procedure templatesAdd
-    // procedure settingsSearch
-    // procedure settingsAdd // Only used when creating the logbook (check whether the settings exist before trying to add)
-    // procedure settingsUpdateChecksum
-    // procedure settingsUpdatePassMaster
-    // procedure settingsUpdatePassExport
-    // procedure settingsUpdatePassPrint
+    procedure entries_Search(inputObject : TObject; searchString : String = '%'; category : String = '%'; username : String = '%'; dateStart : LongInt = 0; dateEnd : LongInt = 4102444800);
+    procedure entries_New(username : String; entry : String; lateEntry : LongInt = 0);
+    procedure categories_Add(newCategory : String);
+    procedure categories_Query(sort : Boolean);
+    // procedure users_Query
+    procedure users_Add(newUsername : String; passSalt : String; passHash : String; Question1 : String; Answer1 : String); // Only adds one user at a time
+    procedure users_UpdatePass(oldPassHash : String; newPassHash : String); // Only updates one record at a time
+    // procedure templates_Query
+    procedure templates_Add(newTemplateItem : String);
+    // procedure settings_Query
+    // procedure settings_UpdateChecksum
+    // procedure settings_UpdatePassMaster
+    // procedure settings_UpdatePassExport
+    // procedure settings_UpdatePassPrint
   end;
 
 var
@@ -89,7 +91,6 @@ var
   newFile : Boolean;
   tempStr : String;
 begin
-  SQLiteLibraryName := 'sqlite3.dll';
 
   SQLite3Connection1.Close; // Ensure the connection is closed when we start
 
@@ -149,7 +150,7 @@ begin
         SQLite3Connection1.Connected := True;
         SQLTransaction1.Active := True;
 
-        fillTableSettings(inputLogbook);
+        settings_Add(inputLogbook);
 
 
 
@@ -186,7 +187,9 @@ end;
 
 procedure TdmDBTools.DataModuleCreate(Sender: TObject);
 begin
-  Randomize;
+  Randomize; // Make sure we can obtain good randomized values
+
+  SQLiteLibraryName := 'sqlite3.dll'; // Ensure we're using the local sqlite3.dll
 end;
 
 procedure TdmDBTools.createTableEntries;
@@ -248,10 +251,12 @@ begin
                     ' "id" Integer NOT NULL PRIMARY KEY AUTOINCREMENT,'+
                     ' "Username" Text NOT NULL,'+
                     ' "PassSalt" Text NOT NULL,'+
-                    ' "PassHash" Text NOT NULL);');
+                    ' "PassHash" Text NOT NULL,'+
+                    ' "Question1" Text NOT NULL,'+
+                    ' "Answer1" Text NOT NULL);');
 end;
 
-procedure TdmDBTools.fillTableSettings(inputLogbook : TLogbook);
+procedure TdmDBTools.settings_Add(inputLogbook : TLogbook);
 begin
 
   with Sqlite3Dataset1 do
@@ -286,10 +291,107 @@ begin
 
 end;
 
+// Updates the following values in the Settings Table. Used when closing the logbook
+// - DTAccessed
+// - Checksum
+procedure TdmDBTools.settings_Update(inputLogbook: TLogbook);
+begin
+
+end;
+
+
+
 // Inserts a random number into pragma user_verion
 procedure TdmDBTools.setUserVersion;
 begin
   SQLite3Connection1.ExecuteDirect('PRAGMA user_version = ' + IntToStr(Random(2000000000)) + ';');
+end;
+
+procedure TdmDBTools.queryAppId(id: String);
+begin
+  SQLite3Connection1.Close; // Ensure the connection is closed when we start
+
+  //SQLite3Connection1.Password := txtPass.Text; // The current password
+
+  //SQLite3Connection1.DatabaseName := 'new.db'; // Set the path to the database
+
+  // Try to query database for application_id Pragma
+  try
+    SQLite3Connection1.Open;
+
+    SQLQuery1.SQL.Text := 'PRAGMA application_id;';
+    SQLQuery1.Open;
+
+    // Display the resulting value
+    id := SQLQuery1.fields[0].asString;
+
+  except
+    // Error
+  end;
+end;
+
+procedure TdmDBTools.queryUserVersion(version: String);
+begin
+  SQLite3Connection1.Close; // Ensure the connection is closed when we start
+
+  //SQLite3Connection1.Password := txtPass.Text; // The current password
+
+  //SQLite3Connection1.DatabaseName := 'new.db'; // Set the path to the database
+
+  // Try to query database for application_id Pragma
+  try
+    SQLite3Connection1.Open;
+
+    SQLQuery1.SQL.Text := 'PRAGMA user_version;';
+    SQLQuery1.Open;
+
+    // Display the resulting value
+    version := SQLQuery1.fields[0].asString;
+
+  except
+    // Error
+  end;
+end;
+
+procedure TdmDBTools.resetKey(oldKey : String; newKey : String);
+begin
+
+    SQLite3Connection1.Close; // Ensure the connection is closed when we start
+
+    SQLite3Connection1.Password := oldKey; // The current password
+
+    //SQLite3Connection1.DatabaseName := 'new.db'; // Set the path to the database
+
+    // Update the database key
+    try
+      SQLite3Connection1.Open;
+      SQLTransaction1.Active := True;
+
+
+      // Here we change the key.
+      // We use double-quotes here so that a blank key (IE: "") can be provided if
+      // you want to remove encryption from the database.
+      // This is a very simplistic demonstration. Ideally, we would take a stronger cryptographic approach
+      // Some helpful info on this topic can be found at:
+      // https://www.owasp.org/index.php/Cheat_Sheets
+      // Per SQLite Documentation:
+      // Note that the hexkey, rekey and hexrekey pragmas only work with SQLite version 3.6.8 and later.
+      // http://www.sqlite.org/see/doc/trunk/www/readme.wiki
+      // Section: Using the "key" PRAGMA
+      SQLite3Connection1.ExecuteDirect('PRAGMA rekey = "' + newKey + '";');
+
+
+      SQLTransaction1.Commit;
+      SQLTransaction1.Active := False;
+      SQLite3Connection1.Close;
+
+      // If we're going to store the key or hash, make sure we update the value here
+
+
+
+    except
+      // Return error
+    end;
 end;
 
 // Inserts an ID into pragma application_id
@@ -307,7 +409,7 @@ end;
 // If dateStart is left blank, it defaults to the epoch
 // If dateEnd is left blank, it defaults to Jan 1, 2100
 ///////// Add search by Username and Category
-procedure TdmDBTools.entriesSearch(inputObject: TObject;
+procedure TdmDBTools.entries_Search(inputObject: TObject;
   searchString: String; category: String; username: String; dateStart: LongInt;
   dateEnd: LongInt);
 var
@@ -328,7 +430,7 @@ begin
   SdateStart := FormatDateTime('yyyy-mm-dd', + TDate(FileDateToDateTime(dateStart))); // Convert to format SQLite can interpret
   SdateEnd := FormatDateTime('yyyy-mm-dd', + TDate(FileDateToDateTime(dateEnd))); // Convert to format SQLite can interpret
 
-  with SQLQuery do
+  with SQLQuery1 do
   begin
     Close;
     SQL.Text := 'Select * FROM Entries WHERE id > 1 AND (Entry LIKE :searchString OR Name LIKE :searchString) AND (strftime(' + QuotedStr('%Y-%m-%d') + ', Intended_DT) >= date(:dateStart)) AND (strftime(' + QuotedStr('%Y-%m-%d') + ', Intended_DT) >= date(:dateEnd))';
@@ -355,10 +457,36 @@ begin
 end;
 
 // Adds a new entry to the logbook. If no lateEntry date is provided, it defaults to 0 and 'Now()' is used in the logbook
-procedure TdmDBTools.entriesNew(username: String; entry: String;
+procedure TdmDBTools.entries_New(username: String; entry: String;
   lateEntry: LongInt);
 begin
 
+
+end;
+
+procedure TdmDBTools.categories_Add(newCategory: String);
+begin
+
+end;
+
+procedure TdmDBTools.categories_Query(sort: Boolean);
+begin
+
+end;
+
+procedure TdmDBTools.users_Add(newUsername: String; passSalt: String;
+  passHash: String; Question1: String; Answer1: String);
+begin
+
+end;
+
+procedure TdmDBTools.users_UpdatePass(oldPassHash: String; newPassHash: String);
+begin
+
+end;
+
+procedure TdmDBTools.templates_Add(newTemplateItem: String);
+begin
 
 end;
 

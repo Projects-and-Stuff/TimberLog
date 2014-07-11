@@ -6,11 +6,11 @@ object dmDBTools: TdmDBTools
   VerticalOffset = 350
   Width = 316
   object DataSource1: TDataSource
-    DataSet = SQLQuery
+    DataSet = SQLQuery1
     left = 24
     top = 8
   end
-  object SQLQuery: TSQLQuery
+  object SQLQuery1: TSQLQuery
     FieldDefs = <>
     Database = SQLite3Connection1
     Transaction = SQLTransaction1

@@ -18,8 +18,8 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="1"/>
-      <BuildNr Value="599"/>
-      <StringTable ProductVersion=""/>
+      <BuildNr Value="606"/>
+      <StringTable Comments="Developed by Jack D Linke" CompanyName="Projects and Stuff" OriginalFilename="TimberLog.exe" ProductName="TimberLog" ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
       <Item1 Name="Default" Default="True"/>
