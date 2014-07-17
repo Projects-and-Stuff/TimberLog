@@ -1,0 +1,263 @@
+>>>*Logbook_Type*<<<
+Vehicle Inspection Log
+>>>*Logbook_Type*<<<
+
+
+
+
+>>>*Description*<<<
+This Logbook Type can be used for tracking vehicle maintenance and status.
+>>>*Description*<<<
+
+
+
+
+>>>*Settings*<<<
+Sort_Categories=False
+Allow_TypeFile_Export=True
+>>>*Settings*<<<
+
+
+
+
+
+>>>*Default_Categories*<<<
+Maintenance
+Inventories
+Inspections
+Vehicle Operation
+>>>*Default_Categories*<<<
+
+
+
+
+>>>*One_Line*<<<
+Tire Pressure: 
+Oil Type: 
+Inspector Notes: 
+>>>*One_Line*<<<
+
+
+
+
+>>>*Multi_Line*<<<
+Monthly Maintenance Checklist
+Monthly Maintenance Checklist
+-----------------------------
+
+Corrosion: 
+Visually inspect for corrosion or cracks and/or breaks
+
+Tailgate: 
+Check for corroded-through condition or damage, and that tailgate latches securely
+
+Troop Seats: 
+Inspect for missing or damaged lock-pins and security of mounting
+
+Zippers: 
+A. Check canvas top and/or door zippers for corrosion or damage
+B. Apply interlock lubricant (zipperease) to canvas top and door zippers
+>>>*Multi_Line*<<<
+
+
+
+>>>*Multi_Line*<<<
+Weekly Maintenance Checklist
+Weekly Maintenance Checklist
+-----------------------------
+
+Tires: 
+Do not exceed 50 psi
+A. Check tire tread depth. Tread should not be worn beyond level of wear bars (identified by "TWI" on sidewall)
+B. Measure tread depth. Should not be less than 1/16"
+C. Check for missing or loose wheel stud nuts and lug nuts. Have MT Maintenance tighten to proper torque
+D. Gauge tire for correct air pressure per TM 9-2320-280-10
+
+Doors and Windows: 
+Check for proper operation 
+
+Doors: 
+Check for cracks and make sure latch, hinges, and door handle are not loose, damaged, or missing parts. 
+
+Cooling System: 
+A. Check fan and pulley for damage
+B. Check radiator for leaks, clogged or damaged fins, and loose or damaged hoses
+C. Check support mounts on radiator for damage
+D. Check for missing, broken, cracked, or frayed drive belts and serpentine belt
+E. Check drive belts for looseness
+F. Check fan shroud for damage
+G. Check engine oil cooler and hoses for damage or leaks
+ 
+Environmental Control System: 
+A. Check security of A/C heater control box mounting
+B. Check HVAC filter for dirt & debris
+C. Inspect exposed HVAC system ducts, hoses, fitting lines, vents and mounting hardware for damage, leaks, and missing parts.
+D. Inspect exposed wiring harnesses for breaks, frayed insulation, loose or damaged connectors, and loose, damaged, or missing mounting hardware.
+ 
+Tow Pintle: 
+Check pintle hook for looseness, damaged locking mechanism, and presence of cotter pin 
+
+Trailer Electrical Connector: 
+Check for damage 
+
+Exhaust System: 
+Check for security of all mounts, tightness of clamps and bolts, rust, damaged pipes, and exhaust leaks 
+
+Shock Absorbers: 
+Visually inspect for leaks, damage, and security of mounting 
+
+Tailgate: 
+Check that tailgate latches securely and operates properly 
+
+Alternator Brackets: 
+Check power steering and alternator brackets for cracks, damage, or loose bolts. 
+
+Batteries: 
+A. Remove companion seat and check batteries for damaged casing, terminal posts, and security of mounting
+B. Electrolyte should be filled to the level/split ring in the batter filler vent. Fill with distilled water as needed.
+C. Check battery box for corrosion. Clean debris from battery box drain holes.
+ 
+Tie-down Straps: 
+Inspect for tears, frays, damage or missing straps 
+
+Canvas and Bows: 
+A. Inspect cargo cover for tears, punctures, and ripped seams
+B. Inspect windows for cracks and scratches
+C. Inspect mounting brackets for damage
+D. Inspect footman loops and straps for tears, frays, and damage
+ 
+Windshield Washer: 
+Check for damage and proper fluid level 
+
+Tow Hooks: 
+Check presence and condition 
+
+Parking Brake: 
+Inspect brake for obstructions or broken/missing spring 
+>>>*Multi_Line*<<<
+
+
+
+>>>*Multi_Line*<<<
+Before Operation Checklist
+Before Operation Checklist
+-----------------------------
+
+Left/Right, Front/Rear, Exterior: 
+Visually check underneath, front, rear, and sides for fluid leakage or obvious damage
+
+Cooling System: 
+Check coolant level. Should be at or above "FULL COLD" line. Add coolant if needed. 
+
+Fire Extinguisher: 
+Check for missing or damaged extinguisher. Check for gauge pressure of approximately 150 psi. Check for damaged or missing seal. 
+
+Instrument Panel: 
+A. Check wait-to-start light and brake warning light
+B. Start Engine and check:
+	1. Oil Pressure Gauge
+	2. Voltmeter
+	3. Air Restriction Gauge
+	4. Brake warning light goes off when brake released
+	5. Fuel Gauge
+	6. Coolant Temperature Gauge
+
+Tires: 
+Visually check for presence and under-inflation 
+
+Seat and Seatbelts: 
+Check seatbelts for security, damage, and operation of buckle and clasp. 
+
+Gear shifter lever: 
+Check transmission lever for free movement through all operating ranges. With transmission in "N", check transfer shift lever for free movement through all operating ranges.  
+
+Steering: 
+Steering wheel moved freely 
+
+Brakes: 
+A. Check brake pedal travel (should depress 1-1.5 inches before brakes start to take hold)
+B. Check parking brake in "D" and "R". Vehicle should not move. Brake lever safety mechanism should latch when parking brake is applied.
+>>>*Multi_Line*<<<<
+
+
+
+
+>>>*Multi_Line*<<<
+During Operation Checklist
+During Operation Checklist
+-----------------------------
+
+Controls and Indicators: 
+Monitor all gauges and speedometer
+
+Steering: 
+Check for excessive sway, leaning to one side, unstable handling or free play, binding, or shimmy 
+
+Transmission: 
+Check for slips or failure to shift 
+
+Brakes: 
+Check brakes for pulling or grabbing 
+
+Power Train: 
+Be alert for unusual noises or vibrations from engine, transmission, transfer, differentials, propeller shafts, axle shafts, or wheels 
+>>>*Multi_Line*<<<<
+
+
+
+
+>>>*Multi_Line*<<<
+After Operation Checklist
+After Operation Checklist
+-----------------------------
+
+Transmission Fluid: 
+If level is below crosshatch marks, add fluid to bring level to the crosshatch marks 
+
+Tires: 
+Visually check for under-inflation, cuts, gouges, cracks, or bulges. Remove any penetrating objects. 
+
+Mirrors: 
+Check for presence, cracks, and serviceability 
+
+Engine Oil: 
+Level should be between "ADD" and "FULL". Add oil if needed. 
+
+Power Steering Lines and fittings: 
+Check for leaks 
+
+Power Steering Reservoir: 
+Fluid level should be between "HOT" and "COLD" marks. Add fluid if needed. 
+
+Master Cylinder: 
+Check for leaks and for security of cover 
+
+Lights: 
+A. Check for presence and operation of service drive, turn signal, blackout marker, blackout drive, and side marker lights
+B. Check operation of tail/stop lights when braking
+ 
+Light Switches: 
+Check that all switches are in "OFF" position 
+
+Fuel Filter: 
+A. Check fuel for contamination. With engine running, open drain valve. Allow fuel to drain into a suitable container until it runs clear. Close valve.
+B. Check for leaks
+C. Stop engine and remove rubber hose from drain valve, if installed
+ 
+Left/Right, Front/Rear, Exterior: 
+A. Check underneath for evidence of fluid leakage
+B. Check half-shaft CV boots and ball joint boots for presence, rips, tears, or cuts
+C. Inspect frame cross-members, underbody support, bumpers, and inner braces in area around towing pintle for missing hardware, cracks, breaks, or rust
+D. Check for body damage that would impair vehicle operation
+ 
+Cooling System: 
+Inspect radiator hoses for leakage 
+
+Horn: 
+Check for proper operation 
+
+Windshield and Wipers: 
+A. Check for windshield damage that would impair operation
+B. Check wipers and blades for presence and damage
+>>>*Multi_Line*<<<<
+
