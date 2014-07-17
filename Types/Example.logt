@@ -3,33 +3,43 @@ Example
 >>>*Logbook_Type*<<<
 
 
+You can add standard comments just about anywhere
+- as long as it's not within one of the defined Blocks! -
 
-You can add any sort of comments or notes that you want
-- as long as it's not within a section! -
+Just keep in mind that these comments will not be saved with the logbooks you create. Only the content within the defined Blocks will be saved along with each logbook. Therefore, any important details that are specific to the usage of the logbook type should be included within the Description Block.
 
-Just keep in mind that these comments will not be saved with the logbooks you create. Only the content within the sections will be saved along with each logbook. Therefore, any important details that are sepcific to the usage of the logbook type should be included within the Description section.
 
-Notes or comments outside of the sections should serve mainly to help document the logbook type in order to explain why various decisions were made or how another person can extend the logboo type for their needs.
+>>>*Comments*<<<
+This comment will be saved and embedded with the logbook
+>>>*Comments*<<<
+
+
+Notes or comments outside of the defined Blocks should serve mainly to help document the logbook type in order to explain why various decisions were made or how another person can extend the logbook type for their needs.
 
 >>>*Description*<<<
 This logbook type provides some example default text, categories, and template text. It demonstrates creation of logbook types. This type is not intended to be used in an actual logbook, but should help you in developing new logbook types.
 >>>*Description*<<<
 
 
+Here I’ve set values for a couple of settings:
+
+>>>*Settings*<<<
+Sort_Categories=False
+Allow_TypeFile_Export=True
+>>>*Settings*<<<
+
 
 >>>*Default_Text*<<<
 Every entry for this particular logbook type will have this text entered by default.
 
-It can be deleted by the user while making the entry, of course,
-but it's always available when making a new entry.
-------------------------------------------------------------------------------------
-
+It can be deleted by the user while making the entry, of course, but it's always available when making a new entry.
+--------------------------------------------------------------------
 >>>*Default_Text*<<<
 
 
-Here are a few categories for the logbook.
+Below are a few categories for the logbook.
 When you make the logbook, if you do not select the option to allow categories, then these will not be used.
-Additionally, since this section is optional, you can either leave the line(s) within the section blank or delete it altogether.
+Additionally, since this Block is optional, you can either leave the line(s) within the Block blank or delete the Block altogether.
 
 >>>*Default_Categories*<<<
 Notes
@@ -52,6 +62,7 @@ The quick brown fox jumps over the lazy dog!
 
 
 
+Remember that the first line of Multi_Line Blocks is used at the name or title for that block, and is not inserted into the Logbook Entry.
 
 >>>*Multi_Line*<<<
 Dream Log
@@ -67,14 +78,10 @@ Interpretation:
 
 
 
-
-
 >>>*Multi_Line*<<<
 Invention  
 Invention Title: 
 Progress: 
-
-
 
 
 
@@ -84,7 +91,7 @@ Temperature:
 
 
 
-You can do some formatting as well. Ascii text blocks, tabs, etc are acceptable.
+You can do some basic formatting as well. Ascii text blocks, tabs, etc are acceptable.
 
 >>>*Multi_Line*<<<
 Troubleshooting Entry
@@ -110,4 +117,4 @@ Supplier:
 >>>*Multi_Line*<<<<
 
 
-Again, any additional notes or comments that you want to are absolutely acceptable as long as they are outside of the sections.
+Again, any additional notes or comments that you want to are absolutely acceptable as long as they are outside of the defined Blocks.
