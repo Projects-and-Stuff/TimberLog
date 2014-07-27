@@ -76,6 +76,10 @@ type
       procedure deleteBackupLog;         // Deletes the backup logbook
       procedure copyDataToLogMetadata;         // Copies the data from the main class parameters to LogMetadata
       procedure copyDataFromLogMetadata;         // Copies the data from LogMetadata to the main class parameters
+
+      // Opens the database via filestream and manually checks/returns the user_version and application_id pragma values
+      procedure checkPragmaManually({var Buser_version : LongInt; }var Bapplication_id : Cardinal);
+
       constructor Create; overload;
       constructor Create(Args: array of Integer); overload;
       destructor Destroy; override;
@@ -117,20 +121,26 @@ type
       property isError : String read FisError write FisError;
     end;
 
-
   {
   headerMark and footerMark definition:
   TEXT:      >TimberLog<
   ASCII:     #062 #084 #105 #109 #098 #101 #114 #076 #111 #103 #060
   }
 
+  RSQLiteHeader = packed record
+    Astart : array [0..59] of byte;
+    Auser_version : LongInt;
+    Avaccuum : array [0..3] of byte;
+    Aapplication_id : Cardinal;
+  end;
+
 
 implementation
 
 { TLogbook }
 
-uses
-  dmUnitDBTools;
+{uses
+  dmUnitDBTools;}
 
 // General class constructor
 constructor TLogbook.Create;
@@ -365,6 +375,36 @@ begin
   DTAccessed := LogMetadata.DTAccessed;
   PassMasterSalt := LogMetadata.PassMasterSalt;
   footerMark := LogMetadata.footerMark;
+end;
+
+// This procedure is used to help determine whether a logbook file is encrypted or not
+// Really, we only use the application_id value, but user_version may be useful
+// to have at some later point
+// If Bapplication_id doesn't match one of our valid id's, the file is likely encrypted,
+// and we should ask the user for a password and try to open the Logbook that way.
+procedure TLogbook.checkPragmaManually({var Buser_version: LongInt; }
+  var Bapplication_id: Cardinal);
+var
+  FSRecord: TFileStream;
+  ASQLiteHeader : RSQLiteHeader;
+begin
+
+  try
+    FSRecord := TFileStream.Create('./new.db', fmOpenRead or fmShareDenyNone);
+      try
+        FSRecord.Seek(0, soBeginning);  // Move to beginning of the record in the file
+        FSRecord.Read(ASQLiteHeader, sizeof(RSQLiteHeader)); // Read the record
+
+      except
+        //isError := '';
+      end;
+  finally
+    FSRecord.Free; // Save new file to disk and free stream
+  end;
+
+  Bapplication_id := SwapEndian(ASQLiteHeader.Aapplication_id);
+  {Buser_version := SwapEndian(ASQLiteHeader.Auser_version);}
+
 end;
 
 // Creates a copy of the original file sans the record, and saves
