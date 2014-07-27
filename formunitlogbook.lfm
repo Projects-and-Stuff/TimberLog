@@ -1,5 +1,5 @@
 object formLogbook: TformLogbook
-  Left = 413
+  Left = 451
   Height = 705
   Top = 147
   Width = 1097
@@ -19,51 +19,6 @@ object formLogbook: TformLogbook
   Position = poDesktopCenter
   SessionProperties = 'WindowState;Width;Position;Height'
   LCLVersion = '1.2.2.0'
-  object Panel1: TPanel
-    AnchorSideLeft.Control = Splitter1
-    AnchorSideLeft.Side = asrBottom
-    AnchorSideTop.Control = Owner
-    AnchorSideRight.Control = Owner
-    AnchorSideRight.Side = asrBottom
-    AnchorSideBottom.Control = Splitter2
-    Left = 216
-    Height = 328
-    Top = 0
-    Width = 881
-    Anchors = [akTop, akLeft, akRight, akBottom]
-    ClientHeight = 328
-    ClientWidth = 881
-    TabOrder = 0
-    object DBScrollRichMemoLogView: TPASVirtualDBScrollRichMemo
-      AnchorSideLeft.Control = Panel1
-      AnchorSideTop.Control = Panel1
-      AnchorSideRight.Control = Panel1
-      AnchorSideRight.Side = asrBottom
-      AnchorSideBottom.Control = Panel1
-      AnchorSideBottom.Side = asrBottom
-      Left = 1
-      Height = 326
-      Top = 1
-      Width = 879
-      EScrollBar.Left = 861
-      EScrollBar.Height = 324
-      EScrollBar.Top = 1
-      EScrollBar.Width = 17
-      Anchors = [akTop, akLeft, akRight, akBottom]
-      TabOrder = 0
-      UseDockManager = True
-      ERichMemo.Left = 1
-      ERichMemo.Height = 324
-      ERichMemo.Top = 1
-      ERichMemo.Width = 860
-      ERichMemo.Align = alClient
-      ERichMemo.HideSelection = False
-      ERichMemo.ReadOnly = True
-      ERichMemo.ScrollBars = ssNone
-      ERichMemo.TabOrder = 1
-      ERichMemo.WordWrap = False
-    end
-  end
   object Panel2: TPanel
     AnchorSideLeft.Control = Splitter1
     AnchorSideLeft.Side = asrBottom
@@ -79,7 +34,7 @@ object formLogbook: TformLogbook
     Anchors = [akTop, akLeft, akRight, akBottom]
     ClientHeight = 329
     ClientWidth = 881
-    TabOrder = 1
+    TabOrder = 0
     inline syneditLogEdit: TSynEdit
       AnchorSideLeft.Control = Panel2
       AnchorSideTop.Control = Panel2
@@ -746,10 +701,8 @@ object formLogbook: TformLogbook
     Anchors = [akRight]
     ClientHeight = 662
     ClientWidth = 211
-    TabOrder = 2
+    TabOrder = 1
     object txtSearch: TLabeledEdit
-      AnchorSideLeft.Control = Panel1
-      AnchorSideRight.Control = Panel1
       AnchorSideRight.Side = asrBottom
       Left = 7
       Height = 24
@@ -764,7 +717,7 @@ object formLogbook: TformLogbook
       EditLabel.Left = 7
       EditLabel.Height = 16
       EditLabel.Top = 13
-      EditLabel.Width = 165
+      EditLabel.Width = 185
       EditLabel.Caption = 'Search'
       EditLabel.ParentColor = False
       EditLabel.ParentFont = False
@@ -962,6 +915,36 @@ object formLogbook: TformLogbook
     Align = alNone
     Anchors = [akTop, akLeft, akRight]
     ResizeAnchor = akBottom
+  end
+  object DBScrollRichMemoLogView: TPASVirtualDBScrollRichMemo
+    AnchorSideLeft.Control = Splitter1
+    AnchorSideLeft.Side = asrBottom
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    AnchorSideBottom.Control = Splitter2
+    Left = 216
+    Height = 328
+    Top = 0
+    Width = 881
+    EScrollBar.Left = 863
+    EScrollBar.Height = 326
+    EScrollBar.Top = 1
+    EScrollBar.Width = 17
+    DataSource = dmDBTools.DataSource1
+    Anchors = [akTop, akLeft, akRight, akBottom]
+    TabOrder = 5
+    UseDockManager = True
+    ERichMemo.Left = 1
+    ERichMemo.Height = 326
+    ERichMemo.Top = 1
+    ERichMemo.Width = 862
+    ERichMemo.Align = alClient
+    ERichMemo.HideSelection = False
+    ERichMemo.ReadOnly = True
+    ERichMemo.ScrollBars = ssNone
+    ERichMemo.TabOrder = 1
+    ERichMemo.WordWrap = False
   end
   object IniPropStorage1: TIniPropStorage
     StoredValues = <>

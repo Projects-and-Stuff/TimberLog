@@ -24,11 +24,11 @@ unit formUnitLogbook;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, SynEdit, SynCompletion, SynHighlighterAny,
+  Classes, SysUtils, db, FileUtil, SynEdit, SynCompletion, SynHighlighterAny,
   SynExportHTML, RichMemo, ZVDateTimePicker, Forms, Controls, Graphics, Dialogs,
   IniPropStorage, StdCtrls, Menus, ExtCtrls, unitClassLogbook,
-  unitRecordLogMetadata, LCLIntf, ComCtrls, unitStartFunctions, unitDefinitions,
-  dmUnitDBTools, PASVirtualDBScrollRichMemo;
+  unitRecordLogMetadata, LCLIntf, ComCtrls, DBGrids, unitStartFunctions,
+  unitDefinitions, dmUnitDBTools, PASVirtualDBScrollRichMemo;
 
 type
 
@@ -82,10 +82,9 @@ type
     mnuThisLogbook: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
-    Panel1: TPanel;
+    DBScrollRichMemoLogView: TPASVirtualDBScrollRichMemo;
     Panel2: TPanel;
     Panel3: TPanel;
-    DBScrollRichMemoLogView: TPASVirtualDBScrollRichMemo;
     Shape1: TShape;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
