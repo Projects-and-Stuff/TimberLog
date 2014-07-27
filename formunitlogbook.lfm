@@ -18,7 +18,7 @@ object formLogbook: TformLogbook
   OnShow = FormShow
   Position = poDesktopCenter
   SessionProperties = 'WindowState;Width;Position;Height'
-  LCLVersion = '1.2.4.0'
+  LCLVersion = '1.2.2.0'
   object Panel1: TPanel
     AnchorSideLeft.Control = Splitter1
     AnchorSideLeft.Side = asrBottom
@@ -34,7 +34,7 @@ object formLogbook: TformLogbook
     ClientHeight = 328
     ClientWidth = 881
     TabOrder = 0
-    object richmemoLogView: TRichMemo
+    object DBScrollRichMemoLogView: TPASVirtualDBScrollRichMemo
       AnchorSideLeft.Control = Panel1
       AnchorSideTop.Control = Panel1
       AnchorSideRight.Control = Panel1
@@ -44,20 +44,24 @@ object formLogbook: TformLogbook
       Left = 1
       Height = 326
       Top = 1
-      Width = 874
+      Width = 879
+      EScrollBar.Left = 861
+      EScrollBar.Height = 324
+      EScrollBar.Top = 1
+      EScrollBar.Width = 17
       Anchors = [akTop, akLeft, akRight, akBottom]
-      BorderSpacing.Right = 5
-      Font.CharSet = ANSI_CHARSET
-      Font.Height = -13
-      Font.Name = 'Courier New'
-      Font.Pitch = fpFixed
-      Font.Quality = fqCleartypeNatural
-      HideSelection = False
-      ParentFont = False
-      ReadOnly = True
-      ScrollBars = ssAutoBoth
       TabOrder = 0
-      WordWrap = False
+      UseDockManager = True
+      ERichMemo.Left = 1
+      ERichMemo.Height = 324
+      ERichMemo.Top = 1
+      ERichMemo.Width = 860
+      ERichMemo.Align = alClient
+      ERichMemo.HideSelection = False
+      ERichMemo.ReadOnly = True
+      ERichMemo.ScrollBars = ssNone
+      ERichMemo.TabOrder = 1
+      ERichMemo.WordWrap = False
     end
   end
   object Panel2: TPanel

@@ -25,10 +25,10 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, SynEdit, SynCompletion, SynHighlighterAny,
-  SynExportHTML, RichMemo, ZVDateTimePicker, Forms, Controls,
-  Graphics, Dialogs, IniPropStorage, StdCtrls, Menus, ExtCtrls,
-  unitClassLogbook, unitRecordLogMetadata, LCLIntf,
-  ComCtrls, unitStartFunctions, unitDefinitions, dmUnitDBTools;
+  SynExportHTML, RichMemo, ZVDateTimePicker, Forms, Controls, Graphics, Dialogs,
+  IniPropStorage, StdCtrls, Menus, ExtCtrls, unitClassLogbook,
+  unitRecordLogMetadata, LCLIntf, ComCtrls, unitStartFunctions, unitDefinitions,
+  dmUnitDBTools, PASVirtualDBScrollRichMemo;
 
 type
 
@@ -85,7 +85,7 @@ type
     Panel1: TPanel;
     Panel2: TPanel;
     Panel3: TPanel;
-    richmemoLogView: TRichMemo;
+    DBScrollRichMemoLogView: TPASVirtualDBScrollRichMemo;
     Shape1: TShape;
     Splitter1: TSplitter;
     Splitter2: TSplitter;
@@ -220,7 +220,7 @@ begin
 
 
 
-  richmemoLogView.SelStart:=Length(richmemoLogView.Lines.Text)-1; // Scroll to the end (most recent entry)
+  ////richmemoLogView.SelStart:=Length(richmemoLogView.Lines.Text)-1; // Scroll to the end (most recent entry)
 end;
 
 procedure TformLogbook.lblResetClick(Sender: TObject);
@@ -237,10 +237,10 @@ end;
 
 procedure TformLogbook.mnuChangeFontClick(Sender: TObject);
 begin
-  FontDialog1.Font := richmemoLogView.Font;
+  FontDialog1.Font := DBScrollRichMemoLogView.Font;
   if FontDialog1.Execute then
   begin
-    richmemoLogView.Font := FontDialog1.Font;
+    DBScrollRichMemoLogView.Font := FontDialog1.Font;
     syneditLogEdit.Font := FontDialog1.Font;
   end;
 end;
@@ -257,9 +257,9 @@ end;
 
 procedure TformLogbook.mnuFontPlusClick(Sender: TObject);
 begin
-  if richmemoLogView.Font.Size < 62 then
+  if DBScrollRichMemoLogView.Font.Size < 62 then
   begin
-    richmemoLogView.Font.Size := richmemoLogView.Font.Size + 2;
+    DBScrollRichMemoLogView.Font.Size := DBScrollRichMemoLogView.Font.Size + 2;
   end;
 
   if syneditLogEdit.Font.Size < 62 then
@@ -270,9 +270,9 @@ end;
 
 procedure TformLogbook.mnuFontMinusClick(Sender: TObject);
 begin
-  if richmemoLogView.Font.Size > 7 then
+  if DBScrollRichMemoLogView.Font.Size > 7 then
   begin
-    richmemoLogView.Font.Size := richmemoLogView.Font.Size - 2;
+    DBScrollRichMemoLogView.Font.Size := DBScrollRichMemoLogView.Font.Size - 2;
   end;
 
   if syneditLogEdit.Font.Size > 7 then
