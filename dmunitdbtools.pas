@@ -249,7 +249,7 @@ procedure TdmDBTools.createTableUsers;
 begin
   SQLite3Connection1.ExecuteDirect('CREATE TABLE "USERS"('+
                     ' "id" Integer NOT NULL PRIMARY KEY AUTOINCREMENT,'+
-                    ' "Username" Text NOT NULL,'+
+                    ' "Username" Text NOT NULL UNIQUE,'+
                     ' "PassSalt" Text NOT NULL,'+
                     ' "PassHash" Text NOT NULL,'+
                     ' "Question1" Text NOT NULL,'+
