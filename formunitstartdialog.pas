@@ -30,7 +30,7 @@ uses
   types, LCLType, ExtCtrls, Buttons, ShellCtrls, LCLIntf, IniPropStorage,
   formUnitLogbook, unitDefinitions, unitStartFunctions, unitRecordLogMetadata,
   ComCtrls, Grids, DBGrids, dmUnitCrypt, dmUnitDBTools, unitTypeTile,
-  unitRecentTile, mrumanager, UniqueInstance, strutils, Contnrs,
+  unitRecentTile, mrumanager, UniqueInstance, strutils, Contnrs, db,
   unitClassLogbook, PASVirtualDBScrollRichMemo;
 
 type
@@ -40,7 +40,6 @@ type
   TformStartDialog = class(TForm)
     btnAddCategory: TButton;
     btnDeleteCategory: TButton;
-    Button1: TButton;
     chkAllowAddCategories: TCheckBox;
     chkAllowCategories: TCheckBox;
     chkAllowLateEntries: TCheckBox;
@@ -72,8 +71,8 @@ type
     Notebook2: TNotebook;
     pgOptionalSettings: TPage;
     pgBasicSettings: TPage;
-    ScrollBox1: TScrollBox;
-    ScrollBox2: TScrollBox;
+    scrollboxTypes: TScrollBox;
+    scrollboxRecent: TScrollBox;
     Shape6: TShape;
     TabControl1: TTabControl;
     txtCategory: TEdit;
@@ -237,7 +236,7 @@ begin
   recentTileList := TObjectList.create(); // Make the object lists for our frames
   typeTileList := TObjectList.create();
 
-  mruMgr.IniFileName := GetAppConfigDir(True) + '\TimberLog.ini'; // Get our recent files
+  mruMgr.IniFileName := GetAppConfigDir(True) + '\TimberLog.ini'; // Get our list of recent files
   mruMgr.IniSection := 'RecentLogbooks';
   mruMgr.MaxRecent := 9;
   mruMgr.ShowRecentFiles;
@@ -255,7 +254,7 @@ begin
     begin
       if FileExistsUTF8(mruMgr.Recent.Strings[i]) then
       begin
-        TframeRecentTile(recentTileList.Items[i]).Parent := ScrollBox2;
+        TframeRecentTile(recentTileList.Items[i]).Parent := scrollboxRecent;
         TframeRecentTile(recentTileList.Items[i]).Align := alTop;
         TframeRecentTile(recentTileList.Items[i]).setColorInitial(clWhite);
         TframeRecentTile(recentTileList.Items[i]).setColorLeave(clWhite);
@@ -295,7 +294,7 @@ begin
       Description := TStringList.Create;
       processTypeFile(fileList[i], errorMsg, Logbook_Type, Description);
 
-      TframeTypeTile(typeTileList.Items[i]).Parent := ScrollBox1;
+      TframeTypeTile(typeTileList.Items[i]).Parent := scrollboxTypes;
       TframeTypeTile(typeTileList.Items[i]).Align := alTop;
       TframeTypeTile(typeTileList.Items[i]).setColorInitial(clbBGDefault);
       TframeTypeTile(typeTileList.Items[i]).setColorLeave(clbBGDefault);

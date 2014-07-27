@@ -2,11 +2,11 @@ object formStartDialog: TformStartDialog
   Left = 463
   Height = 731
   Top = 184
-  Width = 1210
+  Width = 1200
   BorderStyle = bsNone
   Caption = 'formStartDialog'
   ClientHeight = 731
-  ClientWidth = 1210
+  ClientWidth = 1200
   Color = clWhite
   OnClose = FormClose
   OnCreate = FormCreate
@@ -24,7 +24,7 @@ object formStartDialog: TformStartDialog
     Left = 0
     Height = 731
     Top = 0
-    Width = 1210
+    Width = 1200
     Anchors = [akTop, akLeft, akRight, akBottom]
     Brush.Color = clNone
     Brush.Style = bsClear
@@ -42,7 +42,7 @@ object formStartDialog: TformStartDialog
     Left = 381
     Height = 415
     Top = 73
-    Width = 824
+    Width = 814
     PageIndex = 0
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Right = 5
@@ -66,7 +66,7 @@ object formStartDialog: TformStartDialog
         ParentColor = False
         ParentFont = False
       end
-      object ScrollBox1: TScrollBox
+      object scrollboxTypes: TScrollBox
         AnchorSideLeft.Control = pgNewTypes
         AnchorSideTop.Control = pgNewTypes
         AnchorSideRight.Control = pgNewTypes
@@ -76,8 +76,8 @@ object formStartDialog: TformStartDialog
         Left = 0
         Height = 369
         Top = 46
-        Width = 824
-        HorzScrollBar.Page = 824
+        Width = 814
+        HorzScrollBar.Page = 814
         VertScrollBar.Page = 369
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Top = 46
@@ -686,7 +686,7 @@ object formStartDialog: TformStartDialog
   object lblOpenOtherLogbooks: TLabel
     AnchorSideLeft.Side = asrCenter
     AnchorSideBottom.Control = Shape1
-    Left = 16
+    Left = 14
     Height = 31
     Top = 672
     Width = 368
@@ -737,7 +737,7 @@ object formStartDialog: TformStartDialog
     Left = 405
     Height = 189
     Top = 536
-    Width = 799
+    Width = 789
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 24
     BorderSpacing.Top = 6
@@ -757,7 +757,7 @@ object formStartDialog: TformStartDialog
       '- That'
       '- The other'
       ''
-      'Don''t forget to also check out that one thing that we''re writing about here. It is heavily dcumented, and '
+      'Don''t forget to also check out that one thing that we''re writing about here. It is heavily documented, and '
       'should provide an interesting study for all those interested in stuff.'
       ''
       'More text.'
@@ -765,7 +765,7 @@ object formStartDialog: TformStartDialog
       'Now we''re getting somewhere. Interesting, huh?'
       ''
       ''
-      ''
+      'Here''s another line of text'
     )
     ParentFont = False
     ReadOnly = True
@@ -781,7 +781,7 @@ object formStartDialog: TformStartDialog
     Left = 381
     Height = 5
     Top = 488
-    Width = 829
+    Width = 819
     Align = alNone
     Anchors = [akTop, akLeft, akRight]
     Color = clSkyBlue
@@ -816,10 +816,16 @@ object formStartDialog: TformStartDialog
     ParentFont = False
   end
   object btnClose: TSpeedButton
-    Left = 1178
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = Owner
+    AnchorSideRight.Side = asrBottom
+    Left = 1162
     Height = 22
     Top = 10
     Width = 22
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 16
     Color = clWhite
     Glyph.Data = {
       0E060000424D0E06000000000000360000002800000016000000160000000100
@@ -875,10 +881,15 @@ object formStartDialog: TformStartDialog
     OnClick = btnCloseClick
   end
   object btnHelp: TSpeedButton
-    Left = 1150
+    AnchorSideTop.Control = Owner
+    AnchorSideRight.Control = btnClose
+    Left = 1134
     Height = 22
     Top = 10
     Width = 22
+    Anchors = [akTop, akRight]
+    BorderSpacing.Top = 10
+    BorderSpacing.Right = 6
     Glyph.Data = {
       0E060000424D0E06000000000000360000002800000016000000160000000100
       180000000000D805000064000000640000000000000000000000FFFFFFFFFFFF
@@ -932,14 +943,6 @@ object formStartDialog: TformStartDialog
     }
     OnClick = btnHelpClick
   end
-  object Button1: TButton
-    Left = 737
-    Height = 25
-    Top = 28
-    Width = 75
-    Caption = 'TestLogForm'
-    TabOrder = 4
-  end
   object Shape5: TShape
     AnchorSideRight.Control = Splitter_Vert
     Left = 8
@@ -975,7 +978,7 @@ object formStartDialog: TformStartDialog
     OnMouseUp = LabelAsButtonMouseUp
     OnMouseLeave = LabelAsButtonMouseLeave
   end
-  object ScrollBox2: TScrollBox
+  object scrollboxRecent: TScrollBox
     AnchorSideLeft.Control = Shape1
     AnchorSideTop.Control = Label1
     AnchorSideTop.Side = asrBottom
@@ -990,7 +993,7 @@ object formStartDialog: TformStartDialog
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 20
     BorderStyle = bsNone
-    TabOrder = 5
+    TabOrder = 4
   end
   object IniPropStorage1: TIniPropStorage
     StoredValues = <>
@@ -1000,7 +1003,7 @@ object formStartDialog: TformStartDialog
   object SaveDialog1: TSaveDialog
     Title = 'Save new logbook as...'
     Filter = 'TimberLog Logbook|*.logb'
-    left = 589
+    left = 608
     top = 16
   end
   object mruMgr: TMRUMenuManager

@@ -407,6 +407,7 @@ begin
 
   outMemo.Lines.Add('Logbook Opened By: ' + Trim(OpenedBy));
   outMemo.Lines.Add('Logbook Serial Number/Name: ' + Trim(logName));
+
   try
     outMemo.Lines.Add('Logbook Opened On: ' + DateTimeToStr(FileDateToDateTime(DTOpened)));
     outMemo.Lines.Add('Logbook Last Accessed: ' + DateTimeToStr(FileDateToDateTime(DTAccessed)));

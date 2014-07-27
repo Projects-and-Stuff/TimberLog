@@ -1,7 +1,7 @@
 object formLogbook: TformLogbook
-  Left = 451
+  Left = 435
   Height = 705
-  Top = 147
+  Top = 146
   Width = 1097
   Caption = 'Logbook Title'
   ClientHeight = 685
@@ -941,10 +941,8 @@ object formLogbook: TformLogbook
     ERichMemo.Width = 862
     ERichMemo.Align = alClient
     ERichMemo.HideSelection = False
-    ERichMemo.ReadOnly = True
     ERichMemo.ScrollBars = ssNone
     ERichMemo.TabOrder = 1
-    ERichMemo.WordWrap = False
   end
   object IniPropStorage1: TIniPropStorage
     StoredValues = <>
