@@ -29,8 +29,9 @@ uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
   types, LCLType, ExtCtrls, Buttons, ShellCtrls, LCLIntf, IniPropStorage,
   formUnitLogbook, unitDefinitions, unitStartFunctions, unitRecordLogMetadata,
-  ComCtrls, Grids, dmUnitCrypt, dmUnitDBTools, unitTypeTile, unitRecentTile,
-  mrumanager, UniqueInstance, strutils, Contnrs, unitClassLogbook;
+  ComCtrls, Grids, DBGrids, dmUnitCrypt, dmUnitDBTools, unitTypeTile,
+  unitRecentTile, mrumanager, UniqueInstance, strutils, Contnrs,
+  unitClassLogbook, PASVirtualDBScrollRichMemo;
 
 type
 
@@ -245,19 +246,25 @@ begin
   begin
     for i := 0 to mruMgr.Recent.Count-1 do
     begin
-      recentTileList.Add(TframeRecentTile.Create(formStartDialog));
+      if FileExistsUTF8(mruMgr.Recent.Strings[i]) then
+      begin
+        recentTileList.Add(TframeRecentTile.Create(formStartDialog));
+      end;
     end;
     for i := mruMgr.Recent.Count-1 downto 0 do
     begin
-      TframeRecentTile(recentTileList.Items[i]).Parent := ScrollBox2;
-      TframeRecentTile(recentTileList.Items[i]).Align := alTop;
-      TframeRecentTile(recentTileList.Items[i]).setColorInitial(clWhite);
-      TframeRecentTile(recentTileList.Items[i]).setColorLeave(clWhite);
-      TframeRecentTile(recentTileList.Items[i]).setColorEnter(clbBGMouseOver);
-      TframeRecentTile(recentTileList.Items[i]).setColorDown(clbBGClicked);
-      TframeRecentTile(recentTileList.Items[i]).setColorUp(clbBGMouseOver);
-      TframeRecentTile(recentTileList.Items[i]).setFilename(ExtractFileNameOnly(mruMgr.Recent.Strings[i]));
-      TframeRecentTile(recentTileList.Items[i]).setPath(mruMgr.Recent.Strings[i]);
+      if FileExistsUTF8(mruMgr.Recent.Strings[i]) then
+      begin
+        TframeRecentTile(recentTileList.Items[i]).Parent := ScrollBox2;
+        TframeRecentTile(recentTileList.Items[i]).Align := alTop;
+        TframeRecentTile(recentTileList.Items[i]).setColorInitial(clWhite);
+        TframeRecentTile(recentTileList.Items[i]).setColorLeave(clWhite);
+        TframeRecentTile(recentTileList.Items[i]).setColorEnter(clbBGMouseOver);
+        TframeRecentTile(recentTileList.Items[i]).setColorDown(clbBGClicked);
+        TframeRecentTile(recentTileList.Items[i]).setColorUp(clbBGMouseOver);
+        TframeRecentTile(recentTileList.Items[i]).setFilename(ExtractFileNameOnly(mruMgr.Recent.Strings[i]));
+        TframeRecentTile(recentTileList.Items[i]).setPath(mruMgr.Recent.Strings[i]);
+      end;
     end;
   end
   else

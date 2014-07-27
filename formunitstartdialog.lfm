@@ -1,7 +1,7 @@
 object formStartDialog: TformStartDialog
-  Left = 427
+  Left = 463
   Height = 731
-  Top = 190
+  Top = 184
   Width = 1210
   BorderStyle = bsNone
   Caption = 'formStartDialog'
@@ -13,7 +13,7 @@ object formStartDialog: TformStartDialog
   OnShow = FormShow
   Position = poScreenCenter
   SessionProperties = 'Width;Position;Height;Notebook1.PageIndex'
-  LCLVersion = '1.2.4.0'
+  LCLVersion = '1.2.2.0'
   object Shape1: TShape
     AnchorSideLeft.Control = Owner
     AnchorSideTop.Control = Owner
@@ -77,8 +77,8 @@ object formStartDialog: TformStartDialog
         Height = 369
         Top = 46
         Width = 824
-        HorzScrollBar.Page = 1
-        VertScrollBar.Page = 1
+        HorzScrollBar.Page = 824
+        VertScrollBar.Page = 369
         Anchors = [akTop, akLeft, akRight, akBottom]
         BorderSpacing.Top = 46
         BorderStyle = bsNone
@@ -985,8 +985,8 @@ object formStartDialog: TformStartDialog
     Height = 449
     Top = 199
     Width = 356
-    HorzScrollBar.Page = 1
-    VertScrollBar.Page = 1
+    HorzScrollBar.Page = 356
+    VertScrollBar.Page = 449
     Anchors = [akTop, akLeft, akRight, akBottom]
     BorderSpacing.Left = 20
     BorderStyle = bsNone
@@ -1005,8 +1005,8 @@ object formStartDialog: TformStartDialog
   end
   object mruMgr: TMRUMenuManager
     MaxRecent = 9
-    left = 998
-    top = 524
+    left = 984
+    top = 16
   end
   object UniqueInstance1: TUniqueInstance
     Enabled = True
