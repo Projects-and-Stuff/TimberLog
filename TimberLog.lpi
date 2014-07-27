@@ -18,7 +18,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="1"/>
-      <BuildNr Value="618"/>
+      <BuildNr Value="619"/>
       <StringTable Comments="Developed by Jack D Linke" CompanyName="Projects and Stuff" OriginalFilename="TimberLog.exe" ProductName="TimberLog" ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -32,178 +32,121 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="16">
+    <RequiredPackages Count="13">
       <Item1>
-        <PackageName Value="uniqueinstance_package"/>
+        <PackageName Value="rx"/>
       </Item1>
       <Item2>
-        <PackageName Value="lazmrumenu"/>
+        <PackageName Value="PASVirtualDBScroll"/>
       </Item2>
       <Item3>
-        <PackageName Value="sqlite3laz"/>
+        <PackageName Value="uniqueinstance_package"/>
       </Item3>
       <Item4>
-        <PackageName Value="rx"/>
+        <PackageName Value="lazmrumenu"/>
       </Item4>
       <Item5>
-        <PackageName Value="gradcontrols"/>
+        <PackageName Value="sqlite3laz"/>
       </Item5>
       <Item6>
         <PackageName Value="dcpcrypt"/>
       </Item6>
       <Item7>
-        <PackageName Value="SearchBarPackage"/>
+        <PackageName Value="ZVDateTimeCtrls"/>
       </Item7>
       <Item8>
-        <PackageName Value="ZVDateTimeCtrls"/>
+        <PackageName Value="SynEdit"/>
       </Item8>
       <Item9>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="richmemopackage"/>
       </Item9>
       <Item10>
-        <PackageName Value="richmemopackage"/>
+        <PackageName Value="FCL"/>
       </Item10>
       <Item11>
-        <PackageName Value="FCL"/>
+        <PackageName Value="SQLDBLaz"/>
       </Item11>
       <Item12>
-        <PackageName Value="SQLDBLaz"/>
+        <PackageName Value="RunTimeTypeInfoControls"/>
       </Item12>
       <Item13>
-        <PackageName Value="RunTimeTypeInfoControls"/>
-      </Item13>
-      <Item14>
-        <PackageName Value="KControlsLaz"/>
-      </Item14>
-      <Item15>
-        <PackageName Value="lazmxstorage"/>
-      </Item15>
-      <Item16>
         <PackageName Value="LCL"/>
-      </Item16>
+      </Item13>
     </RequiredPackages>
-    <Units Count="20">
+    <Units Count="11">
       <Unit0>
         <Filename Value="TimberLog.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="TimberLog"/>
       </Unit0>
       <Unit1>
-        <Filename Value="formunitmain.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="formMain"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="Form"/>
-        <UnitName Value="formUnitMain"/>
-      </Unit1>
-      <Unit2>
         <Filename Value="formunitstartdialog.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="formStartDialog"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="formUnitStartDialog"/>
-      </Unit2>
-      <Unit3>
+      </Unit1>
+      <Unit2>
         <Filename Value="unitstartfunctions.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unitStartFunctions"/>
-      </Unit3>
-      <Unit4>
-        <Filename Value="dmunitsourcequery.pas"/>
-        <IsPartOfProject Value="True"/>
-        <ComponentName Value="dmDBTools"/>
-        <HasResources Value="True"/>
-        <ResourceBaseClass Value="DataModule"/>
-        <UnitName Value="dmUnitDBTools"/>
-      </Unit4>
-      <Unit5>
+      </Unit2>
+      <Unit3>
         <Filename Value="unitclasslogbook.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unitClassLogbook"/>
-      </Unit5>
-      <Unit6>
+      </Unit3>
+      <Unit4>
         <Filename Value="unitrecordlogmetadata.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unitRecordLogMetadata"/>
-      </Unit6>
-      <Unit7>
+      </Unit4>
+      <Unit5>
         <Filename Value="unitdefinitions.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="unitDefinitions"/>
-      </Unit7>
-      <Unit8>
+      </Unit5>
+      <Unit6>
         <Filename Value="formunitlogbook.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="formLogbook"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="formUnitLogbook"/>
-      </Unit8>
-      <Unit9>
-        <Filename Value="unitrecordlogmetadataext.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="unitRecordLogMetadataExt"/>
-      </Unit9>
-      <Unit10>
+      </Unit6>
+      <Unit7>
         <Filename Value="dmunitcrypt.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="dmCrypt"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="dmUnitCrypt"/>
-      </Unit10>
-      <Unit11>
+      </Unit7>
+      <Unit8>
         <Filename Value="unittypetile.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frameTypeTile"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="unitTypeTile"/>
-      </Unit11>
-      <Unit12>
-        <Filename Value="unittablecategories.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="unitTableCategories"/>
-      </Unit12>
-      <Unit13>
-        <Filename Value="unittableentries.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="unitTableEntries"/>
-      </Unit13>
-      <Unit14>
-        <Filename Value="unittablesettings.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="unitTableSettings"/>
-      </Unit14>
-      <Unit15>
-        <Filename Value="unittableusers.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="unitTableUsers"/>
-      </Unit15>
-      <Unit16>
-        <Filename Value="unittabletemplates.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="unitTableTemplates"/>
-      </Unit16>
-      <Unit17>
-        <Filename Value="unitguihelper.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="unitGUIHelper"/>
-      </Unit17>
-      <Unit18>
-        <Filename Value="mrumanager.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="mrumanager"/>
-      </Unit18>
-      <Unit19>
+      </Unit8>
+      <Unit9>
         <Filename Value="unitrecenttile.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frameRecentTile"/>
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Frame"/>
         <UnitName Value="unitRecentTile"/>
-      </Unit19>
+      </Unit9>
+      <Unit10>
+        <Filename Value="dmunitdbtools.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="dmDBTools"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="DataModule"/>
+        <UnitName Value="dmUnitDBTools"/>
+      </Unit10>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
