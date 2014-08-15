@@ -5,7 +5,7 @@ object dmCrypt: TdmCrypt
   HorizontalOffset = 389
   VerticalOffset = 156
   Width = 150
-  object DCP_twofish: TDCP_twofish
+  object DCP_Twofish: TDCP_twofish
     Id = 6
     Algorithm = 'Twofish'
     MaxKeySize = 256
@@ -13,7 +13,7 @@ object dmCrypt: TdmCrypt
     left = 23
     top = 28
   end
-  object DCP_sha256: TDCP_sha256
+  object DCP_SHA256: TDCP_sha256
     Id = 28
     Algorithm = 'SHA256'
     HashSize = 256

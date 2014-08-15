@@ -31,20 +31,20 @@ type
   { TdmCrypt }
 
   TdmCrypt = class(TDataModule)
-    DCP_sha256: TDCP_sha256;
-    DCP_twofish: TDCP_twofish;
+    DCP_SHA256: TDCP_sha256;
+    DCP_Twofish: TDCP_twofish;
     procedure DataModuleCreate(Sender: TObject);
   private
     { private declarations }
   public
     { public declarations }
-    procedure stringHash(input : String; out output : String);
-    procedure fileHash(filepath : String; out output : String);
-    function newSalt(): String;
-    procedure encryptString(keystring : String; var input: String);
-    procedure decryptString(keystring : String; var input: String);
-    function encryptFile(keystring : String; filepath: String): Boolean;
-    function decryptFile(keystring : String; filepath: String): Boolean;
+    procedure StringHash(input : String; out output : String);
+    procedure FileHash(filepath : String; out output : String);
+    function NewSalt: String;
+    procedure EncryptString(keystring : String; var input: String);
+    procedure DecryptString(keystring : String; var input: String);
+    function EncryptFile(keystring : String; filepath: String): Boolean;
+    function DecryptFile(keystring : String; filepath: String): Boolean;
   end;
 
 var
@@ -61,31 +61,31 @@ begin
   Randomize;
 end;
 
-procedure TdmCrypt.stringHash(input: String; out output: String);
+procedure TdmCrypt.StringHash(input: String; out output: String);
 var
   Digest : array[0..63] of byte;  // 256bit digest (64 bytes)
   i : Integer;
-  hashOut : String;
+  HashOut : String;
 begin
-  DCP_sha256.Init;
-  DCP_sha256.UpdateStr(input);
-  DCP_sha256.Final(Digest);
-  hashOut := '';
+  DCP_SHA256.Init;
+  DCP_SHA256.UpdateStr(input);
+  DCP_SHA256.Final(Digest);
+  HashOut := '';
 
   for i := 0 to 15 do
   begin
-    hashOut := hashOut + IntToHex(Digest[i],2);
+    HashOut := HashOut + IntToHex(Digest[i],2);
   end;
 
-  SetLength(hashOut, 64);
-  output := hashOut;
+  SetLength(HashOut, 64);
+  output := HashOut;
 end;
 
-procedure TdmCrypt.fileHash(filepath: String; out output: String);
+procedure TdmCrypt.FileHash(filepath: String; out output: String);
 var
   Digest : array[0..63] of byte;  // 256bit digest (64 bytes)
   i : Integer;
-  hashOut : String;
+  HashOut : String;
   Source : TFileStream;
 begin
   Source := Nil;
@@ -97,79 +97,79 @@ begin
 
   if Source <> nil then
   begin
-    DCP_sha256.Init;                                    // initialize it
-    DCP_sha256.UpdateStream(Source, Source.Size);       // hash the stream contents
-    DCP_sha256.Final(Digest);                           // produce the digest
+    DCP_SHA256.Init;                                    // initialize it
+    DCP_SHA256.UpdateStream(Source, Source.Size);       // hash the stream contents
+    DCP_SHA256.Final(Digest);                           // produce the digest
 
-    hashOut := '';
+    HashOut := '';
     for i := 0 to 19 do
     begin
-      hashOut := hashOut + IntToHex(Digest[i],2);
+      HashOut := HashOut + IntToHex(Digest[i],2);
     end;
 
-    SetLength(hashOut, 64);
-    output := hashOut;
+    SetLength(HashOut, 64);
+    output := HashOut;
   end;
 
   Source.Free;
 end;
 
-function TdmCrypt.newSalt(): String;
+function TdmCrypt.NewSalt: String;
 begin
-  stringHash(IntToStr(Random(2000000000)), newSalt);
+  StringHash(IntToStr(Random(2000000000)), NewSalt);
 end;
 
-procedure TdmCrypt.encryptString(keystring : String; var input: String);
+procedure TdmCrypt.EncryptString(KeyString : String; var Input: String);
 begin
-  DCP_twofish.InitStr(keystring, TDCP_sha256);         // initialize the cipher with a hash of the passphrase
-  input := DCP_twofish.EncryptString(input);         // encrypt the contents of the memo
-  DCP_twofish.Burn;
+  DCP_Twofish.InitStr(KeyString, TDCP_sha256);         // initialize the cipher with a hash of the passphrase
+  Input := DCP_Twofish.EncryptString(Input);         // encrypt the contents of the memo
+  DCP_Twofish.Burn;
 end;
 
-procedure TdmCrypt.decryptString(keystring : String; var input: String);
+procedure TdmCrypt.DecryptString(KeyString : String; var Input: String);
 begin
-  DCP_twofish.InitStr(keystring, TDCP_sha256);         // initialize the cipher with a hash of the passphrase
-  input:= DCP_twofish.DecryptString(input);          // decrypt the contents of the memo
-  DCP_twofish.Burn;
+  DCP_Twofish.InitStr(KeyString, TDCP_sha256);         // initialize the cipher with a hash of the passphrase
+  input:= DCP_Twofish.DecryptString(Input);          // decrypt the contents of the memo
+  DCP_Twofish.Burn;
 end;
 
-function TdmCrypt.encryptFile(keystring: String; filepath: String): Boolean;
+function TdmCrypt.EncryptFile(KeyString: String; FilePath: String): Boolean;
 var
   Source, Dest: TFileStream;
 begin
   try
-    Source:= TFileStream.Create(filepath, fmOpenRead);
-    Dest:= TFileStream.Create(ChangeFileExt(filepath, '.bak'),fmCreate);
-    DCP_twofish.InitStr(keystring, TDCP_sha256);              // initialize the cipher with a hash of the passphrase
-    DCP_twofish.EncryptStream(Source, Dest, Source.Size); // encrypt the contents of the file
-    DCP_twofish.Burn;
+    Source:= TFileStream.Create(FilePath, fmOpenRead);
+    Dest:= TFileStream.Create(ChangeFileExt(FilePath, '.bak'),fmCreate);
+    DCP_Twofish.InitStr(KeyString, TDCP_sha256);              // initialize the cipher with a hash of the passphrase
+    DCP_Twofish.EncryptStream(Source, Dest, Source.Size); // encrypt the contents of the file
+    DCP_Twofish.Burn;
     Dest.Free;
     Source.Free;
-    DeleteFile(filepath);
-    RenameFile(ChangeFileExt(filepath, '.bak'), ChangeFileExt(filepath, '.logb'));
-    encryptFile := True;
+    DeleteFile(FilePath);
+    RenameFile(ChangeFileExt(FilePath, '.bak'), ChangeFileExt(FilePath, '.logb'));
+    EncryptFile := True;
   except
-    encryptFile := False;
+    EncryptFile := False;
   end;
 end;
 
-function TdmCrypt.decryptFile(keystring: String; filepath: String): Boolean;
+function TdmCrypt.DecryptFile(KeyString: String; FilePath: String): Boolean;
 var
   Source, Dest: TFileStream;
 begin
   try
-    Source:= TFileStream.Create(filepath, fmOpenRead);
-    Dest:= TFileStream.Create(ChangeFileExt(filepath, '.bak'),fmCreate);
-    DCP_twofish.InitStr(keystring, TDCP_sha256);              // initialize the cipher with a hash of the passphrase
-    DCP_twofish.DecryptStream(Source, Dest, Source.Size); // decrypt the contents of the file
-    DCP_twofish.Burn;
+    Source:= TFileStream.Create(FilePath, fmOpenRead);
+    Dest:= TFileStream.Create(ChangeFileExt(FilePath, '.bak'),fmCreate);
+    DCP_Twofish.InitStr(KeyString, TDCP_sha256);              // initialize the cipher with a hash of the passphrase
+    DCP_Twofish.DecryptStream(Source, Dest, Source.Size); // decrypt the contents of the file
+    DCP_Twofish.Burn;
     Dest.Free;
     Source.Free;
-    DeleteFile(filepath);
-    RenameFile(ChangeFileExt(filepath, '.bak'), ChangeFileExt(filepath, '.logb'));
-    decryptFile := True;
+    DeleteFile(FilePath);
+    RenameFile(ChangeFileExt(FilePath, '.bak'), ChangeFileExt(FilePath, '.logb'));
+    DecryptFile := True;
   except
-    decryptFile := False;
+    DecryptFile := False;
   end;
 end;
 
