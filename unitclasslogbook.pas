@@ -78,7 +78,7 @@ type
       procedure CopyDataFromLogMetadata;         // Copies the data from LogMetadata to the main class parameters
 
       // Opens the database via filestream and manually checks/returns the user_version and application_id pragma values
-      procedure CheckPragmaManually({var Buser_version : LongInt; }var Bapplication_id : Cardinal);
+      procedure CheckPragmaManually({var BUserVersion : LongInt; }var BApplicationID : Cardinal);
 
       constructor Create; overload;
       constructor Create(Args: array of Integer); overload;
@@ -382,7 +382,7 @@ end;
 // to have at some later point
 // If Bapplication_id doesn't match one of our valid id's, the file is likely encrypted,
 // and we should ask the user for a password and try to open the Logbook that way.
-procedure TLogbook.CheckPragmaManually({var Buser_version: LongInt; }
+procedure TLogbook.CheckPragmaManually({var BUserVersion: LongInt; }
   var BApplicationID: Cardinal);
 var
   FSRecord: TFileStream;

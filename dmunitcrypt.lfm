@@ -1,10 +1,10 @@
 object dmCrypt: TdmCrypt
-  OnCreate = DataModuleCreate
-  OldCreateOrder = False
+  Left = 0
   Height = 150
-  HorizontalOffset = 389
-  VerticalOffset = 156
+  Top = 0
   Width = 150
+  OnCreate = DataModuleCreate
+  LCLVersion = '1.2.2.0'
   object DCP_Twofish: TDCP_twofish
     Id = 6
     Algorithm = 'Twofish'
