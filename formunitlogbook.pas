@@ -155,6 +155,7 @@ end;
 // Used when a new logbook has been created by formStartDialog
 constructor TformLogbook.Create(AOwner: TComponent; const inputLogbook : TLogbook);
 begin
+  {$ifdef dbgTimberLog} DebugLnEnter(ClassName, '.Create INIT'); {$endif}
   inherited Create(AOwner);
   ATLogbook.Create;
   ATLogbook := inputLogbook;
@@ -168,10 +169,13 @@ begin
     mnuThisLogbook.Enabled := True;
   end;
 
+  {$ifdef dbgTimberLog} DebugLnExit(ClassName, '.Create DONE'); {$endif}
+
 end;
 
 procedure TformLogbook.FormClose(Sender: TObject; var CloseAction: TCloseAction);
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.FormClose'); {$endif}
   IniPropStorage1.Save; // Save SessionProperties
 
   formStartDialog.Visible := True; // Show formStartDialog before we close this form
@@ -194,6 +198,7 @@ end;
 
 procedure TformLogbook.FormCreate(Sender: TObject);
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.FormCreate'); {$endif}
   Splitter1.Color := clbMedium;
   Splitter2.Color := clbMedium;
   IniPropStorage1.IniFileName := GetAppConfigDir(True) + '\TimberLog.ini';
@@ -201,6 +206,7 @@ end;
 
 procedure TformLogbook.FormShow(Sender: TObject);
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.FormShow'); {$endif}
   dtEnd.DateTime := Now;
 
   lblAddNewEntry.Font.Color := clbVividTextDefault;
@@ -334,6 +340,10 @@ begin
 
 end;
 
+
+// ToDo: Combine all "LabelAsButton" procedures in formUnitLogbook
+// and formUnitStartDialog within unitStartFunctions.
+// Also, rename unitStartFunctions to unitHelperFunctions
 procedure TformLogbook.LabelAsButtonMouseLeave(Sender: TObject);
 begin
   with (Sender as TLabel) do begin
@@ -375,6 +385,7 @@ end;
 
 initialization
   ATLogbook := TLogbook.Create;
+  {$ifdef dbgTimberLog} DebugLn('TLogbook Created'); {$endif}
 
 end.
 
