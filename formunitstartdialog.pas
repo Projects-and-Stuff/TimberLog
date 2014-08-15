@@ -465,6 +465,7 @@ begin
 
 
       {
+      ToDo: Do we need this test?
       //////////////// THIS IS THE TEST START ////////////////
       filepath := ChangeFileExt(SaveDialog1.FileName, '.logb');
       sendLogbook.Path := filepath;
@@ -627,7 +628,7 @@ begin
 
 
     {
-  /////////////////////// TO DO ////////////////////////
+  /////////////////////// ToDo ////////////////////////
   Check ParamStrUTF8 and Paramcount to see if a logbook file was specified
   }
   if Paramcount > 0 then

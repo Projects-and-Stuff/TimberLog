@@ -61,6 +61,8 @@ const
 implementation
 
 begin
+  // ToDo: Implement a method of selecting which colorscheme to use
+
   // Blue
   clbLightest := RGBToColor(205,235,235);
   clbLight := RGBToColor(167,222,222);

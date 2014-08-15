@@ -96,7 +96,6 @@ type
     SynExporterHTML1: TSynExporterHTML;
     txtSearch: TLabeledEdit;
     dtLateEntry: TZVDateTimePicker;
-    procedure Button1Click(Sender: TObject);
     procedure chkFilterByDateChange(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
     procedure FormCreate(Sender: TObject);
@@ -318,27 +317,6 @@ end;
 procedure TformLogbook.mnuCloseClick(Sender: TObject);
 begin
   Close;
-end;
-
-procedure TformLogbook.Button1Click(Sender: TObject);
-begin
-
-  ATLogbook.headerMark := '>TimberLog<';
-  ATLogbook.footerMark := '>TimberLog<';
-  ATLogbook.DTAccessed := DateTimeToFileDate(Now);
-  ATLogbook.DTOpened := DateTimeToFileDate(Now);
-  ATLogbook.checksum := '4444444444444444444444444444444444444444444444444444';
-  ATLogbook.OpenedBy := 'Johnny';
-  ATLogbook.logName := 'Serial Number';
-  ATLogbook.logDescription := 'Yo';
-
-
-
-
-  ShowMessage(ATLogbook.footerMark + ATLogbook.checksum);
-
-
-  //ATLogbook.NewLogbook();
 end;
 
 procedure TformLogbook.chkFilterByDateChange(Sender: TObject);

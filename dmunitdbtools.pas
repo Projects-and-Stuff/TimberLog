@@ -188,6 +188,8 @@ end;
 procedure TdmDBTools.DataModuleCreate(Sender: TObject);
 begin
   Randomize; // Make sure we can obtain good randomized values
+  // Only do this once, here in the 'Create' procedure, or we'll
+  // run into problems
 
   SQLiteLibraryName := 'sqlite3.dll'; // Ensure we're using the local sqlite3.dll
 end;
@@ -291,15 +293,13 @@ begin
 
 end;
 
-// Updates the following values in the Settings Table. Used when closing the logbook
+// ToDo: Updates the following values in the Settings Table. Used when closing the logbook
 // - DTAccessed
 // - Checksum
 procedure TdmDBTools.settings_Update(inputLogbook: TLogbook);
 begin
 
 end;
-
-
 
 // Inserts a random number into pragma user_verion
 procedure TdmDBTools.setUserVersion;
@@ -422,9 +422,6 @@ begin
   ActUpon.Clear;
 
   // use tempSearchString to split searchString up into its individual parts and apply each term to the search
-
-
-
 
 
   SdateStart := FormatDateTime('yyyy-mm-dd', + TDate(FileDateToDateTime(dateStart))); // Convert to format SQLite can interpret

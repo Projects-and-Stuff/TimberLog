@@ -74,9 +74,9 @@ procedure TframeRecentTile.imgOverlayClick(Sender: TObject);
 begin
   shapeBG.Brush.Color := ColorLeave;
 
-  ////////////////////////
-  // Open the file here //
-  ////////////////////////
+  //////////////////////////////
+  // ToDo: Open the file here //
+  //////////////////////////////
 
 
 end;

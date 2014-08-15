@@ -174,7 +174,7 @@ begin
     // Create Logbook file backup (and the new log file sans the RLogMetadata)
     CreateBackup();
 
-    // Start running queries on the database!
+    // ToDo: Start running queries on the database!
 
   end;
 
@@ -471,7 +471,7 @@ begin
     OutMemo.Lines.Add('Full Path to Logbook: ' + Path);
   end;
 
-  { /// THIS NEEDS TO BE IMPLEMENTED AFTER TESTING IS COMPLETE
+  { /// ToDo: THIS NEEDS TO BE IMPLEMENTED AFTER TESTING IS COMPLETE
   ////////////////////////////////////////////////////////////////////////////////////
   if AllValid = False then
   begin

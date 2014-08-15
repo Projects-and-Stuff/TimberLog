@@ -107,6 +107,15 @@ begin
   returnDocumentsPath := DocumentsPath;
 end;
 
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+// ToDo: Consider splitting these various actions into separate procedures for better modularity //
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
 procedure processTypeFile(filepath : String; out errorMsg : String; out Logbook_Type: String; Description: TStringList);
 var
   utilStrList : TStringList; // Holds the entire Type File while we process it

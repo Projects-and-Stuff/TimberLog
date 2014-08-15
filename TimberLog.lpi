@@ -18,7 +18,7 @@
       <UseVersionInfo Value="True"/>
       <AutoIncrementBuild Value="True"/>
       <MinorVersionNr Value="1"/>
-      <BuildNr Value="619"/>
+      <BuildNr Value="620"/>
       <StringTable Comments="Developed by Jack D Linke" CompanyName="Projects and Stuff" OriginalFilename="TimberLog.exe" ProductName="TimberLog" ProductVersion=""/>
     </VersionInfo>
     <BuildModes Count="1">
@@ -32,46 +32,49 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="13">
+    <RequiredPackages Count="14">
       <Item1>
-        <PackageName Value="rx"/>
+        <PackageName Value="PASVirtualDBScrollRichMemoPkg"/>
       </Item1>
       <Item2>
-        <PackageName Value="PASVirtualDBScroll"/>
+        <PackageName Value="rx"/>
       </Item2>
       <Item3>
-        <PackageName Value="uniqueinstance_package"/>
+        <PackageName Value="PASVirtualDBScroll"/>
       </Item3>
       <Item4>
-        <PackageName Value="lazmrumenu"/>
+        <PackageName Value="uniqueinstance_package"/>
       </Item4>
       <Item5>
-        <PackageName Value="sqlite3laz"/>
+        <PackageName Value="lazmrumenu"/>
       </Item5>
       <Item6>
-        <PackageName Value="dcpcrypt"/>
+        <PackageName Value="sqlite3laz"/>
       </Item6>
       <Item7>
-        <PackageName Value="ZVDateTimeCtrls"/>
+        <PackageName Value="dcpcrypt"/>
       </Item7>
       <Item8>
-        <PackageName Value="SynEdit"/>
+        <PackageName Value="ZVDateTimeCtrls"/>
       </Item8>
       <Item9>
-        <PackageName Value="richmemopackage"/>
+        <PackageName Value="SynEdit"/>
       </Item9>
       <Item10>
-        <PackageName Value="FCL"/>
+        <PackageName Value="richmemopackage"/>
       </Item10>
       <Item11>
-        <PackageName Value="SQLDBLaz"/>
+        <PackageName Value="FCL"/>
       </Item11>
       <Item12>
-        <PackageName Value="RunTimeTypeInfoControls"/>
+        <PackageName Value="SQLDBLaz"/>
       </Item12>
       <Item13>
-        <PackageName Value="LCL"/>
+        <PackageName Value="RunTimeTypeInfoControls"/>
       </Item13>
+      <Item14>
+        <PackageName Value="LCL"/>
+      </Item14>
     </RequiredPackages>
     <Units Count="11">
       <Unit0>
