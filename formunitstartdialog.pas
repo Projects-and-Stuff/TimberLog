@@ -31,7 +31,7 @@ uses
   formUnitLogbook, unitDefinitions, unitStartFunctions, unitRecordLogMetadata,
   ComCtrls, Grids, dmUnitCrypt, dmUnitDBTools, unitTypeTile,
   unitRecentTile, mrumanager, UniqueInstance, strutils, Contnrs,
-  unitClassLogbook, PASVirtualDBScrollRichMemo;
+  unitClassLogbook, PASVirtualDBScrollRichMemo, LazLogger;
 
 type
 
@@ -222,7 +222,7 @@ var
   errorMsg, Logbook_Type : String;
   Description : TStringList;
 begin
-
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.FormShow'); {$endif}
 
 
   if Assigned(recentTileList) then // Check if we've already created the recentTiles
@@ -623,6 +623,8 @@ end;
 
 procedure TformStartDialog.FormCreate(Sender: TObject);
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.FormCreate'); {$endif}
+
   IniPropStorage1.IniFileName := GetAppConfigDir(True) + '\TimberLog.ini';
 
 
@@ -710,7 +712,7 @@ end;
 
 procedure TformStartDialog.TabControl1Change(Sender: TObject);
 begin
-  Notebook2.PageIndex:=TabControl1.TabIndex;
+  Notebook2.PageIndex := TabControl1.TabIndex;
   lblNow.Caption := FormatDateTime(cmbDFormat.Caption + ' ' + cmbTFormat.Caption, Now);
 end;
 

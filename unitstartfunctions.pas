@@ -32,7 +32,8 @@ unit unitStartFunctions;
 interface
 
 uses
-  Classes, SysUtils, shlobj, {unitRecordLogMetadata,} strutils, unitDefinitions, {dmUnitCrypt,} Controls{, StdCtrls};
+  Classes, SysUtils, shlobj, {unitRecordLogMetadata,} strutils, unitDefinitions,
+  {dmUnitCrypt,} Controls{, StdCtrls}. LazLogger;
 
   procedure resetPages; // Resets Page 1 to the default values
   function returnDocumentsPath : String;
@@ -52,15 +53,19 @@ uses
 
 procedure Split(const Delimiter : Char; Input : string; const Strings : TStrings);
 begin
-   Assert(Assigned(Strings)) ;
-   Strings.Clear;
-   Strings.StrictDelimiter := true;
-   Strings.Delimiter := Delimiter;
-   Strings.DelimitedText := Input;
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.Split'); {$endif}
+
+  Assert(Assigned(Strings)) ;
+  Strings.Clear;
+  Strings.StrictDelimiter := true;
+  Strings.Delimiter := Delimiter;
+  Strings.DelimitedText := Input;
 end;
 
 procedure resetPages;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.resetPages'); {$endif}
+
   //formStartDialog.Notebook1.PageIndex := 0; // Reset to the default page on formStartDialog
 
   // Clear out all the components on page 1
@@ -102,6 +107,8 @@ function returnDocumentsPath: String;
 var
   DocumentsPath: Array[0..MaxPathLen] of Char; //Allocate memory
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.returnDocumentsPath'); {$endif}
+
   DocumentsPath := '';
   SHGetSpecialFolderPath(0,DocumentsPath,CSIDL_PERSONAL,false); // http://delphi-miranda-plugins.googlecode.com/svn-history/r105/trunk/FPC/units/src/shlobj.pp
   returnDocumentsPath := DocumentsPath;
@@ -128,6 +135,7 @@ var
   i : Integer;
   hasError : Boolean; // Used to check whether there is an error in number of block elements
 begin
+
   utilStrList := TStringList.Create;
   utilStrList.LoadFromFile(filepath); // Load up the type file into the utility TStringList
 
@@ -575,6 +583,7 @@ var
   Info : TSearchRec;
   anyExists : Boolean;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.getTypeFileList'); {$endif}
 
   anyExists := False;
 

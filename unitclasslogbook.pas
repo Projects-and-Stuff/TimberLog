@@ -26,7 +26,7 @@ unit unitClassLogbook;
 interface
 
 uses
-  Classes, SysUtils, unitRecordLogMetadata, unitDefinitions, dmUnitCrypt, StdCtrls;
+  Classes, SysUtils, unitRecordLogMetadata, unitDefinitions, dmUnitCrypt, StdCtrls, LazLogger;
 
 type
 
@@ -145,6 +145,8 @@ implementation
 // General class constructor
 constructor TLogbook.Create;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.Create'); {$endif}
+
   IsError := ''; // Initially, there is no fault, so the string is set to blank.
                  // But it may be set true while attempting to create the logbook
                  // in which case an error message will be set.
@@ -153,17 +155,20 @@ end;
 // Overloaded constructor. For possible future use
 constructor TLogbook.Create(Args: array of Integer);
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.Create(Args: array of Integer)'); {$endif}
 
 end;
 
 destructor TLogbook.Destroy;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.Destroy'); {$endif}
   inherited Destroy;
 end;
 
 // Opens an existing .logb file
 procedure TLogbook.OpenLogbook;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.OpenLogbook'); {$endif}
 
   // The path should already be set prior to opening the logbook. Check to ensure it is!
 
@@ -185,6 +190,7 @@ end;
 // Creates a new logbook database
 procedure TLogbook.NewLogbook();
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.NewLogbook'); {$endif}
 
 
 
@@ -194,6 +200,7 @@ end;
 // and calls DeteteBackup
 procedure TLogbook.CloseLogbook();
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.CloseLogbook'); {$endif}
 
   // Write the record to the end of the logbook
   WriteLogMetadata();
@@ -213,6 +220,8 @@ var
   FSRecord: TFileStream;
   TempLogMetadata : RLogMetadata;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.ReadLogMetadata'); {$endif}
+
   ReadLogMetadata := False;
 
   try
@@ -256,6 +265,8 @@ procedure TLogbook.BuildLogMetadataRecord(ALogName, ALogDescription, AOpenedBy :
 var
   str64 : String;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.BuildLogMetadataRecord'); {$endif}
+
   HeaderMark := RecHeader;
   FooterMark := RecFooter;
 
@@ -274,11 +285,12 @@ begin
 end;
 
 // Takes a file input and adds RLogMetadata to the end of the file
-procedure TLogbook.WriteLogMetadata();
+procedure TLogbook.WriteLogMetadata;
 var
   FSUpdate : TFileStream;
   TempString : String;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.WriteLogMetadata'); {$endif}
 
   // checksum of file
   dmCrypt.filehash(Path, TempString);
@@ -340,6 +352,8 @@ end;
 // Deletes the old logbook file
 procedure TLogbook.DeleteBackupLog();
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.DeleteBackupLog'); {$endif}
+
   if FileExists(ChangeFileExt(Path, '.logbak')) then
   begin
     try
@@ -349,8 +363,10 @@ begin
   end;
 end;
 
-procedure TLogbook.copyDataToLogMetadata;
+procedure TLogbook.CopyDataToLogMetadata;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.CopyDataToLogMetadata'); {$endif}
+
   LogMetadata.HeaderMark := RecHeader;
   LogMetadata.Checksum := Checksum;
   LogMetadata.FileChecksum := FileChecksum;
@@ -365,6 +381,8 @@ end;
 
 procedure TLogbook.CopyDataFromLogMetadata;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.CopyDataFromLogMetadata'); {$endif}
+
   HeaderMark := LogMetadata.HeaderMark;
   Checksum := LogMetadata.Checksum;
   FileChecksum := LogMetadata.FileChecksum;
@@ -388,6 +406,7 @@ var
   FSRecord: TFileStream;
   ASQLiteHeader : RSQLiteHeader;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.CheckPragmaManually'); {$endif}
 
   try
     FSRecord := TFileStream.Create('./new.db', fmOpenRead or fmShareDenyNone);
@@ -409,12 +428,13 @@ end;
 
 // Creates a copy of the original file sans the record, and saves
 // the original file as a backip
-procedure TLogbook.CreateBackup();
+procedure TLogbook.CreateBackup;
 var
   FSInput, FSOutput, FSRecord: TFileStream;
   tiStart, tiEnd : TTime;
   BytesRead : Int64;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.CreateBackup'); {$endif}
 
   FSInput := TFileStream.Create(Path, fmOpenRead);
   try
@@ -441,6 +461,8 @@ procedure TLogbook.WriteMetadataToMemo(OutMemo: TMemo);
 var
   AllValid : Boolean;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.WriteMetadataToMemo'); {$endif}
+
   AllValid:=True;
 
   OutMemo.Lines.Clear;
@@ -485,6 +507,7 @@ end;
 // Probability of these values being correct by mere chance are astronomical
 function TLogbook.VerifyLogMetadataStructure(TempLogMetadata : RLogMetadata) : Boolean;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.VerifyLogMetadataStructure'); {$endif}
 
   if (TempLogMetadata.FooterMark = RecFooter) and (TempLogMetadata.HeaderMark = RecHeader) then
   begin
@@ -500,14 +523,15 @@ end;
 
 // Verifies that the header and footer of the record is valid
 // Probability of these values being correct by mere chance are astronomical
-function TLogbook.verifyLogMetadataContent(TempLogMetadata : RLogMetadata) : Boolean;
+function TLogbook.VerifyLogMetadataContent(TempLogMetadata : RLogMetadata) : Boolean;
 var
   str64 : String;
 begin
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.verifyLogMetadataContent'); {$endif}
   dmCrypt.stringhash(TempLogMetadata.LogName + TempLogMetadata.LogDescription + TempLogMetadata.OpenedBy + IntToStr(TempLogMetadata.DTOpened) + IntToStr(TempLogMetadata.DTAccessed), str64);
   SetLength(str64, 64);
 
-  if (TempLogMetadata.footerMark = RecFooter) and (TempLogMetadata.headerMark = RecHeader) and (TempLogMetadata.checksum = str64) then
+  if (TempLogMetadata.footerMark = RecFooter) and (TempLogMetadata.HeaderMark = RecHeader) and (TempLogMetadata.Checksum = str64) then
   begin
     VerifyLogMetadataContent := True;
   end

@@ -28,7 +28,7 @@ uses
   SynExportHTML, ZVDateTimePicker, Forms, Controls, Graphics, Dialogs,
   IniPropStorage, StdCtrls, Menus, ExtCtrls, unitClassLogbook,
   unitRecordLogMetadata, LCLIntf, ComCtrls, unitStartFunctions,
-  unitDefinitions, dmUnitDBTools, PASVirtualDBScrollRichMemo;
+  unitDefinitions, dmUnitDBTools, PASVirtualDBScrollRichMemo, LazLogger;
 
 type
 
