@@ -27,10 +27,10 @@ interface
 
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, StdCtrls,
-  types, LCLType, ExtCtrls, Buttons, ShellCtrls, LCLIntf, IniPropStorage,
+  LCLType, ExtCtrls, Buttons, ShellCtrls, LCLIntf, IniPropStorage,
   formUnitLogbook, unitDefinitions, unitStartFunctions, unitRecordLogMetadata,
-  ComCtrls, Grids, DBGrids, dmUnitCrypt, dmUnitDBTools, unitTypeTile,
-  unitRecentTile, mrumanager, UniqueInstance, strutils, Contnrs, db,
+  ComCtrls, Grids, dmUnitCrypt, dmUnitDBTools, unitTypeTile,
+  unitRecentTile, mrumanager, UniqueInstance, strutils, Contnrs,
   unitClassLogbook, PASVirtualDBScrollRichMemo;
 
 type
@@ -217,11 +217,13 @@ end;
 
 procedure TformStartDialog.FormShow(Sender: TObject);
 var
-  i, tileLength : Integer;
+  i{, tileLength} : Integer;
   fileList : TStringList;
   errorMsg, Logbook_Type : String;
   Description : TStringList;
 begin
+
+
 
   if Assigned(recentTileList) then // Check if we've already created the recentTiles
   begin
@@ -621,6 +623,25 @@ end;
 procedure TformStartDialog.FormCreate(Sender: TObject);
 begin
   IniPropStorage1.IniFileName := GetAppConfigDir(True) + '\TimberLog.ini';
+
+
+
+    {
+  /////////////////////// TO DO ////////////////////////
+  Check ParamStrUTF8 and Paramcount to see if a logbook file was specified
+  }
+  if Paramcount > 0 then
+  begin
+    //ShowMessage(ParamStrUTF8(1));
+    if (ExtractFileExt(ParamStrUTF8(1)) = '.logb') and FileExistsUTF8(ParamStrUTF8(1)) then
+    begin
+      // Verify the file's metadata
+      // Then load and open the logbook file in formLogbook
+      //ShowMessage('Opening Logbook');
+    end;
+  end;
+
+
 end;
 
 procedure TformStartDialog.pgNewLogbookBeforeShow(ASender: TObject;
@@ -663,7 +684,6 @@ procedure TformStartDialog.shellListSelectFileSelectItem(Sender: TObject;
   Item: TListItem; Selected: Boolean);
 var
   tempLogbook : TLogbook;
-  LogMetadata : RLogMetadata;
 begin
   tempLogbook := TLogbook.Create;
 

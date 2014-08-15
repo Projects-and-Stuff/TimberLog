@@ -1,7 +1,7 @@
 object formStartDialog: TformStartDialog
-  Left = 463
+  Left = 459
   Height = 731
-  Top = 184
+  Top = 153
   Width = 1200
   BorderStyle = bsNone
   Caption = 'formStartDialog'

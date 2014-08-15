@@ -32,7 +32,7 @@ unit unitStartFunctions;
 interface
 
 uses
-  Classes, SysUtils, shlobj, unitRecordLogMetadata, strutils, unitDefinitions, dmUnitCrypt, Controls, StdCtrls;
+  Classes, SysUtils, shlobj, {unitRecordLogMetadata,} strutils, unitDefinitions, {dmUnitCrypt,} Controls{, StdCtrls};
 
   procedure resetPages; // Resets Page 1 to the default values
   function returnDocumentsPath : String;
