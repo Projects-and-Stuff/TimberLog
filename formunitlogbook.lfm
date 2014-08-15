@@ -35,7 +35,7 @@ object formLogbook: TformLogbook
     ClientHeight = 329
     ClientWidth = 881
     TabOrder = 0
-    inline syneditLogEdit: TSynEdit
+    inline LogEdit: TSynEdit
       AnchorSideLeft.Control = Panel2
       AnchorSideTop.Control = Panel2
       AnchorSideRight.Control = Panel2
@@ -916,7 +916,7 @@ object formLogbook: TformLogbook
     Anchors = [akTop, akLeft, akRight]
     ResizeAnchor = akBottom
   end
-  object DBScrollRichMemoLogView: TPASVirtualDBScrollRichMemo
+  object LogView: TPASVirtualDBScrollRichMemo
     AnchorSideLeft.Control = Splitter1
     AnchorSideLeft.Side = asrBottom
     AnchorSideTop.Control = Owner
@@ -931,6 +931,12 @@ object formLogbook: TformLogbook
     EScrollBar.Height = 326
     EScrollBar.Top = 1
     EScrollBar.Width = 17
+    EPopupInfo.Left = 0
+    EPopupInfo.Height = 24
+    EPopupInfo.Top = 0
+    EPopupInfo.Width = 50
+    EPopupInfo.Caption = '0'
+    EPopupInfo.TabOrder = 2
     DataSource = dmDBTools.DataSource1
     Anchors = [akTop, akLeft, akRight, akBottom]
     TabOrder = 5
@@ -1048,8 +1054,13 @@ object formLogbook: TformLogbook
         Caption = 'Visit TimberLog Website'
         OnClick = mnuVisitWebsiteClick
       end
+      object mnuUpdate: TMenuItem
+        Caption = 'Check for Updates'
+        OnClick = mnuUpdateClick
+      end
       object mnuAbout: TMenuItem
         Caption = 'About TimberLog'
+        OnClick = mnuAboutClick
       end
     end
   end

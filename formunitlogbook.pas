@@ -24,10 +24,10 @@ unit formUnitLogbook;
 interface
 
 uses
-  Classes, SysUtils, db, FileUtil, SynEdit, SynCompletion, SynHighlighterAny,
-  SynExportHTML, RichMemo, ZVDateTimePicker, Forms, Controls, Graphics, Dialogs,
+  Classes, SysUtils, FileUtil, SynEdit, SynCompletion, SynHighlighterAny,
+  SynExportHTML, ZVDateTimePicker, Forms, Controls, Graphics, Dialogs,
   IniPropStorage, StdCtrls, Menus, ExtCtrls, unitClassLogbook,
-  unitRecordLogMetadata, LCLIntf, ComCtrls, DBGrids, unitStartFunctions,
+  unitRecordLogMetadata, LCLIntf, ComCtrls, unitStartFunctions,
   unitDefinitions, dmUnitDBTools, PASVirtualDBScrollRichMemo;
 
 type
@@ -56,6 +56,7 @@ type
     MenuItem2: TMenuItem;
     MenuItem3: TMenuItem;
     MenuItem4: TMenuItem;
+    mnuUpdate: TMenuItem;
     mnuViewManual: TMenuItem;
     mnuVisitWebsite: TMenuItem;
     mnuAbout: TMenuItem;
@@ -82,7 +83,7 @@ type
     mnuThisLogbook: TMenuItem;
     MenuItem8: TMenuItem;
     MenuItem9: TMenuItem;
-    DBScrollRichMemoLogView: TPASVirtualDBScrollRichMemo;
+    LogView: TPASVirtualDBScrollRichMemo;
     Panel2: TPanel;
     Panel3: TPanel;
     Shape1: TShape;
@@ -91,7 +92,7 @@ type
     StatusBar1: TStatusBar;
     SynAnySyn1: TSynAnySyn;
     SynAutoComplete1: TSynAutoComplete;
-    syneditLogEdit: TSynEdit;
+    LogEdit: TSynEdit;
     SynExporterHTML1: TSynExporterHTML;
     txtSearch: TLabeledEdit;
     dtLateEntry: TZVDateTimePicker;
@@ -102,7 +103,9 @@ type
     procedure FormShow(Sender: TObject);
     procedure lblAddNewEntryClick(Sender: TObject);
     procedure lblResetClick(Sender: TObject);
+    procedure mnuAboutClick(Sender: TObject);
     procedure mnuChangeFontClick(Sender: TObject);
+    procedure mnuUpdateClick(Sender: TObject);
     procedure mnuViewManualClick(Sender: TObject);
     procedure mnuVisitWebsiteClick(Sender: TObject);
     procedure mnuFontPlusClick(Sender: TObject);
@@ -234,14 +237,24 @@ begin
 
 end;
 
+procedure TformLogbook.mnuAboutClick(Sender: TObject);
+begin
+
+end;
+
 procedure TformLogbook.mnuChangeFontClick(Sender: TObject);
 begin
-  FontDialog1.Font := DBScrollRichMemoLogView.Font;
+  FontDialog1.Font := LogView.ERichMemo.Font;
   if FontDialog1.Execute then
   begin
-    DBScrollRichMemoLogView.Font := FontDialog1.Font;
-    syneditLogEdit.Font := FontDialog1.Font;
+    LogView.ERichMemo.Font := FontDialog1.Font;
+    LogEdit.Font := FontDialog1.Font;
   end;
+end;
+
+procedure TformLogbook.mnuUpdateClick(Sender: TObject);
+begin
+
 end;
 
 procedure TformLogbook.mnuViewManualClick(Sender: TObject);
@@ -256,27 +269,27 @@ end;
 
 procedure TformLogbook.mnuFontPlusClick(Sender: TObject);
 begin
-  if DBScrollRichMemoLogView.Font.Size < 62 then
+  if LogView.ERichMemo.Font.Size < 62 then
   begin
-    DBScrollRichMemoLogView.Font.Size := DBScrollRichMemoLogView.Font.Size + 2;
+    LogView.ERichMemo.Font.Size := LogView.ERichMemo.Font.Size + 2;
   end;
 
-  if syneditLogEdit.Font.Size < 62 then
+  if LogEdit.Font.Size < 62 then
   begin
-    syneditLogEdit.Font.Size := syneditLogEdit.Font.Size + 2;
+    LogEdit.Font.Size := LogEdit.Font.Size + 2;
   end;
 end;
 
 procedure TformLogbook.mnuFontMinusClick(Sender: TObject);
 begin
-  if DBScrollRichMemoLogView.Font.Size > 7 then
+  if LogView.ERichMemo.Font.Size > 7 then
   begin
-    DBScrollRichMemoLogView.Font.Size := DBScrollRichMemoLogView.Font.Size - 2;
+    LogView.ERichMemo.Font.Size := LogView.ERichMemo.Font.Size - 2;
   end;
 
-  if syneditLogEdit.Font.Size > 7 then
+  if LogEdit.Font.Size > 7 then
   begin
-    syneditLogEdit.Font.Size := syneditLogEdit.Font.Size - 2;
+    LogEdit.Font.Size := LogEdit.Font.Size - 2;
   end;
 end;
 
@@ -308,8 +321,6 @@ begin
 end;
 
 procedure TformLogbook.Button1Click(Sender: TObject);
-var
-  testLogMetadata : RLogMetadata;
 begin
 
   ATLogbook.headerMark := '>TimberLog<';
