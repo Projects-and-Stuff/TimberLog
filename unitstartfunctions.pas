@@ -33,7 +33,7 @@ interface
 
 uses
   Classes, SysUtils, shlobj, {unitRecordLogMetadata,} strutils, unitDefinitions,
-  {dmUnitCrypt,} Controls{, StdCtrls}. LazLogger;
+  {dmUnitCrypt,} Controls{, StdCtrls}, LazLogger;
 
   procedure ResetPages; // Resets Page 1 to the default values
   function ReturnDocumentsPath : String;
@@ -42,8 +42,8 @@ uses
     Default_Categories : TStringList);
   procedure ProcessTypeFile(filepath : String; out ErrorMsg : String; out Logbook_Type : String; Description : TStringList; // Full form with entire type definition
     Settings: TStringList; Default_Categories: TStringList; Default_Text: TStringList;
-    OneLine: TStringList; Multi_Line: TStringList);
-  procedure GetTypeFileList(var fileList : TStringList);
+    One_Line: TStringList; Multi_Line: TStringList);
+  procedure GetTypeFileList(var FileList : TStringList);
   procedure Split(const Delimiter : Char; Input : String; const Strings : TStrings);
 
 implementation
@@ -53,7 +53,7 @@ uses
 
 procedure Split(const Delimiter : Char; Input : String; const Strings : TStrings);
 begin
-  {$ifdef dbgTimberLog} DebugLn(ClassName, '.Split'); {$endif}
+  {$ifdef dbgTimberLog} DebugLn('Split'); {$endif}
 
   Assert(Assigned(Strings)) ;
   Strings.Clear;
@@ -64,7 +64,7 @@ end;
 
 procedure ResetPages;
 begin
-  {$ifdef dbgTimberLog} DebugLn(ClassName, '.ResetPages'); {$endif}
+  {$ifdef dbgTimberLog} DebugLn('ResetPages'); {$endif}
 
   //formStartDialog.Notebook1.PageIndex := 0; // Reset to the default page on formStartDialog
 
@@ -107,7 +107,7 @@ function ReturnDocumentsPath: String;
 var
   DocumentsPath: Array[0..MaxPathLen] of Char; //Allocate memory
 begin
-  {$ifdef dbgTimberLog} DebugLn(ClassName, '.ReturnDocumentsPath'); {$endif}
+  {$ifdef dbgTimberLog} DebugLn('ReturnDocumentsPath'); {$endif}
 
   DocumentsPath := '';
   SHGetSpecialFolderPath(0,DocumentsPath,CSIDL_PERSONAL,False); // http://delphi-miranda-plugins.googlecode.com/svn-history/r105/trunk/FPC/units/src/shlobj.pp
@@ -152,7 +152,7 @@ begin
   for i := 0 to UtilStrList.Count-1 do
   begin
 
-    if (AnsiContainsText(BlockLogbook_Type, uUilStrList.Strings[i]) = True) then
+    if (AnsiContainsText(BlockLogbook_Type, UtilStrList.Strings[i]) = True) then
     begin
       LocLogbook_Type[0] := LocLogbook_Type[0] + 1; // If we've got a match, increase the count
     end;
@@ -363,14 +363,14 @@ begin
 end;
 
 procedure processTypeFile(filepath : String; out ErrorMsg : String; out Logbook_Type: String; Description: TStringList;
-  Settings : TStringList; Default_Categories : TStringList; Default_Text: TStringList; OneLine: TStringList; Multi_Line: TStringList);
+  Settings : TStringList; Default_Categories : TStringList; Default_Text: TStringList; One_Line: TStringList; Multi_Line: TStringList);
 var
   UtilStrList : TStringList; // Holds the entire Type File while we process it
 
   // These Loc arrays are used for identifying the type data
   // The first value (IE: LocType[0]) counts how many instances there are so far
   // All additional values specify the Location of the Blocks
-  LocLogbook_Type, LocDescription, LocSettings, LocDefaultCategories, LocDefault_Text, LocOneLine, LocMulti_Line : array of Integer;
+  LocLogbook_Type, LocDescription, LocSettings, LocDefaultCategories, LocDefault_Text, LocOne_Line, LocMulti_Line : array of Integer;
 
   i : Integer;
   HasError : Boolean; // Used to check whether there is an error in number of Block elements
@@ -384,7 +384,7 @@ begin
   SetLength(LocDefaultCategories, 1);
   SetLength(LocSettings, 1);
   SetLength(LocDefault_Text, 1);
-  SetLength(LocOneLine, 1);
+  SetLength(LocOne_Line, 1);
 
   // Initially, there are no instances of each type Block
   LocLogbook_Type[0] := 0;
@@ -392,7 +392,7 @@ begin
   LocDefaultCategories[0] := 0;
   LocSettings[0] := 0;
   LocDefault_Text[0] := 0;
-  LocOneLine[0] := 0;
+  LocOne_Line[0] := 0;
 
 
   // Initially, run through the entire file looking for the total number of each Block
@@ -424,9 +424,9 @@ begin
       LocDefault_Text[0] := LocDefault_Text[0] + 1; // If we've got a match, increase the count
     end;
 
-    if (AnsiContainsText(BlockOneLine, UtilStrList.Strings[i]) = True) then
+    if (AnsiContainsText(BlockOne_Line, UtilStrList.Strings[i]) = True) then
     begin
-      LocOneLine[0] := LocOneLine[0] + 1; // If we've got a match, increase the count
+      LocOne_Line[0] := LocOne_Line[0] + 1; // If we've got a match, increase the count
     end;
 
     // Add further Block element searches here...
@@ -438,7 +438,7 @@ begin
   SetLength(LocDefaultCategories, LocDefaultCategories[0]+1);
   SetLength(LocSettings, LocSettings[0]+1);
   SetLength(LocDefault_Text, LocDefault_Text[0]+1);
-  SetLength(LocOneLine, LocOneLine[0]+1);
+  SetLength(LocOne_Line, LocOne_Line[0]+1);
 
   // Reset the counters
   LocLogbook_Type[0] := 0;
@@ -446,7 +446,7 @@ begin
   LocDefaultCategories[0] := 0;
   LocSettings[0] := 0;
   LocDefault_Text[0] := 0;
-  LocOneLine[0] := 0;
+  LocOne_Line[0] := 0;
 
   // The, run through the entire file again for each instance of each Block
   for i := 0 to UtilStrList.Count-1 do
@@ -482,10 +482,10 @@ begin
       LocDefault_Text[LocDefault_Text[0]] := i; // Add the new value to the array showing the Location of a Block element
     end;
 
-    if (AnsiContainsText(blockOneLine, UtilStrList.Strings[i]) = True) then
+    if (AnsiContainsText(blockOne_Line, UtilStrList.Strings[i]) = True) then
     begin
-      LocOneLine[0] := LocOneLine[0] + 1; // If we've got a match, increase the count
-      LocOneLine[LocOneLine[0]] := i; // Add the new value to the array showing the Location of a Block element
+      LocOne_Line[0] := LocOne_Line[0] + 1; // If we've got a match, increase the count
+      LocOne_Line[LocOne_Line[0]] := i; // Add the new value to the array showing the Location of a Block element
     end;
 
   // Add further Block element searches here...
@@ -526,9 +526,9 @@ begin
     HasError := True;
   end;
 
-  if ((Length(LocOneLine)-1) mod 2 <> 0) then
+  if ((Length(LocOne_Line)-1) mod 2 <> 0) then
   begin
-    ErrorMsg := 'There is an error in the "' + BlockOneLine + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
+    ErrorMsg := 'There is an error in the "' + BlockOne_Line + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
     HasError := True;
   end;
 
@@ -566,10 +566,10 @@ begin
       Default_Text.AddText(UtilStrList.Strings[i]);
     end;
 
-    // Add the OneLine, which is a single multi-line Block (additional intances of OneLine are ignored)
-    for i := LocOneLine[1]+1 to LocOneLine[2]-1 do
+    // Add the One_Line, which is a single multi-line Block (additional intances of One_Line are ignored)
+    for i := LocOne_Line[1]+1 to LocOne_Line[2]-1 do
     begin
-      OneLine.AddText(UtilStrList.Strings[i]);
+      One_Line.AddText(UtilStrList.Strings[i]);
     end;
 
 
@@ -578,12 +578,12 @@ begin
   UtilStrList.Free;
 end;
 
-procedure GetTypeFileList(var fileList: TStringList);
+procedure GetTypeFileList(var FileList: TStringList);
 var
   Info : TSearchRec;
   AnyExists : Boolean;
 begin
-  {$ifdef dbgTimberLog} DebugLn(ClassName, '.getTypeFileList'); {$endif}
+  {$ifdef dbgTimberLog} DebugLn('GetTypeFileList'); {$endif}
 
   AnyExists := False;
 
@@ -605,8 +605,8 @@ begin
         //If it's a .logt file, then add it to the list
         if (RightStr(Name, 4) = 'logt') then
         begin
-          //fileList.AddText(GetAppConfigDir(True) + Name);
-          AyExists := True;
+          //FileList.AddText(GetAppConfigDir(True) + Name);
+          AnyExists := True;
           FileList.AddText(GetAppConfigDir(True) + Name);
         end;
       end;

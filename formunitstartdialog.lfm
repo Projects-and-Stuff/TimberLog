@@ -1017,8 +1017,4 @@ object formStartDialog: TformStartDialog
     left = 892
     top = 16
   end
-  object PopupMenu1: TPopupMenu
-    left = 215
-    top = 125
-  end
 end

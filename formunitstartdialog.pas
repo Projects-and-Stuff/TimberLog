@@ -381,8 +381,8 @@ begin
   if hasError = False then
   begin
     // Set the values in the logbook from the form
-    sendLogbook.logName := txtLogName.Text;
-    sendLogbook.logDescription := memoLogDescription.Text;
+    sendLogbook.LogName := txtLogName.Text;
+    sendLogbook.LogDescription := memoLogDescription.Text;
     sendLogbook.OpenedBy := txtOpenedBy.Text;
     sendLogbook.DTOpened := DateTimeToFileDate(Now);
     sendLogbook.DTAccessed := DateTimeToFileDate(Now);
@@ -406,7 +406,7 @@ begin
     sendLogbook.PassPrintSalt := dmCrypt.newSalt();
 
 
-    // Convert the contents of the Categories listbox to a delimited string
+    // Convert the contents of the Categories listbox to a delimited String
     for i := 0 to listboxCategories.Count-1 do
     begin
       ReplaceText(listboxCategories.Items.Strings[i], '|', ':');
@@ -427,10 +427,10 @@ begin
       begin
         MkDir(returnDocumentsPath + '\TimberLog\');
       end;
-      SaveDialog1.FileName := returnDocumentsPath + '\TimberLog\' + sendLogbook.logName + '.logb';
+      SaveDialog1.FileName := returnDocumentsPath + '\TimberLog\' + sendLogbook.LogName + '.logb';
     finally
       //SaveDialog1.InitialDir := returnDocumentsPath + '\TimberLog';
-      //SaveDialog1.FileName := returnDocumentsPath + '\TimberLog\' + sendLogbook.logName + '.logb';
+      //SaveDialog1.FileName := returnDocumentsPath + '\TimberLog\' + sendLogbook.LogName + '.logb';
     end;
 
     //SelectDirectoryDialog1.InitialDir := returnDocumentsPath + '\TimberLog\';
@@ -442,7 +442,7 @@ begin
 
 
       filepath := ChangeFileExt(SaveDialog1.FileName, '.logb');
-      //filepath := ChangeFileExt(IncludeTrailingBackslash(SelectDirectoryDialog1.FileName) + sendLogbook.logName, '.logb');
+      //filepath := ChangeFileExt(IncludeTrailingBackslash(SelectDirectoryDialog1.FileName) + sendLogbook.LogName, '.logb');
 
       formStartDialog.Visible := False;             // Hide the calling form first
 

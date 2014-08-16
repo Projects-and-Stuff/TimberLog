@@ -133,40 +133,40 @@ begin
   DCP_Twofish.Burn;
 end;
 
-function TdmCrypt.EncryptFile(KeyString: String; FilePath: String): Boolean;
+function TdmCrypt.EncryptFile(KeyString: String; Filepath: String): Boolean;
 var
   Source, Dest: TFileStream;
 begin
   try
-    Source:= TFileStream.Create(FilePath, fmOpenRead);
-    Dest:= TFileStream.Create(ChangeFileExt(FilePath, '.bak'),fmCreate);
+    Source:= TFileStream.Create(Filepath, fmOpenRead);
+    Dest:= TFileStream.Create(ChangeFileExt(Filepath, '.bak'),fmCreate);
     DCP_Twofish.InitStr(KeyString, TDCP_sha256);              // initialize the cipher with a hash of the passphrase
     DCP_Twofish.EncryptStream(Source, Dest, Source.Size); // encrypt the contents of the file
     DCP_Twofish.Burn;
     Dest.Free;
     Source.Free;
-    DeleteFile(FilePath);
-    RenameFile(ChangeFileExt(FilePath, '.bak'), ChangeFileExt(FilePath, '.logb'));
+    DeleteFile(Filepath);
+    RenameFile(ChangeFileExt(Filepath, '.bak'), ChangeFileExt(Filepath, '.logb'));
     EncryptFile := True;
   except
     EncryptFile := False;
   end;
 end;
 
-function TdmCrypt.DecryptFile(KeyString: String; FilePath: String): Boolean;
+function TdmCrypt.DecryptFile(KeyString: String; Filepath: String): Boolean;
 var
   Source, Dest: TFileStream;
 begin
   try
-    Source:= TFileStream.Create(FilePath, fmOpenRead);
-    Dest:= TFileStream.Create(ChangeFileExt(FilePath, '.bak'),fmCreate);
+    Source:= TFileStream.Create(Filepath, fmOpenRead);
+    Dest:= TFileStream.Create(ChangeFileExt(Filepath, '.bak'),fmCreate);
     DCP_Twofish.InitStr(KeyString, TDCP_sha256);              // initialize the cipher with a hash of the passphrase
     DCP_Twofish.DecryptStream(Source, Dest, Source.Size); // decrypt the contents of the file
     DCP_Twofish.Burn;
     Dest.Free;
     Source.Free;
-    DeleteFile(FilePath);
-    RenameFile(ChangeFileExt(FilePath, '.bak'), ChangeFileExt(FilePath, '.logb'));
+    DeleteFile(Filepath);
+    RenameFile(ChangeFileExt(Filepath, '.bak'), ChangeFileExt(Filepath, '.logb'));
     DecryptFile := True;
   except
     DecryptFile := False;

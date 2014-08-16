@@ -54,13 +54,13 @@ type
     constructor Create(AOwner: TComponent); overload;
     property Path: String read FPath;
   published
-    procedure setColorEnter(newColor : TColor);
-    procedure setColorLeave(newColor : TColor);
-    procedure setColorInitial(newColor : TColor);
-    procedure setColorDown(newColor : TColor);
-    procedure setColorUp(newColor : TColor);
-    procedure setFilename(newFilename : String);
-    procedure setPath(newPath : String);
+    procedure SetColorEnter(newColor : TColor);
+    procedure SetColorLeave(newColor : TColor);
+    procedure SetColorInitial(newColor : TColor);
+    procedure SetColorDown(newColor : TColor);
+    procedure SetColorUp(newColor : TColor);
+    procedure SetFilename(newFilename : String);
+    procedure SetPath(newPath : String);
 
   end;
 
@@ -147,37 +147,37 @@ begin
   Name := '';
 end;
 
-procedure TframeRecentTile.setColorEnter(newColor: TColor);
+procedure TframeRecentTile.SetColorEnter(newColor: TColor);
 begin
   ColorEnter := newColor;
 end;
 
-procedure TframeRecentTile.setColorLeave(newColor: TColor);
+procedure TframeRecentTile.SetColorLeave(newColor: TColor);
 begin
   ColorLeave := newColor;
 end;
 
-procedure TframeRecentTile.setColorInitial(newColor: TColor);
+procedure TframeRecentTile.SetColorInitial(newColor: TColor);
 begin
   shapeBG.Brush.Color := newColor;
 end;
 
-procedure TframeRecentTile.setColorDown(newColor: TColor);
+procedure TframeRecentTile.SetColorDown(newColor: TColor);
 begin
   ColorDown := newColor;
 end;
 
-procedure TframeRecentTile.setColorUp(newColor: TColor);
+procedure TframeRecentTile.SetColorUp(newColor: TColor);
 begin
   ColorUp := newColor;
 end;
 
-procedure TframeRecentTile.setFilename(newFilename: String);
+procedure TframeRecentTile.SetFilename(newFilename: String);
 begin
   lblFilename.Caption := newFilename;
 end;
 
-procedure TframeRecentTile.setPath(newPath: String);
+procedure TframeRecentTile.SetPath(newPath: String);
 begin
   FPath := newPath;
 end;
