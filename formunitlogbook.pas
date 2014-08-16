@@ -143,28 +143,28 @@ uses
 { TformLogbook }
 
 // Used to open an existing logbook
-constructor TformLogbook.Create(AOwner: TComponent; const filepath : String);
+constructor TformLogbook.Create(AOwner: TComponent; const Filepath : String);
 begin
   inherited Create(AOwner);
 
-  ATLogbook.Path := filepath;
-  ATLogbook.openLogbook;
+  ATLogbook.Path := Filepath;
+  ATLogbook.OpenLogbook;
 
 end;
 
 // Used when a new logbook has been created by formStartDialog
-constructor TformLogbook.Create(AOwner: TComponent; const inputLogbook : TLogbook);
+constructor TformLogbook.Create(AOwner: TComponent; const InputLogbook : TLogbook);
 begin
   {$ifdef dbgTimberLog} DebugLnEnter(ClassName, '.Create INIT'); {$endif}
   inherited Create(AOwner);
   ATLogbook.Create;
-  ATLogbook := inputLogbook;
+  ATLogbook := InputLogbook;
 
-  ATLogbook.headerMark := RecHeader;
-  ATLogbook.footerMark := RecFooter;
+  ATLogbook.HeaderMark := RecHeader;
+  ATLogbook.FooterMark := RecFooter;
 
   // If there are no logbook errors set, make the "This Logbook" menu item enabled
-  if ATLogbook.isError = '' then
+  if ATLogbook.IsError = '' then
   begin
     mnuThisLogbook.Enabled := True;
   end;
@@ -183,12 +183,12 @@ begin
   ShowMessage(DateTimeToStr(FileDateToDateTime(ATLogbook.DTOpened)));
 
   try
-    dmDBTools.closeAll; // Make sure the database is closed before we try to perform file operations
+    dmDBTools.CloseAll; // Make sure the database is closed before we try to perform file operations
     ATLogbook.CloseLogbook(); // Finalize the logbook and add LogMetadata to the end
   finally
-    if ATLogbook.isError <> '' then
+    if ATLogbook.IsError <> '' then
     begin
-      ShowMessage(ATLogbook.isError); // Show any errors
+      ShowMessage(ATLogbook.IsError); // Show any errors
     end;
   end;
 
@@ -300,7 +300,7 @@ end;
 
 procedure TformLogbook.mnuOpenClick(Sender: TObject);
 begin
-  unitStartFunctions.resetPages;
+  unitStartFunctions.ResetPages;
 
   formStartDialog.pgOpenLogbook.Show;
   formStartDialog.lblBack.Show;
@@ -309,7 +309,7 @@ end;
 
 procedure TformLogbook.mnuNewLogbookClick(Sender: TObject);
 begin
-  unitStartFunctions.resetPages;
+  unitStartFunctions.ResetPages;
   formStartDialog.Notebook1.PageIndex := 0;
   Close;
 end;

@@ -94,10 +94,10 @@ begin
 
   SQLite3Connection1.Close; // Ensure the connection is closed when we start
 
-  if not DirectoryExists(ExtractFilePath(inputLogbook.Path)) then
+  if not DirectoryExists(ExtractFilepath(inputLogbook.Path)) then
   begin
     try
-      MkDir(ExtractFilePath(inputLogbook.Path)); // Make sure the directory exists before moving forward
+      MkDir(ExtractFilepath(inputLogbook.Path)); // Make sure the directory exists before moving forward
     except
       inputLogbook.isError:='Unable to create specified logbook directory.';
     end;
@@ -213,8 +213,8 @@ begin
                     ' "id" Integer NOT NULL PRIMARY KEY AUTOINCREMENT,'+
                     ' "DTOpened" DateTime NOT NULL,'+
                     ' "DTAccessed" DateTime NOT NULL,'+
-                    ' "logName" Text NOT NULL,'+
-                    ' "logDescription" Text NOT NULL,'+
+                    ' "LogName" Text NOT NULL,'+
+                    ' "LogDescription" Text NOT NULL,'+
                     ' "OpenedBy" Text NOT NULL,'+
                     //' "Checksum" Text NOT NULL,'+
                     ' "PassMasterSalt" Text,'+
@@ -269,10 +269,10 @@ begin
 
     FieldByName('DTOpened').AsDateTime := Now;
     FieldByName('DTAccessed').AsDateTime := Now;
-    FieldByName('logName').AsString := inputLogbook.logName;
-    FieldByName('logDescription').AsString := inputLogbook.logDescription;
+    FieldByName('LogName').AsString := inputLogbook.LogName;
+    FieldByName('LogDescription').AsString := inputLogbook.LogDescription;
     FieldByName('OpenedBy').AsString := inputLogbook.OpenedBy;
-    //FieldByName('Checksum').AsString := inputLogbook.checksum;
+    //FieldByName('Checksum').AsString := inputLogbook.Checksum;
     FieldByName('PassMasterSalt').AsString := inputLogbook.PassMasterSalt;
     FieldByName('PassExportSalt').AsString := inputLogbook.PassExportSalt;
     FieldByName('PassExportHash').AsString := inputLogbook.PassExportHash;

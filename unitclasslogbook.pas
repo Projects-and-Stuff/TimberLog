@@ -42,7 +42,7 @@ type
       FOpenedBy : String;		// Name of person opening the logbook (Should match the value in Settings table)
       FChecksum : String; 		// Checksum of the metadata settings
       FFileChecksum : String;           // Checksum of the entire File minus RLogMetadata)
-      FChecksumsum : String; 	        // Checksum of all entry checksums (This may just take too long to be reasonable)
+      FChecksumsum : String; 	        // Checksum of all entry Checksums (This may just take too long to be reasonable)
       FDTOpened : LongInt;		// DateTime that the file was originally opened (Should match the value in Settings table)
       FDTAccessed : LongInt;		// DateTime that the file was last saved (Should match the value in Settings table)
       FPassMaster : Boolean;		// Is a master password required?
@@ -59,7 +59,7 @@ type
       FAllowAddCategories : Boolean;	 // Can users add to the list of categories (or are the categories constants?)
       FAllowLateEntries : Boolean;	 // Are users allowed to add late entries? (the logbook creator that the actual date is also saved)
       FCategories : String;              // The list of categories
-      FDTDisplayFormat : String; 	 // Format string for the DateTime fields (internally stored as LongInt)
+      FDTDisplayFormat : String; 	 // Format String for the DateTime fields (internally stored as LongInt)
       FIsError : String;                 // Tests whether the logbook is in a fault condition at any point during its creation
 
     public // access by anything
@@ -71,7 +71,7 @@ type
       function VerifyLogMetadataContent(tempLogMetadata : RLogMetadata):Boolean ; // Verifies that FLogMetadata header and footer are valid
       procedure CreateBackup;            // Copies 'filepath', minus the record, and renames both files
       function ReadLogMetadata(tempRecord : Boolean = False): Boolean; // Reads the record from the end of 'filepath'
-      procedure BuildLogMetadataRecord(AlogName, AlogDescription, AOpenedBy : String; ADTOpened, ADTAccessed : LongInt); // Processes data from Page 1 and creates RLogMetadata record
+      procedure BuildLogMetadataRecord(ALogName, ALogDescription, AOpenedBy : String; ADTOpened, ADTAccessed : LongInt); // Processes data from Page 1 and creates RLogMetadata record
       procedure WriteLogMetadata;        // Writes FLogMetadata to file
       procedure DeleteBackupLog;         // Deletes the backup logbook
       procedure CopyDataToLogMetadata;         // Copies the data from the main class parameters to LogMetadata
@@ -122,7 +122,7 @@ type
     end;
 
   {
-  headerMark and footerMark definition:
+  HeaderMark and FooterMark definition:
   TEXT:      >TimberLog<
   ASCII:     #062 #084 #105 #109 #098 #101 #114 #076 #111 #103 #060
   }
@@ -147,8 +147,8 @@ constructor TLogbook.Create;
 begin
   {$ifdef dbgTimberLog} DebugLn(ClassName, '.Create'); {$endif}
 
-  IsError := ''; // Initially, there is no fault, so the string is set to blank.
-                 // But it may be set true while attempting to create the logbook
+  IsError := ''; // Initially, there is no fault, so the String is set to blank.
+                 // But it may be set True while attempting to create the logbook
                  // in which case an error message will be set.
 end;
 
@@ -173,7 +173,7 @@ begin
   // The path should already be set prior to opening the logbook. Check to ensure it is!
 
   // Read the record in to FLogMetadata
-  if ReadLogMetadata() = true then
+  if ReadLogMetadata() = True then
   begin
 
     // Create Logbook file backup (and the new log file sans the RLogMetadata)
@@ -212,9 +212,9 @@ begin
 end;
 
 // Reads the RLogMetadata record from a file, saves it to the class's LogMetadata
-// And returns true or false depending on if it was successful
+// And returns True or False depending on if it was successful
 
-// Return of true means the LogMetadata exists and its format is valid
+// Return of True means the LogMetadata exists and its format is valid
 function TLogbook.ReadLogMetadata(TempRecord : Boolean): Boolean;
 var
   FSRecord: TFileStream;
@@ -276,7 +276,7 @@ begin
   DTOpened := ADTOpened;
   DTAccessed := ADTAccessed;
 
-  dmCrypt.stringhash(AlogName + AlogDescription + AOpenedBy + IntToStr(ADTOpened) + IntToStr(ADTAccessed), str64);
+  dmCrypt.stringhash(ALogName + ALogDescription + AOpenedBy + IntToStr(ADTOpened) + IntToStr(ADTAccessed), str64);
   SetLength(str64, 64);
   Checksum := str64;
   FileChecksum := '';
@@ -292,9 +292,9 @@ var
 begin
   {$ifdef dbgTimberLog} DebugLn(ClassName, '.WriteLogMetadata'); {$endif}
 
-  // checksum of file
-  dmCrypt.filehash(Path, TempString);
-  fileChecksum := TempString;
+  // Checksum of file
+  dmCrypt.Filehash(Path, TempString);
+  FileChecksum := TempString;
 
   // Only time we write to LogMetadata;
   CopyDataToLogMetadata;
@@ -303,7 +303,7 @@ begin
   // Before we write to the logbook, perform a read
   // If it's successful, then the RLogMetadata entry already exists.
   // We'll overwrite it instead of appending to the end
-  if ReadLogMetadata = false then
+  if ReadLogMetadata = False then
   begin
     //IsError := 'Does not exist yet';
     if FileExists(Path) then
@@ -486,7 +486,7 @@ begin
     AllValid := False;
   end;
 
-  OutMemo.Lines.Add('Logbook Description: ' + Trim(logDescription));
+  OutMemo.Lines.Add('Logbook Description: ' + Trim(LogDescription));
 
   if Path <> 'Null' then
   begin
@@ -512,12 +512,12 @@ begin
   if (TempLogMetadata.FooterMark = RecFooter) and (TempLogMetadata.HeaderMark = RecHeader) then
   begin
     VerifyLogMetadataStructure := True;
-    //IsError := 'true';
+    //IsError := 'True';
   end
   else
   begin
     VerifyLogMetadataStructure := False;
-    //IsError := 'false';
+    //IsError := 'False';
   end;
 end;
 
@@ -531,7 +531,7 @@ begin
   dmCrypt.stringhash(TempLogMetadata.LogName + TempLogMetadata.LogDescription + TempLogMetadata.OpenedBy + IntToStr(TempLogMetadata.DTOpened) + IntToStr(TempLogMetadata.DTAccessed), str64);
   SetLength(str64, 64);
 
-  if (TempLogMetadata.footerMark = RecFooter) and (TempLogMetadata.HeaderMark = RecHeader) and (TempLogMetadata.Checksum = str64) then
+  if (TempLogMetadata.FooterMark = RecFooter) and (TempLogMetadata.HeaderMark = RecHeader) and (TempLogMetadata.Checksum = str64) then
   begin
     VerifyLogMetadataContent := True;
   end

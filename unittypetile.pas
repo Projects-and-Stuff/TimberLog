@@ -56,14 +56,14 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
   published
-    procedure setColorEnter(newColor : TColor);
-    procedure setColorLeave(newColor : TColor);
-    procedure setColorInitial(newColor : TColor);
-    procedure setColorDown(newColor : TColor);
-    procedure setColorUp(newColor : TColor);
-    procedure setTitle(newTitle : String);
-    procedure setDescription(newDescription : String);
-    procedure setPath(newPath : String);
+    procedure SetColorEnter(NewColor : TColor);
+    procedure SetColorLeave(NewColor : TColor);
+    procedure SetColorInitial(NewColor : TColor);
+    procedure SetColorDown(NewColor : TColor);
+    procedure SetColorUp(NewColor : TColor);
+    procedure SetTitle(NewTitle : String);
+    procedure SetDescription(NewDescription : String);
+    procedure SetPath(NewPath : String);
     procedure Kill;
   end;
 
@@ -202,52 +202,52 @@ begin
   shapeBG.Brush.Color := ColorUp;
 end;
 
-procedure TframeTypeTile.setColorEnter(newColor: TColor);
+procedure TframeTypeTile.SetColorEnter(NewColor: TColor);
 begin
-  ColorEnter := newColor;
+  ColorEnter := NewColor;
 end;
 
-procedure TframeTypeTile.setColorLeave(newColor: TColor);
+procedure TframeTypeTile.SetColorLeave(NewColor: TColor);
 begin
-  ColorLeave := newColor;
+  ColorLeave := NewColor;
 end;
 
-procedure TframeTypeTile.setColorInitial(newColor: TColor);
+procedure TframeTypeTile.SetColorInitial(NewColor: TColor);
 begin
-  shapeBG.Brush.Color := newColor;
+  shapeBG.Brush.Color := NewColor;
 end;
 
-procedure TframeTypeTile.setColorDown(newColor: TColor);
+procedure TframeTypeTile.SetColorDown(NewColor: TColor);
 begin
-  ColorDown := newColor;
+  ColorDown := NewColor;
 end;
 
-procedure TframeTypeTile.setColorUp(newColor: TColor);
+procedure TframeTypeTile.SetColorUp(NewColor: TColor);
 begin
-  ColorUp := newColor;
+  ColorUp := NewColor;
 end;
 
-procedure TframeTypeTile.setTitle(newTitle: String);
+procedure TframeTypeTile.SetTitle(NewTitle: String);
 begin
-  lblTitle.Caption := newTitle;
+  lblTitle.Caption := NewTitle;
 end;
 
-procedure TframeTypeTile.setDescription(newDescription: String);
+procedure TframeTypeTile.SetDescription(NewDescription: String);
 begin
-  if Length(newDescription) > 90 then
+  if Length(NewDescription) > 90 then
   begin
-    lblDescription.Caption := Copy(newDescription, 0, 87) + '...';
+    lblDescription.Caption := Copy(NewDescription, 0, 87) + '...';
   end
   else
   begin
-    lblDescription.Caption := newDescription;
+    lblDescription.Caption := NewDescription;
   end;
 
 end;
 
-procedure TframeTypeTile.setPath(newPath: String);
+procedure TframeTypeTile.SetPath(NewPath: String);
 begin
-  lblPath.Caption := newPath;
+  lblPath.Caption := NewPath;
 end;
 
 procedure TframeTypeTile.Kill;

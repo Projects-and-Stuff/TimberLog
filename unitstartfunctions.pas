@@ -35,46 +35,46 @@ uses
   Classes, SysUtils, shlobj, {unitRecordLogMetadata,} strutils, unitDefinitions,
   {dmUnitCrypt,} Controls{, StdCtrls}. LazLogger;
 
-  procedure resetPages; // Resets Page 1 to the default values
-  function returnDocumentsPath : String;
-  procedure processTypeFile(filepath : String; out errorMsg : String; out Logbook_Type : String; Description : TStringList); // Short form used to identify the type name and description
-  procedure processTypeFile(filepath : String; out errorMsg : String; out Logbook_Type : String; Description : TStringList;  // Short form used to identify the type name, description, and categories
+  procedure ResetPages; // Resets Page 1 to the default values
+  function ReturnDocumentsPath : String;
+  procedure ProcessTypeFile(filepath : String; out ErrorMsg : String; out Logbook_Type : String; Description : TStringList); // Short form used to identify the type name and description
+  procedure ProcessTypeFile(filepath : String; out ErrorMsg : String; out Logbook_Type : String; Description : TStringList;  // Short form used to identify the type name, description, and categories
     Default_Categories : TStringList);
-  procedure processTypeFile(filepath : String; out errorMsg : String; out Logbook_Type : String; Description : TStringList; // Full form with entire type definition
+  procedure ProcessTypeFile(filepath : String; out ErrorMsg : String; out Logbook_Type : String; Description : TStringList; // Full form with entire type definition
     Settings: TStringList; Default_Categories: TStringList; Default_Text: TStringList;
-    One_Line: TStringList; Multi_Line: TStringList);
-  procedure getTypeFileList(var fileList : TStringList);
-  procedure Split(const Delimiter : Char; Input : string; const Strings : TStrings);
+    OneLine: TStringList; Multi_Line: TStringList);
+  procedure GetTypeFileList(var fileList : TStringList);
+  procedure Split(const Delimiter : Char; Input : String; const Strings : TStrings);
 
 implementation
 
 uses
   formUnitStartDialog;
 
-procedure Split(const Delimiter : Char; Input : string; const Strings : TStrings);
+procedure Split(const Delimiter : Char; Input : String; const Strings : TStrings);
 begin
   {$ifdef dbgTimberLog} DebugLn(ClassName, '.Split'); {$endif}
 
   Assert(Assigned(Strings)) ;
   Strings.Clear;
-  Strings.StrictDelimiter := true;
+  Strings.StrictDelimiter := True;
   Strings.Delimiter := Delimiter;
   Strings.DelimitedText := Input;
 end;
 
-procedure resetPages;
+procedure ResetPages;
 begin
-  {$ifdef dbgTimberLog} DebugLn(ClassName, '.resetPages'); {$endif}
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.ResetPages'); {$endif}
 
   //formStartDialog.Notebook1.PageIndex := 0; // Reset to the default page on formStartDialog
 
   // Clear out all the components on page 1
   formStartDialog.txtLogName.Clear;
   formStartDialog.memoLogDescription.Clear;
-  formStartDialog.chkPassMaster.Checked:=False;
-  formStartDialog.chkPassToExport.Checked:=False;
-  formStartDialog.chkPassToPrint.Checked:=False;
-  formStartDialog.chkPassPerUser.Checked:=False;
+  formStartDialog.chkPassMaster.Checked := False;
+  formStartDialog.chkPassToExport.Checked := False;
+  formStartDialog.chkPassToPrint.Checked := False;
+  formStartDialog.chkPassPerUser.Checked := False;
   formStartDialog.txtMasterPass.Clear;
   formStartDialog.txtMasterPass1.Clear;
   formStartDialog.txtPassToExport.Clear;
@@ -82,36 +82,36 @@ begin
   formStartDialog.txtPassToPrint.Clear;
   formStartDialog.txtPassToPrint1.Clear;
   formStartDialog.txtOpenedBy.Clear;
-  formStartDialog.cmbDFormat.ItemIndex:=0;
-  formStartDialog.cmbTFormat.ItemIndex:=0;
-  formStartDialog.chkAllowCategories.Checked:=False;
-  formStartDialog.chkAllowAddCategories.Checked:=False;
+  formStartDialog.cmbDFormat.ItemIndex := 0;
+  formStartDialog.cmbTFormat.ItemIndex := 0;
+  formStartDialog.chkAllowCategories.Checked := False;
+  formStartDialog.chkAllowAddCategories.Checked := False;
   formStartDialog.txtCategory.Clear;
   formStartDialog.listboxCategories.Clear;
 
   // Reset the path for ShellTreeView on page 2
   try
-    if not DirectoryExists(returnDocumentsPath + '\TimberLog\') then  // Check if TimberLog user directory exists
+    if not DirectoryExists(ReturnDocumentsPath + '\TimberLog\') then  // Check if TimberLog user directory exists
     begin
-      MkDir(returnDocumentsPath + '\TimberLog\');
+      MkDir(ReturnDocumentsPath + '\TimberLog\');
     end;
 
-    formStartDialog.shellTreeSelectFolder.Path := returnDocumentsPath + '\TimberLog\';
+    formStartDialog.shellTreeSelectFolder.Path := ReturnDocumentsPath + '\TimberLog\';
   finally
 
   end;
 
 end;
 
-function returnDocumentsPath: String;
+function ReturnDocumentsPath: String;
 var
   DocumentsPath: Array[0..MaxPathLen] of Char; //Allocate memory
 begin
-  {$ifdef dbgTimberLog} DebugLn(ClassName, '.returnDocumentsPath'); {$endif}
+  {$ifdef dbgTimberLog} DebugLn(ClassName, '.ReturnDocumentsPath'); {$endif}
 
   DocumentsPath := '';
-  SHGetSpecialFolderPath(0,DocumentsPath,CSIDL_PERSONAL,false); // http://delphi-miranda-plugins.googlecode.com/svn-history/r105/trunk/FPC/units/src/shlobj.pp
-  returnDocumentsPath := DocumentsPath;
+  SHGetSpecialFolderPath(0,DocumentsPath,CSIDL_PERSONAL,False); // http://delphi-miranda-plugins.googlecode.com/svn-history/r105/trunk/FPC/units/src/shlobj.pp
+  ReturnDocumentsPath := DocumentsPath;
 end;
 
 
@@ -123,469 +123,469 @@ end;
 // ToDo: Consider splitting these various actions into separate procedures for better modularity //
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-procedure processTypeFile(filepath : String; out errorMsg : String; out Logbook_Type: String; Description: TStringList);
+procedure ProcessTypeFile(Filepath : String; out ErrorMsg : String; out Logbook_Type: String; Description: TStringList);
 var
-  utilStrList : TStringList; // Holds the entire Type File while we process it
+  UtilStrList : TStringList; // Holds the entire Type File while we process it
 
-  // These loc arrays are used for identifying the type data
-  // The first value (IE: locType[0]) counts how many instances there are so far
-  // All additional values specify the location of the blocks
-  locLogbook_Type, locDescription : array of Integer;
+  // These Loc arrays are used for identifying the type data
+  // The first value (IE: LocType[0]) counts how many instances there are so far
+  // All additional values specify the Location of the Blocks
+  LocLogbook_Type, LocDescription : array of Integer;
 
   i : Integer;
-  hasError : Boolean; // Used to check whether there is an error in number of block elements
+  HasError : Boolean; // Used to check whether there is an error in number of Block elements
 begin
 
-  utilStrList := TStringList.Create;
-  utilStrList.LoadFromFile(filepath); // Load up the type file into the utility TStringList
+  UtilStrList := TStringList.Create;
+  UtilStrList.LoadFromFile(Filepath); // Load up the type file into the utility TStringList
 
-  // Set the initial length of locating arrays
-  SetLength(locLogbook_Type, 1);
-  SetLength(locDescription, 1);
+  // Set the initial length of Locating arrays
+  SetLength(LocLogbook_Type, 1);
+  SetLength(LocDescription, 1);
 
-  // Initially, there are no instances of each type block
-  locLogbook_Type[0] := 0;
-  locDescription[0] := 0;
+  // Initially, there are no instances of each type Block
+  LocLogbook_Type[0] := 0;
+  LocDescription[0] := 0;
 
 
-  // Initially, run through the entire file looking for the total number of each block
-  for i := 0 to utilStrList.Count-1 do
+  // Initially, run through the entire file looking for the total number of each Block
+  for i := 0 to UtilStrList.Count-1 do
   begin
 
-    if (AnsiContainsText(blockLogbook_Type, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockLogbook_Type, uUilStrList.Strings[i]) = True) then
     begin
-      locLogbook_Type[0] := locLogbook_Type[0] + 1; // If we've got a match, increase the count
+      LocLogbook_Type[0] := LocLogbook_Type[0] + 1; // If we've got a match, increase the count
     end;
 
-    if (AnsiContainsText(blockDescription, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockDescription, UtilStrList.Strings[i]) = True) then
     begin
-      locDescription[0] := locDescription[0] + 1; // If we've got a match, increase the count
+      LocDescription[0] := LocDescription[0] + 1; // If we've got a match, increase the count
     end;
 
-    // Add further block element searches here...
+    // Add further Block element searches here...
   end;
 
   // Set the array lengths based upon the above
-  SetLength(locLogbook_Type, locLogbook_Type[0]+1);
-  SetLength(locDescription, locDescription[0]+1);
+  SetLength(LocLogbook_Type, LocLogbook_Type[0]+1);
+  SetLength(LocDescription, LocDescription[0]+1);
 
   // Reset the counters
-  locLogbook_Type[0] := 0;
-  locDescription[0] := 0;
+  LocLogbook_Type[0] := 0;
+  LocDescription[0] := 0;
 
-  // The, run through the entire file again for each instance of each block
-  for i := 0 to utilStrList.Count-1 do
+  // The, run through the entire file again for each instance of each Block
+  for i := 0 to UtilStrList.Count-1 do
   begin
 
-    if (AnsiContainsText(blockLogbook_Type, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockLogbook_Type, UtilStrList.Strings[i]) = True) then
     begin
-      locLogbook_Type[0] := locLogbook_Type[0] + 1; // If we've got a match, increase the count
-      locLogbook_Type[locLogbook_Type[0]] := i; // Add the new value to the array showing the location of a block element
+      LocLogbook_Type[0] := LocLogbook_Type[0] + 1; // If we've got a match, increase the count
+      LocLogbook_Type[LocLogbook_Type[0]] := i; // Add the new value to the array showing the Location of a Block element
     end;
 
-    if (AnsiContainsText(blockDescription, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockDescription, UtilStrList.Strings[i]) = True) then
     begin
-      locDescription[0] := locDescription[0] + 1; // If we've got a match, increase the count
-      locDescription[locDescription[0]] := i; // Add the new value to the array showing the location of a block element
+      LocDescription[0] := LocDescription[0] + 1; // If we've got a match, increase the count
+      LocDescription[LocDescription[0]] := i; // Add the new value to the array showing the Location of a Block element
     end;
 
-  // Add further block element searches here...
+  // Add further Block element searches here...
   end;
 
 
-  // Check to ensure each block has an even number of elements
-  hasError := False;
-  errorMsg := '';
+  // Check to ensure each Block has an even number of elements
+  HasError := False;
+  ErrorMsg := '';
 
-  if ((Length(locLogbook_Type)-1) mod 2 <> 0) then
+  if ((Length(LocLogbook_Type)-1) mod 2 <> 0) then
   begin
-    errorMsg := 'There is an error in the "' + blockLogbook_Type + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
-    hasError := True;
+    ErrorMsg := 'There is an error in the "' + BlockLogbook_Type + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
+    HasError := True;
   end;
 
-  if ((Length(locDescription)-1) mod 2 <> 0) then
+  if ((Length(LocDescription)-1) mod 2 <> 0) then
   begin
-    errorMsg := 'There is an error in the "' + blockDescription + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
-    hasError := True;
+    ErrorMsg := 'There is an error in the "' + BlockDescription + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
+    HasError := True;
   end;
 
 
 
-  // Then process the blocks into their respective variables (String or TStringList)
-  if errorMsg = '' then // If there's no error, keep on processing
+  // Then process the Blocks into their respective variables (String or TStringList)
+  if ErrorMsg = '' then // If there's no error, keep on processing
   begin
 
     // Logbook_Type is a special case since only one entry is allowed, and only one line is allowed
-    Logbook_Type := utilStrList.Strings[locLogbook_Type[1]+1];
+    Logbook_Type := UtilStrList.Strings[LocLogbook_Type[1]+1];
 
-    // Add the description, which is a single multi-line block (additional intances of Description are ignored)
-    for i := locDescription[1]+1 to locDescription[2]-1 do
+    // Add the description, which is a single multi-line Block (additional intances of Description are ignored)
+    for i := LocDescription[1]+1 to LocDescription[2]-1 do
     begin
-      Description.AddText(utilStrList.Strings[i]);
+      Description.AddText(UtilStrList.Strings[i]);
     end;
 
   end;
 
-  utilStrList.Free;
+  UtilStrList.Free;
 end;
 
-procedure processTypeFile(filepath : String; out errorMsg : String; out Logbook_Type: String; Description: TStringList;
+procedure processTypeFile(filepath : String; out ErrorMsg : String; out Logbook_Type: String; Description: TStringList;
   Default_Categories: TStringList);
 var
-  utilStrList : TStringList; // Holds the entire Type File while we process it
+  UtilStrList : TStringList; // Holds the entire Type File while we process it
 
-  // These loc arrays are used for identifying the type data
-  // The first value (IE: locType[0]) counts how many instances there are so far
-  // All additional values specify the location of the blocks
-  locLogbook_Type, locDescription, locDefault_Categories : array of Integer;
+  // These Loc arrays are used for identifying the type data
+  // The first value (IE: LocType[0]) counts how many instances there are so far
+  // All additional values specify the Location of the Blocks
+  LocLogbook_Type, LocDescription, LocDefaultCategories : array of Integer;
 
   i : Integer;
-  hasError : Boolean; // Used to check whether there is an error in number of block elements
+  HasError : Boolean; // Used to check whether there is an error in number of Block elements
 begin
-  utilStrList := TStringList.Create;
-  utilStrList.LoadFromFile(filepath); // Load up the type file into the utility TStringList
+  UtilStrList := TStringList.Create;
+  UtilStrList.LoadFromFile(Filepath); // Load up the type file into the utility TStringList
 
-  // Set the initial length of locating arrays
-  SetLength(locLogbook_Type, 1);
-  SetLength(locDescription, 1);
-  SetLength(locDefault_Categories, 1);
+  // Set the initial length of Locating arrays
+  SetLength(LocLogbook_Type, 1);
+  SetLength(LocDescription, 1);
+  SetLength(LocDefaultCategories, 1);
 
-  // Initially, there are no instances of each type block
-  locLogbook_Type[0] := 0;
-  locDescription[0] := 0;
-  locDefault_Categories[0] := 0;
+  // Initially, there are no instances of each type Block
+  LocLogbook_Type[0] := 0;
+  LocDescription[0] := 0;
+  LocDefaultCategories[0] := 0;
 
 
-  // Initially, run through the entire file looking for the total number of each block
-  for i := 0 to utilStrList.Count-1 do
+  // Initially, run through the entire file looking for the total number of each Block
+  for i := 0 to UtilStrList.Count-1 do
   begin
 
-    if (AnsiContainsText(blockLogbook_Type, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockLogbook_Type, UtilStrList.Strings[i]) = True) then
     begin
-      locLogbook_Type[0] := locLogbook_Type[0] + 1; // If we've got a match, increase the count
+      LocLogbook_Type[0] := LocLogbook_Type[0] + 1; // If we've got a match, increase the count
     end;
 
-    if (AnsiContainsText(blockDescription, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockDescription, UtilStrList.Strings[i]) = True) then
     begin
-      locDescription[0] := locDescription[0] + 1; // If we've got a match, increase the count
+      LocDescription[0] := LocDescription[0] + 1; // If we've got a match, increase the count
     end;
 
-    if (AnsiContainsText(blockDefault_Categories, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockDefault_Categories, UtilStrList.Strings[i]) = True) then
     begin
-      locDefault_Categories[0] := locDefault_Categories[0] + 1; // If we've got a match, increase the count
+      LocDefaultCategories[0] := LocDefaultCategories[0] + 1; // If we've got a match, increase the count
     end;
 
-    // Add further block element searches here...
+    // Add further Block element searches here...
   end;
 
   // Set the array lengths based upon the above
-  SetLength(locLogbook_Type, locLogbook_Type[0]+1);
-  SetLength(locDescription, locDescription[0]+1);
-  SetLength(locDefault_Categories, locDefault_Categories[0]+1);
+  SetLength(LocLogbook_Type, LocLogbook_Type[0]+1);
+  SetLength(LocDescription, LocDescription[0]+1);
+  SetLength(LocDefaultCategories, LocDefaultCategories[0]+1);
 
   // Reset the counters
-  locLogbook_Type[0] := 0;
-  locDescription[0] := 0;
-  locDefault_Categories[0] := 0;
+  LocLogbook_Type[0] := 0;
+  LocDescription[0] := 0;
+  LocDefaultCategories[0] := 0;
 
-  // The, run through the entire file again for each instance of each block
-  for i := 0 to utilStrList.Count-1 do
+  // The, run through the entire file again for each instance of each Block
+  for i := 0 to UtilStrList.Count-1 do
   begin
 
-    if (AnsiContainsText(blockLogbook_Type, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockLogbook_Type, UtilStrList.Strings[i]) = True) then
     begin
-      locLogbook_Type[0] := locLogbook_Type[0] + 1; // If we've got a match, increase the count
-      locLogbook_Type[locLogbook_Type[0]] := i; // Add the new value to the array showing the location of a block element
+      LocLogbook_Type[0] := LocLogbook_Type[0] + 1; // If we've got a match, increase the count
+      LocLogbook_Type[LocLogbook_Type[0]] := i; // Add the new value to the array showing the Location of a Block element
     end;
 
-    if (AnsiContainsText(blockDescription, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockDescription, UtilStrList.Strings[i]) = True) then
     begin
-      locDescription[0] := locDescription[0] + 1; // If we've got a match, increase the count
-      locDescription[locDescription[0]] := i; // Add the new value to the array showing the location of a block element
+      LocDescription[0] := LocDescription[0] + 1; // If we've got a match, increase the count
+      LocDescription[LocDescription[0]] := i; // Add the new value to the array showing the Location of a Block element
     end;
 
-    if (AnsiContainsText(blockDefault_Categories, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockDefault_Categories, UtilStrList.Strings[i]) = True) then
     begin
-      locDefault_Categories[0] := locDefault_Categories[0] + 1; // If we've got a match, increase the count
-      locDefault_Categories[locDefault_Categories[0]] := i; // Add the new value to the array showing the location of a block element
+      LocDefaultCategories[0] := LocDefaultCategories[0] + 1; // If we've got a match, increase the count
+      LocDefaultCategories[LocDefaultCategories[0]] := i; // Add the new value to the array showing the Location of a Block element
     end;
 
-  // Add further block element searches here...
+  // Add further Block element searches here...
   end;
 
 
-  // Check to ensure each block has an even number of elements
-  hasError := False;
-  errorMsg := '';
+  // Check to ensure each Block has an even number of elements
+  HasError := False;
+  ErrorMsg := '';
 
-  if ((Length(locLogbook_Type)-1) mod 2 <> 0) then
+  if ((Length(LocLogbook_Type)-1) mod 2 <> 0) then
   begin
-    errorMsg := 'There is an error in the "' + blockLogbook_Type + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
-    hasError := True;
+    ErrorMsg := 'There is an error in the "' + BlockLogbook_Type + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
+    HasError := True;
   end;
 
-  if ((Length(locDescription)-1) mod 2 <> 0) then
+  if ((Length(LocDescription)-1) mod 2 <> 0) then
   begin
-    errorMsg := 'There is an error in the "' + blockDescription + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
-    hasError := True;
+    ErrorMsg := 'There is an error in the "' + BlockDescription + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
+    HasError := True;
   end;
 
-  if ((Length(locDefault_Categories)-1) mod 2 <> 0) then
+  if ((Length(LocDefaultCategories)-1) mod 2 <> 0) then
   begin
-    errorMsg := 'There is an error in the "' + blockDefault_Categories + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
-    hasError := True;
+    ErrorMsg := 'There is an error in the "' + BlockDefault_Categories + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
+    HasError := True;
   end;
 
 
 
-  // Then process the blocks into their respective variables (String or TStringList)
-  if errorMsg = '' then // If there's no error, keep on processing
+  // Then process the Blocks into their respective variables (String or TStringList)
+  if ErrorMsg = '' then // If there's no error, keep on processing
   begin
 
     // Logbook_Type is a special case since only one entry is allowed, and only one line is allowed
-    Logbook_Type := utilStrList.Strings[locLogbook_Type[1]+1];
+    Logbook_Type := UtilStrList.Strings[LocLogbook_Type[1]+1];
 
-    // Add the Description, which is a single multi-line block (additional intances of Description are ignored)
-    for i := locDescription[1]+1 to locDescription[2]-1 do
+    // Add the Description, which is a single multi-line Block (additional intances of Description are ignored)
+    for i := LocDescription[1]+1 to LocDescription[2]-1 do
     begin
-      Description.AddText(utilStrList.Strings[i]);
+      Description.AddText(UtilStrList.Strings[i]);
     end;
 
-    // Add the Default_Categories, which is a single multi-line block (additional intances of Default_Categories are ignored)
-    for i := locDefault_Categories[1]+1 to locDefault_Categories[2]-1 do
+    // Add the Default_Categories, which is a single multi-line Block (additional intances of Default_Categories are ignored)
+    for i := LocDefaultCategories[1]+1 to LocDefaultCategories[2]-1 do
     begin
-      Default_Categories.AddText(utilStrList.Strings[i]);
+      Default_Categories.AddText(UtilStrList.Strings[i]);
     end;
 
   end;
 
-  utilStrList.Free;
+  UtilStrList.Free;
 end;
 
-procedure processTypeFile(filepath : String; out errorMsg : String; out Logbook_Type: String; Description: TStringList;
-  Settings : TStringList; Default_Categories : TStringList; Default_Text: TStringList; One_Line: TStringList; Multi_Line: TStringList);
+procedure processTypeFile(filepath : String; out ErrorMsg : String; out Logbook_Type: String; Description: TStringList;
+  Settings : TStringList; Default_Categories : TStringList; Default_Text: TStringList; OneLine: TStringList; Multi_Line: TStringList);
 var
-  utilStrList : TStringList; // Holds the entire Type File while we process it
+  UtilStrList : TStringList; // Holds the entire Type File while we process it
 
-  // These loc arrays are used for identifying the type data
-  // The first value (IE: locType[0]) counts how many instances there are so far
-  // All additional values specify the location of the blocks
-  locLogbook_Type, locDescription, locSettings, locDefault_Categories, locDefault_Text, locOne_Line, locMulti_Line : array of Integer;
+  // These Loc arrays are used for identifying the type data
+  // The first value (IE: LocType[0]) counts how many instances there are so far
+  // All additional values specify the Location of the Blocks
+  LocLogbook_Type, LocDescription, LocSettings, LocDefaultCategories, LocDefault_Text, LocOneLine, LocMulti_Line : array of Integer;
 
   i : Integer;
-  hasError : Boolean; // Used to check whether there is an error in number of block elements
+  HasError : Boolean; // Used to check whether there is an error in number of Block elements
 begin
-  utilStrList := TStringList.Create;
-  utilStrList.LoadFromFile(filepath); // Load up the type file into the utility TStringList
+  UtilStrList := TStringList.Create;
+  UtilStrList.LoadFromFile(filepath); // Load up the type file into the utility TStringList
 
-  // Set the initial length of locating arrays
-  SetLength(locLogbook_Type, 1);
-  SetLength(locDescription, 1);
-  SetLength(locDefault_Categories, 1);
-  SetLength(locSettings, 1);
-  SetLength(locDefault_Text, 1);
-  SetLength(locOne_Line, 1);
+  // Set the initial length of Locating arrays
+  SetLength(LocLogbook_Type, 1);
+  SetLength(LocDescription, 1);
+  SetLength(LocDefaultCategories, 1);
+  SetLength(LocSettings, 1);
+  SetLength(LocDefault_Text, 1);
+  SetLength(LocOneLine, 1);
 
-  // Initially, there are no instances of each type block
-  locLogbook_Type[0] := 0;
-  locDescription[0] := 0;
-  locDefault_Categories[0] := 0;
-  locSettings[0] := 0;
-  locDefault_Text[0] := 0;
-  locOne_Line[0] := 0;
+  // Initially, there are no instances of each type Block
+  LocLogbook_Type[0] := 0;
+  LocDescription[0] := 0;
+  LocDefaultCategories[0] := 0;
+  LocSettings[0] := 0;
+  LocDefault_Text[0] := 0;
+  LocOneLine[0] := 0;
 
 
-  // Initially, run through the entire file looking for the total number of each block
-  for i := 0 to utilStrList.Count-1 do
+  // Initially, run through the entire file looking for the total number of each Block
+  for i := 0 to UtilStrList.Count-1 do
   begin
 
-    if (AnsiContainsText(blockLogbook_Type, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockLogbook_Type, UtilStrList.Strings[i]) = True) then
     begin
-      locLogbook_Type[0] := locLogbook_Type[0] + 1; // If we've got a match, increase the count
+      LocLogbook_Type[0] := LocLogbook_Type[0] + 1; // If we've got a match, increase the count
     end;
 
-    if (AnsiContainsText(blockDescription, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockDescription, UtilStrList.Strings[i]) = True) then
     begin
-      locDescription[0] := locDescription[0] + 1; // If we've got a match, increase the count
+      LocDescription[0] := LocDescription[0] + 1; // If we've got a match, increase the count
     end;
 
-    if (AnsiContainsText(blockDefault_Categories, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockDefault_Categories, UtilStrList.Strings[i]) = True) then
     begin
-      locDefault_Categories[0] := locDefault_Categories[0] + 1; // If we've got a match, increase the count
+      LocDefaultCategories[0] := LocDefaultCategories[0] + 1; // If we've got a match, increase the count
     end;
 
-    if (AnsiContainsText(blockSettings, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockSettings, UtilStrList.Strings[i]) = True) then
     begin
-      locSettings[0] := locSettings[0] + 1; // If we've got a match, increase the count
+      LocSettings[0] := LocSettings[0] + 1; // If we've got a match, increase the count
     end;
 
-    if (AnsiContainsText(blockDefault_Text, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockDefault_Text, UtilStrList.Strings[i]) = True) then
     begin
-      locDefault_Text[0] := locDefault_Text[0] + 1; // If we've got a match, increase the count
+      LocDefault_Text[0] := LocDefault_Text[0] + 1; // If we've got a match, increase the count
     end;
 
-    if (AnsiContainsText(blockOne_Line, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(BlockOneLine, UtilStrList.Strings[i]) = True) then
     begin
-      locOne_Line[0] := locOne_Line[0] + 1; // If we've got a match, increase the count
+      LocOneLine[0] := LocOneLine[0] + 1; // If we've got a match, increase the count
     end;
 
-    // Add further block element searches here...
+    // Add further Block element searches here...
   end;
 
   // Set the array lengths based upon the above
-  SetLength(locLogbook_Type, locLogbook_Type[0]+1);
-  SetLength(locDescription, locDescription[0]+1);
-  SetLength(locDefault_Categories, locDefault_Categories[0]+1);
-  SetLength(locSettings, locSettings[0]+1);
-  SetLength(locDefault_Text, locDefault_Text[0]+1);
-  SetLength(locOne_Line, locOne_Line[0]+1);
+  SetLength(LocLogbook_Type, LocLogbook_Type[0]+1);
+  SetLength(LocDescription, LocDescription[0]+1);
+  SetLength(LocDefaultCategories, LocDefaultCategories[0]+1);
+  SetLength(LocSettings, LocSettings[0]+1);
+  SetLength(LocDefault_Text, LocDefault_Text[0]+1);
+  SetLength(LocOneLine, LocOneLine[0]+1);
 
   // Reset the counters
-  locLogbook_Type[0] := 0;
-  locDescription[0] := 0;
-  locDefault_Categories[0] := 0;
-  locSettings[0] := 0;
-  locDefault_Text[0] := 0;
-  locOne_Line[0] := 0;
+  LocLogbook_Type[0] := 0;
+  LocDescription[0] := 0;
+  LocDefaultCategories[0] := 0;
+  LocSettings[0] := 0;
+  LocDefault_Text[0] := 0;
+  LocOneLine[0] := 0;
 
-  // The, run through the entire file again for each instance of each block
-  for i := 0 to utilStrList.Count-1 do
+  // The, run through the entire file again for each instance of each Block
+  for i := 0 to UtilStrList.Count-1 do
   begin
 
-    if (AnsiContainsText(blockLogbook_Type, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(blockLogbook_Type, UtilStrList.Strings[i]) = True) then
     begin
-      locLogbook_Type[0] := locLogbook_Type[0] + 1; // If we've got a match, increase the count
-      locLogbook_Type[locLogbook_Type[0]] := i; // Add the new value to the array showing the location of a block element
+      LocLogbook_Type[0] := LocLogbook_Type[0] + 1; // If we've got a match, increase the count
+      LocLogbook_Type[LocLogbook_Type[0]] := i; // Add the new value to the array showing the Location of a Block element
     end;
 
-    if (AnsiContainsText(blockDescription, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(blockDescription, UtilStrList.Strings[i]) = True) then
     begin
-      locDescription[0] := locDescription[0] + 1; // If we've got a match, increase the count
-      locDescription[locDescription[0]] := i; // Add the new value to the array showing the location of a block element
+      LocDescription[0] := LocDescription[0] + 1; // If we've got a match, increase the count
+      LocDescription[LocDescription[0]] := i; // Add the new value to the array showing the Location of a Block element
     end;
 
-    if (AnsiContainsText(blockDefault_Categories, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(blockDefault_Categories, UtilStrList.Strings[i]) = True) then
     begin
-      locDefault_Categories[0] := locDefault_Categories[0] + 1; // If we've got a match, increase the count
-      locDefault_Categories[locDefault_Categories[0]] := i; // Add the new value to the array showing the location of a block element
+      LocDefaultCategories[0] := LocDefaultCategories[0] + 1; // If we've got a match, increase the count
+      LocDefaultCategories[LocDefaultCategories[0]] := i; // Add the new value to the array showing the Location of a Block element
     end;
 
-    if (AnsiContainsText(blockSettings, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(blockSettings, UtilStrList.Strings[i]) = True) then
     begin
-      locSettings[0] := locSettings[0] + 1; // If we've got a match, increase the count
-      locSettings[locSettings[0]] := i; // Add the new value to the array showing the location of a block element
+      LocSettings[0] := LocSettings[0] + 1; // If we've got a match, increase the count
+      LocSettings[LocSettings[0]] := i; // Add the new value to the array showing the Location of a Block element
     end;
 
-    if (AnsiContainsText(blockDefault_Text, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(blockDefault_Text, UtilStrList.Strings[i]) = True) then
     begin
-      locDefault_Text[0] := locDefault_Text[0] + 1; // If we've got a match, increase the count
-      locDefault_Text[locDefault_Text[0]] := i; // Add the new value to the array showing the location of a block element
+      LocDefault_Text[0] := LocDefault_Text[0] + 1; // If we've got a match, increase the count
+      LocDefault_Text[LocDefault_Text[0]] := i; // Add the new value to the array showing the Location of a Block element
     end;
 
-    if (AnsiContainsText(blockOne_Line, utilStrList.Strings[i]) = true) then
+    if (AnsiContainsText(blockOneLine, UtilStrList.Strings[i]) = True) then
     begin
-      locOne_Line[0] := locOne_Line[0] + 1; // If we've got a match, increase the count
-      locOne_Line[locOne_Line[0]] := i; // Add the new value to the array showing the location of a block element
+      LocOneLine[0] := LocOneLine[0] + 1; // If we've got a match, increase the count
+      LocOneLine[LocOneLine[0]] := i; // Add the new value to the array showing the Location of a Block element
     end;
 
-  // Add further block element searches here...
+  // Add further Block element searches here...
   end;
 
 
-  // Check to ensure each block has an even number of elements
-  hasError := False;
-  errorMsg := '';
+  // Check to ensure each Block has an even number of elements
+  HasError := False;
+  ErrorMsg := '';
 
-  if ((Length(locLogbook_Type)-1) mod 2 <> 0) then
+  if ((Length(LocLogbook_Type)-1) mod 2 <> 0) then
   begin
-    errorMsg := 'There is an error in the "' + blockLogbook_Type + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
-    hasError := True;
+    ErrorMsg := 'There is an error in the "' + BlockLogbook_Type + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
+    HasError := True;
   end;
 
-  if ((Length(locDescription)-1) mod 2 <> 0) then
+  if ((Length(LocDescription)-1) mod 2 <> 0) then
   begin
-    errorMsg := 'There is an error in the "' + blockDescription + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
-    hasError := True;
+    ErrorMsg := 'There is an error in the "' + BlockDescription + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
+    HasError := True;
   end;
 
-  if ((Length(locDefault_Categories)-1) mod 2 <> 0) then
+  if ((Length(LocDefaultCategories)-1) mod 2 <> 0) then
   begin
-    errorMsg := 'There is an error in the "' + blockDefault_Categories + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
-    hasError := True;
+    ErrorMsg := 'There is an error in the "' + BlockDefault_Categories + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
+    HasError := True;
   end;
 
-  if ((Length(locSettings)-1) mod 2 <> 0) then
+  if ((Length(LocSettings)-1) mod 2 <> 0) then
   begin
-    errorMsg := 'There is an error in the "' + blockSettings + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
-    hasError := True;
+    ErrorMsg := 'There is an error in the "' + BlockSettings + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
+    HasError := True;
   end;
 
-  if ((Length(locDefault_Text)-1) mod 2 <> 0) then
+  if ((Length(LocDefault_Text)-1) mod 2 <> 0) then
   begin
-    errorMsg := 'There is an error in the "' + blockDefault_Text + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
-    hasError := True;
+    ErrorMsg := 'There is an error in the "' + BlockDefault_Text + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
+    HasError := True;
   end;
 
-  if ((Length(locOne_Line)-1) mod 2 <> 0) then
+  if ((Length(LocOneLine)-1) mod 2 <> 0) then
   begin
-    errorMsg := 'There is an error in the "' + blockOne_Line + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
-    hasError := True;
+    ErrorMsg := 'There is an error in the "' + BlockOneLine + '" element of this Logbook Type file. Use the Type Editor to identify this and any other problems.';
+    HasError := True;
   end;
 
 
 
 
-  // Then process the blocks into their respective variables (String or TStringList)
-  if errorMsg = '' then // If there's no error, keep on processing
+  // Then process the Blocks into their respective variables (String or TStringList)
+  if ErrorMsg = '' then // If there's no error, keep on processing
   begin
 
     // Logbook_Type is a special case since only one entry is allowed, and only one line is allowed
-    Logbook_Type := utilStrList.Strings[locLogbook_Type[1]+1];
+    Logbook_Type := UtilStrList.Strings[LocLogbook_Type[1]+1];
 
-    // Add the Description, which is a single multi-line block (additional intances of Description are ignored)
-    for i := locDescription[1]+1 to locDescription[2]-1 do
+    // Add the Description, which is a single multi-line Block (additional intances of Description are ignored)
+    for i := LocDescription[1]+1 to LocDescription[2]-1 do
     begin
-      Description.AddText(utilStrList.Strings[i]);
+      Description.AddText(UtilStrList.Strings[i]);
     end;
 
-    // Add the Default_Categories, which is a single multi-line block (additional intances of Default_Categories are ignored)
-    for i := locDefault_Categories[1]+1 to locDefault_Categories[2]-1 do
+    // Add the Default_Categories, which is a single multi-line Block (additional intances of Default_Categories are ignored)
+    for i := LocDefaultCategories[1]+1 to LocDefaultCategories[2]-1 do
     begin
-      Default_Categories.AddText(utilStrList.Strings[i]);
+      Default_Categories.AddText(UtilStrList.Strings[i]);
     end;
 
-    // Add the Settings, which is a single multi-line block (additional intances of Settings are ignored)
-    for i := locSettings[1]+1 to locSettings[2]-1 do
+    // Add the Settings, which is a single multi-line Block (additional intances of Settings are ignored)
+    for i := LocSettings[1]+1 to LocSettings[2]-1 do
     begin
-      Settings.AddText(utilStrList.Strings[i]);
+      Settings.AddText(UtilStrList.Strings[i]);
     end;
 
-    // Add the Default_Text, which is a single multi-line block (additional intances of Default_Text are ignored)
-    for i := locDefault_Text[1]+1 to locDefault_Text[2]-1 do
+    // Add the Default_Text, which is a single multi-line Block (additional intances of Default_Text are ignored)
+    for i := LocDefault_Text[1]+1 to LocDefault_Text[2]-1 do
     begin
-      Default_Text.AddText(utilStrList.Strings[i]);
+      Default_Text.AddText(UtilStrList.Strings[i]);
     end;
 
-    // Add the One_Line, which is a single multi-line block (additional intances of One_Line are ignored)
-    for i := locOne_Line[1]+1 to locOne_Line[2]-1 do
+    // Add the OneLine, which is a single multi-line Block (additional intances of OneLine are ignored)
+    for i := LocOneLine[1]+1 to LocOneLine[2]-1 do
     begin
-      One_Line.AddText(utilStrList.Strings[i]);
+      OneLine.AddText(UtilStrList.Strings[i]);
     end;
 
 
   end;
 
-  utilStrList.Free;
+  UtilStrList.Free;
 end;
 
-procedure getTypeFileList(var fileList: TStringList);
+procedure GetTypeFileList(var fileList: TStringList);
 var
   Info : TSearchRec;
-  anyExists : Boolean;
+  AnyExists : Boolean;
 begin
   {$ifdef dbgTimberLog} DebugLn(ClassName, '.getTypeFileList'); {$endif}
 
-  anyExists := False;
+  AnyExists := False;
 
   if not DirectoryExists(GetAppConfigDir(True)) then // Check if app config directory (C:\ProgramData\TimberLog\) exists
   begin
@@ -606,17 +606,17 @@ begin
         if (RightStr(Name, 4) = 'logt') then
         begin
           //fileList.AddText(GetAppConfigDir(True) + Name);
-          anyExists := True;
-          fileList.AddText(GetAppConfigDir(True) + Name);
+          AyExists := True;
+          FileList.AddText(GetAppConfigDir(True) + Name);
         end;
       end;
 
     Until FindNext(Info)<>0;
   end;
 
-  if anyExists = False then
+  if AnyExists = False then
   begin
-    fileList.AddText('None');
+    FileList.AddText('None');
   end;
 
   FindClose(Info); // Close our search
